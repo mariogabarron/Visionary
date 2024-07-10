@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visionary/views/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,7 +10,10 @@ void main() {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const SplashScreen(),
+      routes: {
+        "/splash_screen/": (context) => const SplashScreen(),
+      },
     )
   );
 }
