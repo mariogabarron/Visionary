@@ -11,16 +11,20 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "Visionary.",
-          style:  GoogleFonts.poppins(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          )
-        )
-      ],
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            Text(
+              "Visionary.",
+              style:  GoogleFonts.poppins(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              )
+            )
+          ],
+        ),
+      ),
     );
   }
 }
