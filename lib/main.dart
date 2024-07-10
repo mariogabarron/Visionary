@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visionary/views/splash_screen.dart';
+import 'package:visionary/views/tutorial/tutorial_uno.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,9 +11,10 @@ void main() {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const TutorialUno(),
       routes: {
-        "/splash_screen/": (context) => const SplashScreen(),
+        "/splash-screen/": (context) => const SplashScreen(),
+        "/tutorial-uno/": (context) => const TutorialUno(),
       },
     )
   );
