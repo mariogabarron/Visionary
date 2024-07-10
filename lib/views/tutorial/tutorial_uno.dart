@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:visionary/routes/routes.dart';
 
 class TutorialUno extends StatefulWidget {
   const TutorialUno({super.key});
@@ -13,6 +14,19 @@ class _TutorialUnoState extends State<TutorialUno> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text(
+          'Visionary.',
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+            fontStyle: FontStyle.normal,
+            color: const Color(0xFFFEFCEE),
+          ),
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -24,66 +38,80 @@ class _TutorialUnoState extends State<TutorialUno> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.00, vertical: 80.00),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
-              children: [
-                Padding(
-                  padding:const EdgeInsets.symmetric(horizontal: 0.00, vertical: 10.00),
-                  child: Text(
-                    'Visionary.',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      fontStyle: FontStyle.normal,
-                      color: const Color(0xFFFEFCEE),
-                    ),
-                  ),
-                ),
-                const Placeholder(),
-                Center(
-                  child: Padding(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+                  Image.asset('assets/images/tutorialuno.png'),
+                  Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                    child: Text(
-                      "Visionary es la herramienta que te ayuda a entender tu vida.",
-                      style: GoogleFonts.poppins(
-                        fontSize: 17,
-                        fontStyle: FontStyle.normal,
-                        color: const Color(0xFFFEFCEE),
-                      ),
+                    child: RichText(
                       textAlign: TextAlign.center,
-                    ),
+                      text: TextSpan(
+                        style: GoogleFonts.poppins(
+                          fontSize: 17,
+                          fontStyle: FontStyle.normal,
+                          color: const Color(0xFFFEFCEE),
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Visionary",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const TextSpan(
+                            text: " es la herramienta que te ayuda a",
+                          ),
+                          TextSpan(
+                            text: " entender tu vida",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ]
+                      )
+                    ),  
                   ),
-                ),
-                const Row(
-                  children: [
-                    RotatedBox(
-                      quarterTurns: 3,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_upward_sharp,
-                          color: Color(0xFFFEFCEE),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_upward_sharp,
+                            color: Color(0xFFFEFCEE),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              splashScreen, (route) => true
+                            );
+                          },
                         ),
-                        onPressed: null,
                       ),
-                    ),
-                    RotatedBox(
-                      quarterTurns: 3,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_downward_sharp,
-                          color: Color(0xFFFEFCEE),
+                      const RotatedBox(
+                        quarterTurns: 3,
+                        child: Icon(
+                            null,
+                            color: Color(0xFFFEFCEE),
+                          ),
+                        ),  
+                      const RotatedBox(
+                        quarterTurns: 3,
+                        child: Icon(
+                            Icons.arrow_downward_sharp,
+                            color: Color(0xFFFEFCEE),
                         ),
-                        onPressed: null,
                       ),
-                    ),
-                  ],
-                )
-          
-              ],
-            ),
+                                     
+                    ],
+                  )
+                ],    
+          ),
         ),
         ),
-      
     );
   }
 }

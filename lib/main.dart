@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visionary/routes/routes.dart';
 import 'package:visionary/views/splash_screen.dart';
 import 'package:visionary/views/tutorial/tutorial_uno.dart';
 
@@ -11,10 +12,10 @@ void main() {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const TutorialUno(),
+      home: const SplashScreen(),
       routes: {
-        "/splash-screen/": (context) => const SplashScreen(),
-        "/tutorial-uno/": (context) => const TutorialUno(),
+        splashScreen: (context) => const SplashScreen(),
+        tutorialUno: (context) =>  const TutorialUno(),
       },
     )
   );
