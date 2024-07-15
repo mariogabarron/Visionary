@@ -37,9 +37,7 @@ class _TutorialUnoState extends State<TutorialUno> {
             transform: GradientRotation(88 * pi / 180)
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -86,7 +84,7 @@ class _TutorialUnoState extends State<TutorialUno> {
                           ),
                           onPressed: () {
                             Navigator.of(context).pushNamedAndRemoveUntil(
-                              splashScreen, (route) => true
+                              splashScreen, (route) => false
                             );
                           },
                         ),
@@ -98,11 +96,18 @@ class _TutorialUnoState extends State<TutorialUno> {
                             color: Color(0xFFFEFCEE),
                           ),
                         ),  
-                      const RotatedBox(
+                      RotatedBox(
                         quarterTurns: 3,
-                        child: Icon(
+                        child: IconButton(
+                          icon: const Icon(
                             Icons.arrow_downward_sharp,
                             color: Color(0xFFFEFCEE),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              tutorialDos, (route) => false
+                            );
+                          },
                         ),
                       ),
                                      
@@ -110,7 +115,6 @@ class _TutorialUnoState extends State<TutorialUno> {
                   )
                 ],    
           ),
-        ),
         ),
     );
   }
