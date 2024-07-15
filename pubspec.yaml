@@ -63,6 +63,7 @@ flutter:
     - assets/images/tutorialuno.png
     - assets/images/tutorialdos.png
     - assets/images/tutorialtres.png
+    - assets/images/tutorialcuatro.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -16,6 +16,7 @@ class _TutorialUnoState extends State<TutorialUno> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         title: Text(
           'Visionary.',
@@ -43,7 +44,7 @@ class _TutorialUnoState extends State<TutorialUno> {
             children: [
                   Image.asset('assets/images/tutorialuno.png'),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    padding: const EdgeInsets.all(30.0),
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
