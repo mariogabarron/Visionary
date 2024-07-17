@@ -94,7 +94,7 @@ class _TutorialCuatroState extends State<TutorialCuatro> {
                         ),
                         onPressed: () {
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                              splashScreen, (route) => true);
+                              registerView, (route) => true);
                         },
                       ),
                     ),
