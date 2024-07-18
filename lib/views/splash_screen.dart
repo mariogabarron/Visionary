@@ -15,13 +15,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      _navigateToTutorialUno();
-    });
+    _navigateToTutorialUno();
   }
 
-  void _navigateToTutorialUno() {
-    Navigator.of(context).pushReplacementNamed(tutorialUno);
+  void _navigateToTutorialUno() async {
+    await Future.delayed(const Duration(seconds: 3), () {});
+    if (mounted) {
+      Navigator.of(context).pushReplacementNamed(tutorialUno);
+    }
   }
 
   @override
