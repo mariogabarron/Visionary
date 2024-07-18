@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,23 +12,6 @@ class _RegisterViewState extends State<RegisterView> {
   void _register() {}
   void _googleLogin() {}
   void _alreadyGotAccount() {}
-
-  /*var _textEditingControllerName;
-  var _textEditingControllerEmail;
-  var _textEditingControllerPassword;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _textEditingControllerName.dispose();
-    _textEditingControllerEmail.dispose();
-    _textEditingControllerPassword.dispose();
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -54,68 +35,83 @@ class _RegisterViewState extends State<RegisterView> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF6D97AC), Color(0xFFF6D0B1)],
-            transform: GradientRotation(88 * pi / 180),
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Crea tu cuenta",
-              style: GoogleFonts.poppins(
-                color: const Color(0xFFFEFCEE),
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.normal,
-                fontSize: 23,
-              ),
-            ),
-            Text(
-              "¿Cómo te llamas?",
-              style: GoogleFonts.poppins(
-                  color: const Color(0xFFFEFCEE),
-                  fontWeight: FontWeight.normal,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 15),
-            ),
-            const TextField(),
-            Text(
-              "Correo electrónico",
-              style: GoogleFonts.poppins(
-                color: const Color(0xFFFEFCEE),
-                fontWeight: FontWeight.normal,
-                fontStyle: FontStyle.normal,
-                fontSize: 15,
-              ),
-            ),
-            const TextField(),
-            Text(
-              "Contraseña",
-              style: GoogleFonts.poppins(
-                color: const Color(0xFFFEFCEE),
-                fontWeight: FontWeight.normal,
-                fontStyle: FontStyle.normal,
-                fontSize: 15,
-              ),
-            ),
-            const TextField(),
-            TextButton(
-              onPressed: null,
-              child: Text("Crea tu cuenta",
+        child: SizedBox.expand(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 120),
+                Text(
+                  "Crea tu cuenta.",
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFEFCEE),
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.normal,
-                    fontSize: 15,
-                  )),
-            ),
-            // linea divisoria
-            TextButton(
-                onPressed: null,
-                child: GestureDetector(
-                  onTap: () {
-                    //print("Iniciar sesión con Google");
-                  },
+                    fontSize: 23,
+                  ),
+                ),
+                const SizedBox(height: 40),
+                _buildInputField(
+                  label: "¿Cómo te llamas?",
+                  hintText: "Escribe tu nombre",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 20),
+                _buildInputField(
+                  label: "Correo electrónico",
+                  hintText: "Escribe tu correo",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 20),
+                _buildInputField(
+                  label: "Contraseña",
+                  hintText: "Escribe tu contraseña",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 40),
+                GestureDetector(
+                  onTap: _register,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(66, 254, 252, 238),
+                      borderRadius: BorderRadius.circular(30.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(255, 218, 185, 159),
+                          blurRadius: 10.0,
+                          offset: Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10.0),
+                    child: Text(
+                      'Crea tu cuenta',
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFFFEFCEE),
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                const Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 40.0, vertical: 0.0),
+                  child: Divider(color: Color(0xFFFEFCEE)),
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: _googleLogin,
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(66, 254, 252, 238),
@@ -151,13 +147,10 @@ class _RegisterViewState extends State<RegisterView> {
                       ],
                     ),
                   ),
-                )),
-            TextButton(
-                onPressed: null,
-                child: GestureDetector(
-                  onTap: () {
-                    //print("Iniciar sesión con Google");
-                  },
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: _alreadyGotAccount,
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(66, 254, 252, 238),
@@ -173,17 +166,71 @@ class _RegisterViewState extends State<RegisterView> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 10.0),
                     child: Text(
-                      '¿Ya tienes cuenta?',
+                      '¿Ya tienes una cuenta?',
                       style: GoogleFonts.poppins(
-                          color: const Color(0xFFFEFCEE),
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16),
+                        color: const Color(0xFFFEFCEE),
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
-                )),
-          ],
+                ),
+              ],
+            ),
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildInputField(
+      {required String label, String? hintText, bool obscureText = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              color: const Color(0xFFFEFCEE),
+              fontWeight: FontWeight.normal,
+              fontStyle: FontStyle.normal,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 8.0),
+          Container(
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(66, 254, 252, 238),
+              borderRadius: BorderRadius.circular(30.0),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromARGB(89, 218, 185, 159),
+                  blurRadius: 10.0,
+                  offset: Offset(0, 5),
+                ),
+              ],
+            ),
+            child: TextField(
+              obscureText: obscureText,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors
+                    .transparent, // Make the background transparent so that the container's color is visible
+                hintText: hintText,
+                hintStyle: GoogleFonts.poppins(
+                  color: Color.fromARGB(255, 122, 121, 115),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
