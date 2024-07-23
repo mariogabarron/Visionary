@@ -14,6 +14,7 @@ Formato que codifica según el Tipo:
 Hora del día a la que se mandará la notificación al usuario.
 - ¿Por qué no se usa un DateTime como tipo de dato para esta variable? DateTime es una clase que considero demasiado pesada para guardar una hora con hora y minuto, ya que es un formato capaz de almacenar desde fecha exacta hasta milisegundos.
 - Conviene usar dos enteros de 16 bits (solo si no es mucha molestia implementarlo así) para optimizar memoria, ya que la cardinalidad de los intervalos es muy pequeña para los enteros de 32 bits.
+
 # Periodicidad (period)
 ## Descripción
 Asignado a una tarea específica, indica cuántas veces ha de cumplirse esa tarea, y cuándo. No necesita CLAVE, ya que es única en cada tarea.
@@ -27,8 +28,8 @@ Indica cuántas veces debe cumplirse esta tarea.
 ## Descripción
 Representa una tarea del usuario, perteneciente a un objetivo.
 ## Valores
-#### \[CLAVE] Nombre: String no nulo entre 1 y 20 carácteres.
-Nombre del objetivo.
+#### \[CLAVE] Nombre: String no nulo entre 1 y 50 carácteres.
+Nombre de la tarea.
 #### Prioridad: Entero no nulo entre 1 y 5.
 Entero que indica cuán prioritaria es la tarea. Recordemos que si la tarea es periódica, el peso se multiplica por cada ocurrencia.
 #### Periodicidad: Periodicidad nulable.
