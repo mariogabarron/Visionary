@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/utilities/buildinputfield_registerview.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -22,7 +23,7 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          automaticallyImplyLeading: true,
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           iconTheme: const IconThemeData(
             color: Color(0xFFFEFCEE),
@@ -63,19 +64,19 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                   const SizedBox(height: 40),
-                  _buildInputField(
+                  buildInputField(
                       label: "¿Cómo te llamas?",
                       hintText: null, //"Escribe tu nombre",
                       obscureText: false,
                       inputType: TextInputType.text),
                   const SizedBox(height: 20),
-                  _buildInputField(
+                  buildInputField(
                       label: "Correo electrónico",
                       hintText: null, //"Escribe tu correo",
                       obscureText: false,
                       inputType: TextInputType.emailAddress),
                   const SizedBox(height: 20),
-                  _buildInputField(
+                  buildInputField(
                       label: "Contraseña",
                       hintText: null, //"Escribe tu contraseña",
                       obscureText: true,
@@ -186,66 +187,6 @@ class _RegisterViewState extends State<RegisterView> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildInputField(
-      {required String label,
-      String? hintText,
-      bool obscureText = false,
-      required TextInputType inputType}) {
-    TextInputType keyboardType = TextInputType.text;
-
-    if (inputType == TextInputType.emailAddress) {
-      keyboardType = TextInputType.emailAddress;
-    } else if (inputType == TextInputType.visiblePassword) {
-      keyboardType = TextInputType.visiblePassword;
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.poppins(
-              color: const Color(0xFFFEFCEE),
-              fontWeight: FontWeight.normal,
-              fontStyle: FontStyle.normal,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 8.0),
-          Container(
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(66, 254, 252, 238),
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            child: TextField(
-              keyboardType: keyboardType,
-              style: GoogleFonts.poppins(
-                color: const Color(0xFFFEFCEE),
-              ),
-              obscureText: obscureText,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors
-                    .transparent, // Make the background transparent so that the container's color is visible
-                hintText: hintText,
-                hintStyle: GoogleFonts.poppins(
-                  color: const Color.fromARGB(255, 122, 121, 115),
-                  fontSize: 14,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

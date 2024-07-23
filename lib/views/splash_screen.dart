@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToTutorialUno() async {
-    await Future.delayed(const Duration(seconds: 3), () {});
+    await Future.delayed(const Duration(seconds: 4), () {});
     if (mounted) {
       Navigator.of(context).pushReplacementNamed(tutorialUno);
     }

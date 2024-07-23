@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:visionary/views/login_view.dart';
 import 'package:visionary/views/register_view.dart';
+import 'package:visionary/views/settings/ajustes_cuenta.dart';
 import 'package:visionary/views/splash_screen.dart';
 
 import '../views/tutorial_inicio/tutorial_cuatro.dart';
@@ -15,6 +16,7 @@ const tutorialTres = '/tutorial-tres/';
 const tutorialCuatro = '/tutorial-cuatro/';
 const loginView = '/login-view/';
 const registerView = '/register-view/';
+const ajustesCuenta = '/ajustes-cuenta/';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -32,6 +34,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _buildFadeRoute(const LoginView(), settings);
     case registerView:
       return _buildFadeRoute(const RegisterView(), settings);
+    case ajustesCuenta:
+      return _buildFadeRoute(const AjustesCuenta(), settings);
     default:
       return MaterialPageRoute(
         builder: (_) => const SplashScreen(),

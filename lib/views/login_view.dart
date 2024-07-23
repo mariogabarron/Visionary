@@ -22,7 +22,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          automaticallyImplyLeading: true,
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           iconTheme: const IconThemeData(
             color: Color(0xFFFEFCEE),
