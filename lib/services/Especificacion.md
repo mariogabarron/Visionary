@@ -38,3 +38,5 @@ Entero que indica cuán prioritaria es la tarea. Recordemos que si la tarea es p
 Indica cuántas veces y cuándo se debe cumplir esta tarea. Si es nulo, la tarea no es periódica.
 #### Recordatorio: Recordatorio nulable.
 Indica en qué momentos se ha de notificar al usuario el cumplimiento de la tarea. Si es nulo, la tarea nunca será notificada.
+#### Hecha: Entero no nulo mayor o igual que 0.
+Indica cuántas veces se ha hecho esta tarea. Solo adopta dos valores (0 o 1) si la tarea no tiene periodicidad.
