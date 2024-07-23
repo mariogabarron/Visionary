@@ -10,6 +10,8 @@ Indica si el recordatorio se realiza cada cierto número de días (periódico) o
 Formato que codifica según el Tipo:
 - Si el recordatorio es periódico, el string será un número entero mayor que 0 que representa cada cuántos días se notifica al usuario.
 - Si el recordatorio es semanal, el string será una cadena formada por los carácteres 'L', 'M', 'X', 'J', 'V', 'S' y 'D' que indican qué días se notifica al usuario.
+#### Fecha de comienzo: DateTime no nulo.
+Fecha desde la que se comienza a contar el recordatorio. Útil para empezar a contar en recordatorios periódicos.
 #### Hora: Entero\[2] no nulo cuyo primer elemento está en el intervalo \[0, 23] y cuyo segundo elemento está en el intervalo \[0, 59]
 Hora del día a la que se mandará la notificación al usuario.
 - ¿Por qué no se usa un DateTime como tipo de dato para esta variable? DateTime es una clase que considero demasiado pesada para guardar una hora con hora y minuto, ya que es un formato capaz de almacenar desde fecha exacta hasta milisegundos.
