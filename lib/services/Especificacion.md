@@ -40,3 +40,5 @@ Indica cuántas veces y cuándo se debe cumplir esta tarea. Si es nulo, la tarea
 Indica en qué momentos se ha de notificar al usuario el cumplimiento de la tarea. Si es nulo, la tarea nunca será notificada.
 #### Hecha: Entero no nulo mayor o igual que 0.
 Indica cuántas veces se ha hecho esta tarea. Solo adopta dos valores (0 o 1) si la tarea no tiene periodicidad.
+#### Fecha: Lista de DateTime nulable.
+Almacena los momentos en los que la tarea se ha completado. La cardinalidad de la lista será igual al número de veces que puede completarse la tarea (según su periodicidad).
