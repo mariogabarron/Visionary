@@ -1,12 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
-import 'package:visionary/views/homepage/frase_container.dart';
-import 'package:visionary/views/homepage/objetivos_row.dart';
-import 'package:visionary/views/homepage/porque_container.dart';
-import 'package:visionary/views/homepage/progreso_container.dart';
-import 'package:visionary/views/homepage/tareas_container.dart';
+import 'package:visionary/views/homepage/homepage_widgets/frase_container.dart';
+import 'package:visionary/views/homepage/homepage_widgets/objetivos_row.dart';
+import 'package:visionary/views/homepage/homepage_widgets/porque_container.dart';
+import 'package:visionary/views/homepage/homepage_widgets/progreso_container.dart';
+import 'package:visionary/views/homepage/homepage_widgets/tareas_container.dart';
 
 class HomepageView extends StatefulWidget {
   const HomepageView({super.key});
@@ -60,24 +62,27 @@ class _HomepageViewState extends State<HomepageView> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0xFF6D97AC), Color(0xFFF6D0B1)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+              transform: GradientRotation(88 * pi / 180),
             ),
           ),
           child: SafeArea(
             child: Column(
               children: [
+                const SizedBox(height: 10),
                 objetivosRow(),
-                const SizedBox(height: 40),
+                const SizedBox(height: 10),
                 const Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 40.0, vertical: 0.0),
+                      EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
                   child: Divider(color: Color(0xFFFEFCEE)),
                 ),
-                const SizedBox(height: 40),
-                tareasContainer(),
-                porqueContainer(),
-                progresoContainer(),
+                const SizedBox(height: 15),
+                tareasContainer(context),
+                const SizedBox(height: 50),
+                porqueContainer(context),
+                const SizedBox(height: 50),
+                progresoContainer(context: context, porcentaje: 0.4),
+                const SizedBox(height: 50),
                 fraseContainer(),
               ],
             ),

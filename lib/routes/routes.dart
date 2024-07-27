@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visionary/views/homepage/homepage_view.dart';
 import 'package:visionary/views/login_view.dart';
 import 'package:visionary/views/register_view.dart';
 import 'package:visionary/views/settings/ajustes_cuenta.dart';
@@ -17,6 +18,7 @@ const tutorialCuatro = '/tutorial-cuatro/';
 const loginView = '/login-view/';
 const registerView = '/register-view/';
 const ajustesCuenta = '/ajustes-cuenta/';
+const homepageView = '/homepage-view/';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -36,6 +38,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _buildFadeRoute(const RegisterView(), settings);
     case ajustesCuenta:
       return _buildFadeRoute(const AjustesCuenta(), settings);
+    case homepageView:
+      return _buildFadeRoute(const HomepageView(), settings);
     default:
       return MaterialPageRoute(
         builder: (_) => const SplashScreen(),

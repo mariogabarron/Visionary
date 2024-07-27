@@ -30,7 +30,7 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         title: Text(
           'Visionary.',

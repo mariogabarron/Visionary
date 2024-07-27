@@ -1,0 +1,84 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+Widget objetivosRow() => CustomHeader();
+
+class CustomHeader extends StatelessWidget {
+  final List<String> _objetivos = [
+    'Deporte',
+    'Uni',
+    'Trabajo',
+    'Hogar',
+    'Viajes',
+    'Salud',
+    'Estudio',
+    'Familia',
+    'Pareja'
+  ];
+
+  CustomHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      child: ClipRect(
+        child: ShaderMask(
+          shaderCallback: (Rect bounds) {
+            return const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: <Color>[
+                Colors.transparent,
+                Colors.white,
+                Colors.white,
+                Colors.transparent,
+              ],
+              stops: [0.0, 0.1, 0.9, 1.0],
+            ).createShader(bounds);
+          },
+          blendMode: BlendMode.dstIn,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                for (var objetivo in _objetivos)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 13),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          objetivo,
+                          style: const TextStyle(
+                            color: Color.fromARGB(201, 254, 252, 238),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                const SizedBox(width: 10),
+                TextButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFEFCEE).withOpacity(0.2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  child: Text('Añadir objetivo',
+                      style: GoogleFonts.poppins(
+                          color: const Color(0xFFFEFCEE),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
