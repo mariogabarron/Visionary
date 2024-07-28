@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:visionary/routes/routes.dart';
+import 'package:visionary/utilities/showdialogs/homepage/porque_showdialog.dart';
 
 Widget porqueContainer(context) => Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
@@ -12,7 +12,7 @@ Widget porqueContainer(context) => Padding(
               icon: const Icon(CupertinoIcons.pencil_circle_fill),
               color: const Color(0xFFFEFCEE),
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed(ajustesCuenta);
+                showAlertPorque(context);
               },
             ),
             Text("¿Por qué lo hago?",

@@ -61,7 +61,7 @@ class _HomepageViewState extends State<HomepageView> {
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF6D97AC), Color(0xFFF6D0B1)],
+              colors: [Color(0xFF6D97AC), Color.fromARGB(255, 207, 175, 148)],
               transform: GradientRotation(88 * pi / 180),
             ),
           ),
@@ -76,14 +76,19 @@ class _HomepageViewState extends State<HomepageView> {
                       EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
                   child: Divider(color: Color(0xFFFEFCEE)),
                 ),
-                const SizedBox(height: 15),
-                tareasContainer(context),
-                const SizedBox(height: 50),
-                porqueContainer(context),
-                const SizedBox(height: 50),
-                progresoContainer(context: context, porcentaje: 0.4),
-                const SizedBox(height: 50),
-                fraseContainer(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(children: [
+                    const SizedBox(height: 15),
+                    tareasContainer(context),
+                    const SizedBox(height: 50),
+                    porqueContainer(context),
+                    const SizedBox(height: 50),
+                    progresoContainer(context: context, porcentaje: 0.4),
+                    const SizedBox(height: 50),
+                    const FraseContainer(),
+                  ]),
+                )
               ],
             ),
           ),

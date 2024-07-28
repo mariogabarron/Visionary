@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
-import 'package:visionary/utilities/borrarcuenta_showdialog.dart';
+import 'package:visionary/utilities/showdialogs/borrarcuenta_showdialog.dart';
 
 class AjustesCuenta extends StatefulWidget {
   const AjustesCuenta({super.key});

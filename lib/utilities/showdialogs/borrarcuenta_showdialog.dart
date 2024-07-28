@@ -16,18 +16,7 @@ void showAlertBorrarCuenta(BuildContext context) {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Text(
                 '¿Seguro que quieres borrar tu cuenta?',
                 textAlign: TextAlign.center,

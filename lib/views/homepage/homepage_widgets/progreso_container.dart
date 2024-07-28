@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:visionary/routes/routes.dart';
+import 'package:visionary/utilities/showdialogs/homepage/progreso_showdialog.dart';
 import 'package:visionary/utilities/progressbar.dart';
 
 Widget progresoContainer(
@@ -15,7 +15,7 @@ Widget progresoContainer(
               icon: const Icon(CupertinoIcons.pencil_circle_fill),
               color: const Color(0xFFFEFCEE),
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed(ajustesCuenta);
+                showAlertProgreso(context);
               },
             ),
             Text("Progreso",

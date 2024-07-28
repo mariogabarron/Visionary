@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Widget objetivosRow() => CustomHeader();
+Widget objetivosRow() => ObjetivosRow();
 
-class CustomHeader extends StatelessWidget {
+class ObjetivosRow extends StatelessWidget {
   final List<String> _objetivos = [
     'Deporte',
     'Uni',
@@ -16,7 +16,7 @@ class CustomHeader extends StatelessWidget {
     'Pareja'
   ];
 
-  CustomHeader({super.key});
+  ObjetivosRow({super.key});
 
   @override
   Widget build(BuildContext context) {
