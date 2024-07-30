@@ -46,8 +46,9 @@ Widget buildInputField(
                   .transparent, // Make the background transparent so that the container's color is visible
               hintText: hintText,
               hintStyle: GoogleFonts.poppins(
-                color: const Color.fromARGB(255, 122, 121, 115),
+                color: const Color(0xFFFEFCEE),
                 fontSize: 14,
+                fontWeight: FontWeight.bold,
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),

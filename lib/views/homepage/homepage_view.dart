@@ -21,77 +21,86 @@ class _HomepageViewState extends State<HomepageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(
-            color: Color(0xFFFEFCEE),
-          ),
-          title: Stack(
-            children: [
-              Positioned(
-                left: 12,
-                top: 0,
-                bottom: 0,
-                child: IconButton(
-                  icon: const Icon(CupertinoIcons.gear_solid),
-                  color: const Color(0xFFFEFCEE),
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed(ajustesCuenta);
-                  },
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Visionary.',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    color: const Color(0xFFFEFCEE),
-                    fontSize: 30,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(
+          color: Color(0xFFFEFCEE),
         ),
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF6D97AC), Color.fromARGB(255, 207, 175, 148)],
-              transform: GradientRotation(88 * pi / 180),
+        title: Stack(
+          children: [
+            Positioned(
+              left: 12,
+              top: 0,
+              bottom: 0,
+              child: IconButton(
+                icon: const Icon(CupertinoIcons.gear_solid),
+                color: const Color(0xFFFEFCEE),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(ajustesCuenta);
+                },
+              ),
             ),
-          ),
-          child: SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                objetivosRow(),
-                const SizedBox(height: 10),
-                const Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-                  child: Divider(color: Color(0xFFFEFCEE)),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Visionary.',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  color: const Color(0xFFFEFCEE),
+                  fontSize: 30,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.bold,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(children: [
-                    const SizedBox(height: 15),
-                    tareasContainer(context),
-                    const SizedBox(height: 50),
-                    porqueContainer(context),
-                    const SizedBox(height: 50),
-                    progresoContainer(context: context, porcentaje: 0.4),
-                    const SizedBox(height: 50),
-                    const FraseContainer(),
-                  ]),
-                )
-              ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF6D97AC), Color.fromARGB(255, 207, 175, 148)],
+                transform: GradientRotation(88 * pi / 180),
+              ),
             ),
           ),
-        ));
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  objetivosRow(),
+                  const SizedBox(height: 10),
+                  const Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+                    child: Divider(color: Color(0xFFFEFCEE)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 15),
+                        tareasContainer(context),
+                        const SizedBox(height: 50),
+                        porqueContainer(context),
+                        const SizedBox(height: 50),
+                        progresoContainer(context: context, porcentaje: 0.4),
+                        const SizedBox(height: 50),
+                        const FraseContainer(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

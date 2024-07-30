@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:visionary/routes/routes.dart';
+import 'package:visionary/utilities/showdialogs/homepage/editarobjetivo_showdialog.dart';
 
 Widget objetivosRow() => ObjetivosRow();
 
@@ -48,20 +50,27 @@ class ObjetivosRow extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          objetivo,
-                          style: const TextStyle(
-                            color: Color.fromARGB(201, 254, 252, 238),
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          onLongPress: () =>
+                              showAlertBottomEditarObjetivo(context, objetivo),
+                          child: Text(
+                            objetivo,
+                            style: const TextStyle(
+                              color: Color.fromARGB(201, 254, 252, 238),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
                 const SizedBox(width: 10),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(crearObjetivoUno);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFEFCEE).withOpacity(0.2),
                     shape: RoundedRectangleBorder(

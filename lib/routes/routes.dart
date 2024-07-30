@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visionary/views/homepage/crearobjetivo_view.dart';
 import 'package:visionary/views/homepage/homepage_view.dart';
 import 'package:visionary/views/login_view.dart';
 import 'package:visionary/views/register_view.dart';
@@ -19,6 +20,7 @@ const loginView = '/login-view/';
 const registerView = '/register-view/';
 const ajustesCuenta = '/ajustes-cuenta/';
 const homepageView = '/homepage-view/';
+const crearObjetivoUno = '/crearobjetivouno-view/';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -40,6 +42,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _buildFadeRoute(const AjustesCuenta(), settings);
     case homepageView:
       return _buildFadeRoute(const HomepageView(), settings);
+    case crearObjetivoUno:
+      return _buildFadeRoute(const CrearObjetivoUnoView(), settings);
     default:
       return MaterialPageRoute(
         builder: (_) => const SplashScreen(),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
-import 'package:visionary/utilities/buildinputfield_registerview.dart';
+import 'package:visionary/utilities/buildinputfield.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
