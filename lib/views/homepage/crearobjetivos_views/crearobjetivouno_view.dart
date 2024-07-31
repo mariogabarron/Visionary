@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:visionary/routes/routes.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 
 class CrearObjetivoUnoView extends StatefulWidget {
@@ -32,9 +35,8 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF6D97AC), Color(0xFFF6D0B1)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            colors: [Color(0xFF6D97AC), Color.fromARGB(255, 207, 175, 148)],
+            transform: GradientRotation(88 * pi / 180),
           ),
         ),
         child: Center(
@@ -70,7 +72,10 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                       ))),
               const SizedBox(height: 20),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(crearObjetivoDos);
+                  },
                   icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
                   color: const Color(0xFFFEFCEE))
             ],

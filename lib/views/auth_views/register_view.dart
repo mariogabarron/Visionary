@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
-  void _register() {}
-  void _googleLogin() {}
-  void _dontHaveAccount() {
-    Navigator.of(context).pushReplacementNamed(registerView);
+class _RegisterViewState extends State<RegisterView> {
+  void _register() {
+    Navigator.of(context).pushReplacementNamed(homepageVacioView);
+  }
+
+  void _googleLogin() {
+    Navigator.of(context).pushReplacementNamed(homepageVacioView);
+  }
+
+  void _alreadyGotAccount() {
+    Navigator.of(context).pushReplacementNamed(loginView);
   }
 
   @override
@@ -53,8 +59,9 @@ class _LoginViewState extends State<LoginView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 40),
                   Text(
-                    "Inicia sesión",
+                    "Crea tu cuenta",
                     style: GoogleFonts.poppins(
                       color: const Color(0xFFFEFCEE),
                       fontWeight: FontWeight.bold,
@@ -63,6 +70,12 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   const SizedBox(height: 40),
+                  buildInputField(
+                      label: "¿Cómo te llamas?",
+                      hintText: null, //"Escribe tu nombre",
+                      obscureText: false,
+                      inputType: TextInputType.text),
+                  const SizedBox(height: 20),
                   buildInputField(
                       label: "Correo electrónico",
                       hintText: null, //"Escribe tu correo",
@@ -92,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       child: Text(
-                        'Iniciar sesión',
+                        'Registrarse',
                         style: GoogleFonts.poppins(
                           color: const Color(0xFFFEFCEE),
                           fontWeight: FontWeight.bold,
@@ -135,7 +148,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                           const SizedBox(width: 10.0),
                           Text(
-                            'Inicia sesión con Google',
+                            'Registrarse con Google',
                             style: GoogleFonts.poppins(
                               color: const Color(0xFFFEFCEE),
                               fontWeight: FontWeight.normal,
@@ -149,7 +162,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   const SizedBox(height: 30),
                   GestureDetector(
-                    onTap: _dontHaveAccount,
+                    onTap: _alreadyGotAccount,
                     child: Container(
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(66, 254, 252, 238),
@@ -165,7 +178,7 @@ class _LoginViewState extends State<LoginView> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       child: Text(
-                        'No tengo cuenta aún',
+                        '¿Ya tienes una cuenta?',
                         style: GoogleFonts.poppins(
                           color: const Color(0xFFFEFCEE),
                           fontWeight: FontWeight.bold,

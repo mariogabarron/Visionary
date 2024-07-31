@@ -38,12 +38,12 @@ Widget buildInputField(
             keyboardType: keyboardType,
             style: GoogleFonts.poppins(
               color: const Color(0xFFFEFCEE),
+              fontWeight: FontWeight.bold,
             ),
             obscureText: obscureText,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors
-                  .transparent, // Make the background transparent so that the container's color is visible
+              fillColor: Colors.transparent,
               hintText: hintText,
               hintStyle: GoogleFonts.poppins(
                 color: const Color(0xFFFEFCEE),

@@ -9,6 +9,7 @@ import 'package:visionary/views/homepage/homepage_widgets/objetivos_row.dart';
 import 'package:visionary/views/homepage/homepage_widgets/porque_container.dart';
 import 'package:visionary/views/homepage/homepage_widgets/progreso_container.dart';
 import 'package:visionary/views/homepage/homepage_widgets/tareas_container.dart';
+import 'package:visionary/views/tutorial_menu/tutorialoverlay_view.dart';
 
 class HomepageView extends StatefulWidget {
   const HomepageView({super.key});
@@ -18,6 +19,20 @@ class HomepageView extends StatefulWidget {
 }
 
 class _HomepageViewState extends State<HomepageView> {
+  bool _showTutorial = false;
+
+  void _tutorialMenuUno() {
+    setState(() {
+      _showTutorial = true;
+    });
+  }
+
+  void _endTutorial() {
+    setState(() {
+      _showTutorial = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +53,7 @@ class _HomepageViewState extends State<HomepageView> {
                 icon: const Icon(CupertinoIcons.gear_solid),
                 color: const Color(0xFFFEFCEE),
                 onPressed: () {
+                  _showTutorial = false;
                   Navigator.of(context).pushReplacementNamed(ajustesCuenta);
                 },
               ),
@@ -53,6 +69,16 @@ class _HomepageViewState extends State<HomepageView> {
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+            Positioned(
+              right: 12,
+              top: 0,
+              bottom: 0,
+              child: IconButton(
+                icon: const Icon(CupertinoIcons.question_circle_fill),
+                color: const Color(0xFFFEFCEE),
+                onPressed: _tutorialMenuUno,
               ),
             ),
           ],
@@ -99,6 +125,7 @@ class _HomepageViewState extends State<HomepageView> {
               ),
             ),
           ),
+          if (_showTutorial) TutorialOverlay(onFinish: _endTutorial),
         ],
       ),
     );
