@@ -58,7 +58,8 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
               buildInputField(
                   label: "",
                   inputType: TextInputType.name,
-                  hintText: "Escríbelo en una palabra"),
+                  hintText: "Escríbelo en una palabra",
+                  maxWords: null),
               const SizedBox(height: 20),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0),

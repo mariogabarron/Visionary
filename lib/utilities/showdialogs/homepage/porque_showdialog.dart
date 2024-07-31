@@ -46,8 +46,10 @@ void showAlertPorque(BuildContext context) {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const TextField(
-                  autofocus: false,
+                _buildInputField(
+                  hintText: "Tu propósito con esta meta...",
+                  label: "",
+                  inputType: TextInputType.name,
                 ),
                 const SizedBox(height: 50),
                 ElevatedButton(
@@ -74,5 +76,68 @@ void showAlertPorque(BuildContext context) {
         ),
       );
     },
+  );
+}
+
+Widget _buildInputField(
+    {required String label,
+    String? hintText,
+    bool obscureText = false,
+    required TextInputType inputType,
+    int? maxWords}) {
+  TextInputType keyboardType = TextInputType.text;
+
+  if (inputType == TextInputType.emailAddress) {
+    keyboardType = TextInputType.emailAddress;
+  } else if (inputType == TextInputType.visiblePassword) {
+    keyboardType = TextInputType.visiblePassword;
+  }
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.poppins(
+            color: const Color(0xFFFEFCEE),
+            fontWeight: FontWeight.normal,
+            fontStyle: FontStyle.normal,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(height: 8.0),
+        Container(
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(66, 254, 252, 238),
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          child: TextField(
+            keyboardType: keyboardType,
+            maxLength: maxWords,
+            style: GoogleFonts.poppins(
+              color: const Color(0xFFFEFCEE),
+              fontWeight: FontWeight.bold,
+            ),
+            obscureText: obscureText,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: const Color.fromARGB(66, 76, 76, 76),
+              hintText: hintText,
+              hintStyle: GoogleFonts.poppins(
+                color: const Color(0xFFFEFCEE),
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30.0),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
   );
 }

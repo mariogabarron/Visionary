@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/views/homepage/creartareas_views/creartareascuatro_view.dart';
+import 'package:visionary/views/homepage/homepage_view.dart';
 import 'package:visionary/views/homepage/homepagevacio_view.dart';
-import 'package:visionary/views/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +12,7 @@ void main() {
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       useMaterial3: true,
     ),
-    home: const HomepageVacioView(),
+    home: const CreaTareaCuatroView(),
     onGenerateRoute: generateRoute,
   ));
 }

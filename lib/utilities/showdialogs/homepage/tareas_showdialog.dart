@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:visionary/routes/routes.dart';
 
 void showAlertTareas(BuildContext context) {
   showDialog(
@@ -11,7 +12,7 @@ void showAlertTareas(BuildContext context) {
         ),
         backgroundColor: const Color(0xFFFEFCEE),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -35,7 +36,25 @@ void showAlertTareas(BuildContext context) {
                   color: const Color.fromARGB(183, 40, 40, 40),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6D97AC),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(crearTareaUno);
+                },
+                child: Text(
+                  'Crear tarea',
+                  style: GoogleFonts.poppins(
+                      color: const Color(0xFFFEFCEE),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17),
+                ),
+              ),
               const SizedBox(height: 50),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(

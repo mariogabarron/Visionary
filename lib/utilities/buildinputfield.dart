@@ -5,7 +5,8 @@ Widget buildInputField(
     {required String label,
     String? hintText,
     bool obscureText = false,
-    required TextInputType inputType}) {
+    required TextInputType inputType,
+    int? maxWords}) {
   TextInputType keyboardType = TextInputType.text;
 
   if (inputType == TextInputType.emailAddress) {
@@ -40,6 +41,7 @@ Widget buildInputField(
               color: const Color(0xFFFEFCEE),
               fontWeight: FontWeight.bold,
             ),
+            maxLength: maxWords,
             obscureText: obscureText,
             decoration: InputDecoration(
               filled: true,
