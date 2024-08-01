@@ -66,7 +66,7 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-              colors: [Color(0xFF6D97AC), Color(0xFFF6D0B1)],
+              colors: [Color(0xFF6D97AC), Color.fromARGB(255, 207, 175, 148)],
               transform: GradientRotation(88 * pi / 180)),
         ),
         child: SizedBox.expand(

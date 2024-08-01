@@ -5,6 +5,7 @@ import 'package:visionary/views/homepage/creartareas_views/creartareados_view.da
 import 'package:visionary/views/homepage/creartareas_views/creartareascuatro_view.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareatres_view.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareauno_view.dart';
+import 'package:visionary/views/homepage/creartareas_views/tareacreada_view.dart';
 import 'package:visionary/views/homepage/homepage_view.dart';
 import 'package:visionary/views/auth_views/login_view.dart';
 import 'package:visionary/views/auth_views/register_view.dart';
@@ -33,6 +34,7 @@ const crearTareaUno = 'creartareauno-view';
 const crearTareaDos = 'creartareados-view';
 const crearTareaTres = 'creartareatres-view';
 const crearTareaCuatro = 'creartareacuatro-view';
+const tareaCreadaView = 'tareacreada-view';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -68,6 +70,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _buildFadeRoute(const CreaTareaTresView(), settings);
     case crearTareaCuatro:
       return _buildFadeRoute(const CreaTareaCuatroView(), settings);
+    case tareaCreadaView:
+      return _buildFadeRoute(const TareaCreadaView(), settings);
     default:
       return MaterialPageRoute(
         builder: (_) => const SplashScreen(),

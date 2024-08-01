@@ -290,13 +290,13 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
                               DropdownButton<int>(
                                 value: _selectedNumberHour,
                                 dropdownColor:
-                                    Color.fromARGB(112, 242, 241, 227),
+                                    const Color.fromARGB(112, 242, 241, 227),
                                 borderRadius: BorderRadius.circular(40.0),
                                 items: List.generate(24, (index) {
                                   return DropdownMenuItem<int>(
                                     value: index,
                                     child: Text(
-                                      index.toString(),
+                                      index.toString().padLeft(2, '0'),
                                       style: GoogleFonts.poppins(
                                         color: const Color(0xFFFEFCEE),
                                         fontWeight: FontWeight.bold,
@@ -326,13 +326,13 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
                               DropdownButton<int>(
                                 value: _selectedNumberMinutes,
                                 dropdownColor:
-                                    Color.fromARGB(112, 242, 241, 227),
+                                    const Color.fromARGB(112, 242, 241, 227),
                                 borderRadius: BorderRadius.circular(40.0),
                                 items: List.generate(60, (index) {
                                   return DropdownMenuItem<int>(
                                     value: index,
                                     child: Text(
-                                      index.toString(),
+                                      index.toString().padLeft(2, '0'),
                                       style: GoogleFonts.poppins(
                                         color: const Color(0xFFFEFCEE),
                                         fontWeight: FontWeight.bold,
@@ -356,7 +356,7 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
               const SizedBox(height: 10),
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(homepageView);
+                  Navigator.of(context).pushReplacementNamed(tareaCreadaView);
                 },
                 icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
                 color: const Color(0xFFFEFCEE),

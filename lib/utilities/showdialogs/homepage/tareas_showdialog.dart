@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/utilities/showdialogs/homepage/editartarea_showdialog.dart';
 
 void showAlertTareas(BuildContext context) {
   showDialog(
@@ -37,42 +38,59 @@ void showAlertTareas(BuildContext context) {
                 ),
               ),
               const SizedBox(height: 50),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF6D97AC),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(crearTareaUno);
-                },
-                child: Text(
-                  'Crear tarea',
-                  style: GoogleFonts.poppins(
-                      color: const Color(0xFFFEFCEE),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17),
+              Text(
+                'No has creado aún tareas',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: const Color.fromARGB(183, 40, 40, 40),
                 ),
               ),
               const SizedBox(height: 50),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey[300],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF6D97AC),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushReplacementNamed(crearTareaUno);
+                    },
+                    child: Text(
+                      'Crear tarea',
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFFFEFCEE),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'Continuar',
-                  style: GoogleFonts.poppins(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(width: 20),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey[300],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    onPressed: () {
+                      //Navigator.of(context).pop();
+                      showAlertBottomEditarTarea(context,
+                          "Estudiar T9 biología y repaso porque me lo se todo todito todo");
+                    },
+                    child: Text(
+                      'Continuar',
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),

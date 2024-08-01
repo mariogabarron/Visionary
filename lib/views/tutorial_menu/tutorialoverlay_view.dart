@@ -27,22 +27,24 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
       case 0:
         return _buildStep(
           context: context,
-          text: "Crea nuevos objetivos en la\n barra superior.",
+          text: "Crea nuevos objetivos en la barra superior.",
         );
       case 1:
         return _buildStep(
           context: context,
-          text: "Crea nuevas tareas para ir\n avanzando en tus objetivo.",
+          text: "Crea tareas para lograr tu objetivo en la sección \"Tareas\"",
         );
       case 2:
         return _buildStep(
           context: context,
-          text: "Entiende el motivo por el que\n deseas cumplirlo.",
+          text:
+              "Escribe el sentido de cumplir ese objetivo para ti en la sección \"Por qué lo hago\"",
         );
       case 3:
         return _buildStep(
           context: context,
-          text: "Observa tu progreso",
+          text:
+              "Observa cómo progresas al cumplir tareas dándole a la sección \"Progreso\"",
         );
       default:
         return const SizedBox.shrink();
@@ -66,7 +68,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           GestureDetector(
             onTap: _nextStep,
             child: Container(
@@ -84,8 +86,9 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
   Widget build(BuildContext context) {
     return Positioned.fill(
       child: Material(
-        color: Colors.black.withOpacity(0.75),
-        child: _buildOverlayContent(),
+        color: Colors.black.withOpacity(0.9),
+        child: Padding(
+            padding: const EdgeInsets.all(40.0), child: _buildOverlayContent()),
       ),
     );
   }
