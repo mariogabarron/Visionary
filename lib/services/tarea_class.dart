@@ -6,7 +6,7 @@ class Tarea {
   final int priority;
   final bool done;
   Periodicidad? periodicidad;
-  Recordatorio? recordatorio;
+  List<Recordatorio?>? recordatorio;
   Tarea(
       {required this.name,
       this.periodicidad,
