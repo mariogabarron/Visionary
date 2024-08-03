@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "241229525734",
+    "firebase_url": "https://prueba-jar.firebaseio.com",
+    "project_id": "prueba-jar",
+    "storage_bucket": "prueba-jar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241229525734:android:68ac74f63eeddcdd0d8127",
+        "android_client_info": {
+          "package_name": "com.example.visionary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241229525734-k0vgu2js0ukbq1o50g1bttjdirum9etl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4f-Nqj13mpICJAs_8tD52wQ5xjyKF2Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241229525734-k0vgu2js0ukbq1o50g1bttjdirum9etl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "241229525734-b4lue2f64n8gp5kkmbqbimkfkn837sp2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.visionary"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241229525734:android:48c0b23fc9efb5280d8127",
+        "android_client_info": {
+          "package_name": "com.visionary.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241229525734-k0vgu2js0ukbq1o50g1bttjdirum9etl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4f-Nqj13mpICJAs_8tD52wQ5xjyKF2Js"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241229525734-k0vgu2js0ukbq1o50g1bttjdirum9etl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "241229525734-b4lue2f64n8gp5kkmbqbimkfkn837sp2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.visionary"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
