@@ -29,7 +29,7 @@ Future<(UserCredential?, FirebaseAuthException?)> login_with_email(String email,
 /// Crea un usuario con email y contraseña, enviando el email de confirmación al correo electrónico dado, y guardando su nombre en la base de datos.
 /// - Si la función termina satisfactoriamente, se realiza un logout para que no se inicie sesión sin estar verificado el usuario. Se devuelve null.
 /// - Si la función tiene un error, se devuelve la [FirebaseAuthException] resultante del error.
-/// - Si la función tiene un error debido a que ya existe un usuario registrado con ese email, antes de lanzar un error, reenvía el correo de confirmación.
+/// - Si la función tiene un error debido a que ya existe un usuario registrado con ese email, antes de devolver el error error, reenvía el correo de confirmación.
 Future<FirebaseAuthException?> register_with_email(String name, String email, String password) async {
   try {
     var cred = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
@@ -42,7 +42,7 @@ Future<FirebaseAuthException?> register_with_email(String name, String email, St
     print(e.code);
     if(e.code == "email-already-in-use") {
       var a = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      a.user?.sendEmailVerification();
+      await a.user?.sendEmailVerification();
     }
     return e;
   }
