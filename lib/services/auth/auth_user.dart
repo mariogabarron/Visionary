@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 /*
 @immutable
 class AuthUser {
@@ -45,5 +46,28 @@ Future<FirebaseAuthException?> register_with_email(String name, String email, St
       await a.user?.sendEmailVerification();
     }
     return e;
+  }
+}
+
+/// Lanza el inicio de sesión de Google.
+/// - Si el usuario cancela el inicio de sesión, se devuelve (null, null)
+/// - Si el usuario inicia sesión con google sin errores, se devuelven los credenciales en la primera posición de la tupla, y un null en la segunda.
+/// - Si sucede un error al iniciar sesión con Google, se devuelve la [FirebaseAuthException] resultante en la segunda posición, y un null en la primera.
+Future<(UserCredential?, FirebaseAuthException?)> login_with_google() async {
+  var google_account = await GoogleSignIn().signIn();
+  if(google_account != null) {
+    try {
+      GoogleSignInAuthentication auth = await google_account.authentication;
+      return (await FirebaseAuth.instance.signInWithCredential(GoogleAuthProvider.credential(
+          idToken: auth.idToken,
+          accessToken: auth.accessToken
+      )), null);
+    }
+    on FirebaseAuthException catch(e) {
+      return (null, e);
+    }
+  }
+  else {
+    return (null, null);
   }
 }
