@@ -79,18 +79,12 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithGoogle() async {
       final userCredential = await FirebaseAuth.instance.signInWithCredential(
           GoogleAuthProvider.credential(
               idToken: auth.idToken, accessToken: auth.accessToken));
-      /*final getUser = await FirebaseDatabase.instance
-          .ref("users")
-          .child(userCredential.user!.uid)
-          .get("name");
-      if () {
-        
-      }*/
-      await FirebaseDatabase.instance
-          .ref("users")
-          .child(userCredential.user!.uid)
-          .set({"name": userCredential.user!.displayName});
-      devtools.log(userCredential.toString());
+      // Comprueba si el nombre ya está escrito, y lo cambio si no existe.
+      if(! (await FirebaseDatabase.instance.ref("users").child(FirebaseAuth.instance.currentUser!.uid).child("name").get()).exists ) {
+        FirebaseDatabase.instance.ref("users").child(FirebaseAuth.instance.currentUser!.uid).update(
+            {"name": googleAccount.displayName!});
+      }
+
       return (userCredential, null);
     } on FirebaseAuthException catch (e) {
       return (null, e);
