@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/auth/auth_user.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 
 class RegisterView extends StatefulWidget {
@@ -12,11 +13,34 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+  late final TextEditingController _nameEditingController;
+  late final TextEditingController _emailEditingController;
+  late final TextEditingController _passwordEditingController;
+
+  @override
+  void initState() {
+    _nameEditingController = TextEditingController();
+    _emailEditingController = TextEditingController();
+    _passwordEditingController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nameEditingController.dispose();
+    _emailEditingController.dispose();
+    _passwordEditingController.dispose();
+    super.dispose();
+  }
+
   void _register() {
+    registerWithEmail(_nameEditingController.text, _emailEditingController.text,
+        _passwordEditingController.text);
     Navigator.of(context).pushReplacementNamed(homepageVacioView);
   }
 
   void _googleLogin() {
+    loginWithGoogle();
     Navigator.of(context).pushReplacementNamed(homepageVacioView);
   }
 
@@ -74,19 +98,22 @@ class _RegisterViewState extends State<RegisterView> {
                       label: "¿Cómo te llamas?",
                       hintText: null, //"Escribe tu nombre",
                       obscureText: false,
-                      inputType: TextInputType.text),
+                      inputType: TextInputType.text,
+                      controller: _nameEditingController),
                   const SizedBox(height: 20),
                   buildInputField(
                       label: "Correo electrónico",
                       hintText: null, //"Escribe tu correo",
                       obscureText: false,
-                      inputType: TextInputType.emailAddress),
+                      inputType: TextInputType.emailAddress,
+                      controller: _emailEditingController),
                   const SizedBox(height: 20),
                   buildInputField(
                       label: "Contraseña",
                       hintText: null, //"Escribe tu contraseña",
                       obscureText: true,
-                      inputType: TextInputType.visiblePassword),
+                      inputType: TextInputType.visiblePassword,
+                      controller: _passwordEditingController),
                   const SizedBox(height: 40),
                   GestureDetector(
                     onTap: _register,

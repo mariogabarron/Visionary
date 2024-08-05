@@ -16,6 +16,21 @@ class CrearObjetivoDosView extends StatefulWidget {
 
 class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
     with SingleTickerProviderStateMixin {
+  late TextEditingController _porqueTareaEditingController;
+  @override
+  void initState() {
+    _porqueTareaEditingController = TextEditingController();
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _porqueTareaEditingController.dispose();
+    _timer?.cancel();
+    super.dispose();
+  }
+
   final _random = Random();
   int _numeroAleatorio = 0;
   Timer? _timer;
@@ -32,12 +47,6 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
     "¿Qué obstáculos crees que encontrarás en el camino y cómo planeas superarlos?",
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    _startTimer();
-  }
-
   void _startTimer() {
     const duration = Duration(seconds: 2);
     _timer = Timer.periodic(duration, (timer) async {
@@ -49,12 +58,6 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
         _numeroAleatorio = _random.nextInt(4);
       });
     });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   @override
@@ -101,6 +104,7 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
                 label: "",
                 inputType: TextInputType.name,
                 hintText: "Cuéntanos...",
+                controller: _porqueTareaEditingController,
               ),
               const SizedBox(height: 20),
               Padding(

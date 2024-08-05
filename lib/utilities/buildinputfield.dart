@@ -6,7 +6,8 @@ Widget buildInputField(
     String? hintText,
     bool obscureText = false,
     required TextInputType inputType,
-    int? maxWords}) {
+    int? maxWords,
+    required TextEditingController controller}) {
   TextInputType keyboardType = TextInputType.text;
 
   if (inputType == TextInputType.emailAddress) {
@@ -36,6 +37,7 @@ Widget buildInputField(
             borderRadius: BorderRadius.circular(30.0),
           ),
           child: TextField(
+            controller: controller,
             keyboardType: keyboardType,
             style: GoogleFonts.poppins(
               color: const Color(0xFFFEFCEE),

@@ -14,6 +14,19 @@ class CreaTareaUnoView extends StatefulWidget {
 }
 
 class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
+  late TextEditingController _nombreTareaEditingController;
+  @override
+  void initState() {
+    _nombreTareaEditingController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nombreTareaEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +73,8 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
                   label: "",
                   inputType: TextInputType.name,
                   hintText: "Escribe el título de tu tarea",
-                  maxWords: null),
+                  maxWords: null,
+                  controller: _nombreTareaEditingController),
               const SizedBox(height: 20),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0),

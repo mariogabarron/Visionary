@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/auth/auth_user.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 
 class LoginView extends StatefulWidget {
@@ -12,11 +13,29 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  late TextEditingController _emailEditingController;
+  late TextEditingController _passwordEditingController;
+
+  @override
+  void initState() {
+    _emailEditingController = TextEditingController();
+    _passwordEditingController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailEditingController.dispose();
+    _passwordEditingController.dispose();
+    super.dispose();
+  }
+
   void _register() {
     Navigator.of(context).pushReplacementNamed(homepageVacioView);
   }
 
   void _googleLogin() {
+    loginWithGoogle();
     Navigator.of(context).pushReplacementNamed(homepageVacioView);
   }
 
@@ -73,13 +92,15 @@ class _LoginViewState extends State<LoginView> {
                       label: "Correo electrónico",
                       hintText: null, //"Escribe tu correo",
                       obscureText: false,
-                      inputType: TextInputType.emailAddress),
+                      inputType: TextInputType.emailAddress,
+                      controller: _emailEditingController),
                   const SizedBox(height: 20),
                   buildInputField(
                       label: "Contraseña",
                       hintText: null, //"Escribe tu contraseña",
                       obscureText: true,
-                      inputType: TextInputType.visiblePassword),
+                      inputType: TextInputType.visiblePassword,
+                      controller: _passwordEditingController),
                   const SizedBox(height: 40),
                   GestureDetector(
                     onTap: _register,

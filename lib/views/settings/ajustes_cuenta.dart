@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/auth/auth_user.dart';
 import 'package:visionary/utilities/showdialogs/borrarcuenta_showdialog.dart';
 
 class AjustesCuenta extends StatefulWidget {
@@ -14,6 +15,7 @@ class AjustesCuenta extends StatefulWidget {
 
 class _AjustesCuentaState extends State<AjustesCuenta> {
   void _cerrarSesion() {
+    logOut();
     Navigator.of(context).pushReplacementNamed(splashScreen);
   }
 
@@ -21,6 +23,7 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
   void _terminosYCondiciones() {}
   void _valorarApp() {}
   void _borrarCuenta() {
+    deleteAccount();
     showAlertBorrarCuenta(context);
   }
 

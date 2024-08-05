@@ -14,6 +14,19 @@ class CrearObjetivoUnoView extends StatefulWidget {
 }
 
 class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
+  late TextEditingController _nombreTareaEditingController;
+  @override
+  void initState() {
+    _nombreTareaEditingController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nombreTareaEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +72,7 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                   label: "",
                   inputType: TextInputType.name,
                   hintText: "Escríbelo en una palabra",
+                  controller: _nombreTareaEditingController,
                   maxWords: null),
               const SizedBox(height: 20),
               Padding(
