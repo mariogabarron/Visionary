@@ -30,7 +30,9 @@ class _LoginViewState extends State<LoginView> {
     super.dispose();
   }
 
-  void _register() {
+  void _login() {
+    loginWithEmail(
+        _emailEditingController.text, _passwordEditingController.text);
     Navigator.of(context).pushReplacementNamed(homepageVacioView);
   }
 
@@ -103,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                       controller: _passwordEditingController),
                   const SizedBox(height: 40),
                   GestureDetector(
-                    onTap: _register,
+                    onTap: _login,
                     child: Container(
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(66, 254, 252, 238),
