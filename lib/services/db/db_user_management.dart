@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -20,10 +19,17 @@ const Set<String> keys = {
 /// TODO: TESTEAR ESTA FUNCIÓN
 Future<bool> userIsRegistered() async {
   if (FirebaseAuth.instance.currentUser != null) {
-    if ((await FirebaseDatabase.instance.ref("users").child(FirebaseAuth.instance.currentUser!.uid).get()).exists) {
+    if ((await FirebaseDatabase.instance
+            .ref("users")
+            .child(FirebaseAuth.instance.currentUser!.uid)
+            .get())
+        .exists) {
       List<Future<DataSnapshot>> futures = [];
       for (final entry in keys) {
-        futures.add(FirebaseDatabase.instance.ref("users").child(FirebaseAuth.instance.currentUser!.uid).get());
+        futures.add(FirebaseDatabase.instance
+            .ref("users")
+            .child(FirebaseAuth.instance.currentUser!.uid)
+            .get());
       }
       await Future.wait(futures as Iterable<Future>);
       for (final entry in futures) {
@@ -32,12 +38,10 @@ Future<bool> userIsRegistered() async {
         }
       }
       return true;
-    }
-    else {
+    } else {
       return false;
     }
-  }
-  else {
+  } else {
     throw FirebaseAuthException(code: "user-not-found");
   }
 }

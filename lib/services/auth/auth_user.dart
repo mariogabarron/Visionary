@@ -7,16 +7,16 @@ import 'dart:developer' as devtools show log;
 import 'package:http/http.dart' as http;
 import 'package:visionary/services/db/db_user_management.dart';
 
-
 class VisionaryUser {
   final String email;
   final String name;
   final String countryCode;
-  const VisionaryUser({required this.email, required this.name, required this.countryCode});
+  const VisionaryUser(
+      {required this.email, required this.name, required this.countryCode});
 }
 
 /// Obtiene el código del país del usuario por IP.
-Future<String> getUserCountry() async {
+Future<String> get getUserCountry async {
   final response = await http.get(Uri.parse('http://ip-api.com/json'));
 
   if (response.statusCode == 200) {
@@ -93,22 +93,24 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithGoogle() async {
           GoogleAuthProvider.credential(
               idToken: auth.idToken, accessToken: auth.accessToken));
       // Comprueba si el nombre ya está escrito, y lo cambio si no existe.
-      if(! await userIsRegistered()) {
+      if (!await userIsRegistered()) {
         final date = DateTime.now();
-        FirebaseDatabase.instance.ref("users").child(FirebaseAuth.instance.currentUser!.uid).update(
-            {
-              "name": googleAccount.displayName!,
-              "email": googleAccount.email,
-              "registered_on": date.toUtc().toIso8601String(),
-              "registered_tz": date.timeZoneName,
-              "registered_tz_offset": date.timeZoneOffset.inHours,
-              "country": await getUserCountry(),
-              "deleted": false,
-              "last_login":DateTime.now().toUtc().toIso8601String(),
-              "last_login_tz": date.timeZoneName,
-              "last_login_tz_offset": date.timeZoneOffset.inHours,
-              "objectives":{}
-            });
+        FirebaseDatabase.instance
+            .ref("users")
+            .child(FirebaseAuth.instance.currentUser!.uid)
+            .update({
+          "name": googleAccount.displayName!,
+          "email": googleAccount.email,
+          "registered_on": date.toUtc().toIso8601String(),
+          "registered_tz": date.timeZoneName,
+          "registered_tz_offset": date.timeZoneOffset.inHours,
+          "country": await getUserCountry,
+          "deleted": false,
+          "last_login": DateTime.now().toUtc().toIso8601String(),
+          "last_login_tz": date.timeZoneName,
+          "last_login_tz_offset": date.timeZoneOffset.inHours,
+          "objectives": [],
+        });
       }
 
       return (userCredential, null);
