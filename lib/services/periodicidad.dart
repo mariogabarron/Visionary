@@ -1,7 +1,7 @@
 enum TipoPeriodicidad { mensual, semanal, diario }
 
 class Periodicidad {
-  TipoPeriodicidad tipoPeriodicidad;
+  //TipoPeriodicidad tipoPeriodicidad;
   int veces;
-  Periodicidad({required this.tipoPeriodicidad, required this.veces});
+  Periodicidad({required this.veces});
 }

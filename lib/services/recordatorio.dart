@@ -1,7 +1,8 @@
-enum TipoRecordatorio { periodico, semanal }
+enum TipoRecordatorio { mensual, semanal }
 
 class Recordatorio {
   TipoRecordatorio tipoRecordatorio;
-  List<int> hora;
-  Recordatorio({required this.tipoRecordatorio, required this.hora});
+  String codigo;
+  (int, int) hora;
+  Recordatorio({required this.tipoRecordatorio, required this.hora, required this.codigo});
 }
