@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:developer' as devtools show log;
@@ -63,10 +62,7 @@ Future<FirebaseAuthException?> registerWithEmail(
     var cred = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
     await cred.user?.sendEmailVerification();
-    await FirebaseDatabase.instance
-        .ref("users")
-        .child(cred.user!.uid)
-        .set({"name": name});
+    await registerUser(name);
     await FirebaseAuth.instance.signOut();
     return null;
   } on FirebaseAuthException catch (e) {
@@ -94,23 +90,7 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithGoogle() async {
               idToken: auth.idToken, accessToken: auth.accessToken));
       // Comprueba si el nombre ya está escrito, y lo cambio si no existe.
       if (!await userIsRegistered()) {
-        final date = DateTime.now();
-        FirebaseDatabase.instance
-            .ref("users")
-            .child(FirebaseAuth.instance.currentUser!.uid)
-            .update({
-          "name": googleAccount.displayName!,
-          "email": googleAccount.email,
-          "registered_on": date.toUtc().toIso8601String(),
-          "registered_tz": date.timeZoneName,
-          "registered_tz_offset": date.timeZoneOffset.inHours,
-          "country": await getUserCountry,
-          "deleted": false,
-          "last_login": DateTime.now().toUtc().toIso8601String(),
-          "last_login_tz": date.timeZoneName,
-          "last_login_tz_offset": date.timeZoneOffset.inHours,
-          "objectives": [],
-        });
+        registerUser(userCredential.user!.displayName!);
       }
 
       return (userCredential, null);

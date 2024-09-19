@@ -1,35 +1,35 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:visionary/services/auth/auth_user.dart';
 
 const Set<String> keys = {
   'name',
   'email',
   'registered_on',
-  'registered_tz',
-  'registered_tz_offset',
+  'registered_offset',
   'country',
   'deleted',
   'last_login',
-  'last_login_tz',
-  'last_login_tz_offset',
+  'last_login_offset',
   'objectives'
 };
+
+DatabaseReference? userRoute() {
+  if(FirebaseAuth.instance.currentUser == null) {
+    return null;
+  } else {
+    return FirebaseDatabase.instance.ref("users").child(FirebaseAuth.instance.currentUser!.uid);
+  }
+}
 
 /// Comprueba si el usuario actual está registrado en la base de datos.
 /// TODO: TESTEAR ESTA FUNCIÓN
 Future<bool> userIsRegistered() async {
   if (FirebaseAuth.instance.currentUser != null) {
-    if ((await FirebaseDatabase.instance
-            .ref("users")
-            .child(FirebaseAuth.instance.currentUser!.uid)
-            .get())
-        .exists) {
+    if ((await userRoute()?.get())!.exists) {
       List<Future<DataSnapshot>> futures = [];
       for (final entry in keys) {
-        futures.add(FirebaseDatabase.instance
-            .ref("users")
-            .child(FirebaseAuth.instance.currentUser!.uid)
-            .get());
+        futures.add(userRoute()!.get());
       }
       await Future.wait(futures as Iterable<Future>);
       for (final entry in futures) {
@@ -45,3 +45,28 @@ Future<bool> userIsRegistered() async {
     throw FirebaseAuthException(code: "user-not-found");
   }
 }
+
+/// Registra al usuario en la base de datos. Hace throw si no hay ningún usuario registrado.
+/// TODO: TESTEAR
+Future<void> registerUser(String name) async {
+  var user = currentUser;
+  var route = userRoute();
+  var now = DateTime.now().toUtc().toIso8601String();
+  var nowTz = DateTime.now().timeZoneOffset.inHours;
+  if(route != null && user != null) {
+    await route.update( {
+      "name": name,
+      "email": user.email,
+      "registered_on": now,
+      "registered_offset": nowTz,
+      "country": await getUserCountry,
+      "deleted": false,
+      "last_login": now,
+      "last_login_tz": nowTz,
+    });
+  }
+  else {
+    throw FirebaseAuthException(code: "user-not-found");
+  }
+}
+
