@@ -47,11 +47,10 @@ Future<bool> userIsRegistered() async {
 /// PRECONDICION: Debe haberse iniciado sesión en Firebase
 Future<void> registerUser(String name) async {
   assert(currentUser != null);
-  var user = currentUser;
-  var route = userRoute();
+  var user = currentUser!;
+  var route = userRoute()!;
   var now = DateTime.now().toUtc().toIso8601String();
   var nowTz = DateTime.now().timeZoneOffset.inHours;
-  if(route != null && user != null) {
     await route.update( {
       "name": name,
       "email": user.email,
@@ -62,6 +61,19 @@ Future<void> registerUser(String name) async {
       "last_login": now,
       "last_login_offset": nowTz,
     });
-  }
+
 }
 
+/// Actualiza la fecha de inicio de sesión del usuario.
+/// PRECONDICION: Debe haberse iniciado sesión en Firebase
+Future<void> updateLoginDate() async {
+  assert(currentUser !=  null);
+  var route = userRoute()!;
+  var now = DateTime.now().toUtc().toIso8601String();
+  var nowTz = DateTime.now().timeZoneOffset.inHours;
+
+  await route.update({
+    "last_login": now,
+    "last_login_offset" : nowTz
+  });
+}
