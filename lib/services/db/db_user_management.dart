@@ -10,8 +10,7 @@ const Set<String> keys = {
   'country',
   'deleted',
   'last_login',
-  'last_login_offset',
-  'objectives'
+  'last_login_offset'
 };
 
 DatabaseReference? userRoute() {
@@ -23,13 +22,13 @@ DatabaseReference? userRoute() {
 }
 
 /// Comprueba si el usuario actual está registrado en la base de datos.
-/// TODO: TESTEAR ESTA FUNCIÓN
+/// PRECONDICION: Debe haberse iniciado sesión en Firebase
 Future<bool> userIsRegistered() async {
-  if (FirebaseAuth.instance.currentUser != null) {
+  assert(currentUser != null);
     if ((await userRoute()?.get())!.exists) {
       List<Future<DataSnapshot>> futures = [];
       for (final entry in keys) {
-        futures.add(userRoute()!.get());
+        futures.add(userRoute()!.child(entry).get());
       }
       await Future.wait(futures as Iterable<Future>);
       for (final entry in futures) {
@@ -41,14 +40,13 @@ Future<bool> userIsRegistered() async {
     } else {
       return false;
     }
-  } else {
-    throw FirebaseAuthException(code: "user-not-found");
-  }
+
 }
 
-/// Registra al usuario en la base de datos. Hace throw si no hay ningún usuario registrado.
-/// TODO: TESTEAR
+/// Registra al usuario en la base de datos.
+/// PRECONDICION: Debe haberse iniciado sesión en Firebase
 Future<void> registerUser(String name) async {
+  assert(currentUser != null);
   var user = currentUser;
   var route = userRoute();
   var now = DateTime.now().toUtc().toIso8601String();
@@ -62,11 +60,8 @@ Future<void> registerUser(String name) async {
       "country": await getUserCountry,
       "deleted": false,
       "last_login": now,
-      "last_login_tz": nowTz,
+      "last_login_offset": nowTz,
     });
-  }
-  else {
-    throw FirebaseAuthException(code: "user-not-found");
   }
 }
 
