@@ -28,14 +28,14 @@ class Tarea {
   void makeDone() {
     if(times_done < need_done) {
       times_done++;
-      // TODO: Añadir la fecha
+      dates.add(DateTime.now());
     }
   }
 
   void makeUndone() {
     if(times_done > 0) {
       times_done--;
-      // TODO: Eliminar la fecha
+      dates.removeLast();
     }
   }
   
