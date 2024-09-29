@@ -33,10 +33,9 @@ class Objetivo {
   void makeDone() {
     if(canBeDone()) {
       terminado = true;
+      fecha_terminado = DateTime.now();
     }
   }
-
-
 
 }
 
