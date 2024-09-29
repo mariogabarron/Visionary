@@ -6,7 +6,7 @@ import 'package:visionary/utilities/showdialogs/homepage/porque_showdialog.dart'
 Widget porqueContainer(context) => GestureDetector(
       onTap: () => showAlertPorque(context),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
         child: Column(
           children: [
             Row(children: [

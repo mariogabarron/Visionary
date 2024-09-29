@@ -6,7 +6,7 @@ import 'package:visionary/utilities/showdialogs/homepage/tareas_showdialog.dart'
 Widget tareasContainer(BuildContext context) => GestureDetector(
       onTap: () => showAlertTareas(context),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
         child: Column(
           children: [
             Row(children: [

@@ -77,7 +77,7 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                /*Text(
                   "Configuración",
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFEFCEE),
@@ -86,7 +86,7 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
                     fontSize: 24,
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 40),*/
                 GestureDetector(
                   onTap: ayudaConfiguracion,
                   child: Container(
@@ -156,13 +156,13 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(66, 254, 252, 238),
                       borderRadius: BorderRadius.circular(30.0),
-                      boxShadow: const [
+                      /*boxShadow: const [
                         BoxShadow(
                           color: Color.fromARGB(255, 218, 185, 159),
                           blurRadius: 10.0,
                           offset: Offset(0, 5),
                         ),
-                      ],
+                      ],*/
                     ),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 10.0),
@@ -184,13 +184,13 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(66, 254, 252, 238),
                       borderRadius: BorderRadius.circular(30.0),
-                      boxShadow: const [
+                      /*boxShadow: const [
                         BoxShadow(
                           color: Color.fromARGB(255, 218, 185, 159),
                           blurRadius: 10.0,
                           offset: Offset(0, 5),
                         ),
-                      ],
+                      ],*/
                     ),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 10.0),
@@ -212,13 +212,13 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(66, 254, 252, 238),
                       borderRadius: BorderRadius.circular(30.0),
-                      boxShadow: const [
+                      /*boxShadow: const [
                         BoxShadow(
                           color: Color.fromARGB(255, 218, 185, 159),
                           blurRadius: 10.0,
                           offset: Offset(0, 5),
                         ),
-                      ],
+                      ],*/
                     ),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 10.0),

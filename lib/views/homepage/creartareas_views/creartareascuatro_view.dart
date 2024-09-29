@@ -73,11 +73,11 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: Text(
-                  '¿Cómo y cuándo quieres que te lo recordemos?',
+                  'Recordatorio',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFEFCEE),
-                    fontSize: 20,
+                    fontSize: 25,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.bold,
                   ),

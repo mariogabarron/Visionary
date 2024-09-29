@@ -59,12 +59,11 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                child: Text(
-                    '¿Cómo se llama la tarea que quieres cumplir para tu objetivo?',
+                child: Text('¿Cómo se llama la tarea que quieres cumplir?',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       color: const Color(0xFFFEFCEE),
-                      fontSize: 20,
+                      fontSize: 23,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold,
                     )),

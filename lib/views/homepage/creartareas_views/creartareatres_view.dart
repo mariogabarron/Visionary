@@ -74,7 +74,7 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView>
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFEFCEE),
-                    fontSize: 20,
+                    fontSize: 23,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.bold,
                   ),
@@ -262,10 +262,10 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView>
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: Text(
                   _selectedFrequency == 0
-                      ? "Selecciona los días de la semana en los que tu tarea se tendrá que volver a cumplir."
+                      ? "Tu tarea se debe cumplir X VECES para darse por finalizada."
                       : _selectedFrequency == 1
-                          ? "Tu tarea deberá ser cumplida de forma diaria."
-                          : "Selecciona un tipo de repetición si crees que tu tarea debería ser cumplida repetidamente",
+                          ? "Tu tarea sólo se debe cumplir una vez para finalizarse."
+                          : "Selecciona \"Sí\" si tu tarea se debe cumplir más de una vez para darse por finalizada.",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFEFCEE),

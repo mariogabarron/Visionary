@@ -110,11 +110,11 @@ class _HomepageViewState extends State<HomepageView> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 20),
                         tareasContainer(context),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 55),
                         porqueContainer(context),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 55),
                         progresoContainer(context: context, porcentaje: 0.4),
                         const SizedBox(height: 50),
                         const FraseContainer(),

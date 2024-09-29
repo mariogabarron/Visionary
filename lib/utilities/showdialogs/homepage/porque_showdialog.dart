@@ -25,7 +25,7 @@ void showAlertPorque(BuildContext context) {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(height: 10),
+                const SizedBox(height: 16),
                 Text(
                   '¿Por qué lo hago?',
                   textAlign: TextAlign.center,

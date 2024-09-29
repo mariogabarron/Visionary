@@ -17,7 +17,7 @@ void showAlertTareas(BuildContext context) {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
               Text(
                 'Tareas',
                 textAlign: TextAlign.center,
@@ -92,6 +92,7 @@ void showAlertTareas(BuildContext context) {
                   ),
                 ],
               ),
+              const SizedBox(height: 8),
             ],
           ),
         ),

@@ -73,13 +73,13 @@ class _CreaTareaDosViewState extends State<CreaTareaDosView>
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFEFCEE),
-                    fontSize: 20,
+                    fontSize: 23,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(5, (index) {
@@ -150,7 +150,7 @@ class _CreaTareaDosViewState extends State<CreaTareaDosView>
                   );
                 }),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 25),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: Text(

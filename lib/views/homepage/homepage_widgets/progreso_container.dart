@@ -9,7 +9,7 @@ Widget progresoContainer(
     GestureDetector(
       onTap: () => showAlertProgreso(context),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
         child: Column(
           children: [
             Row(children: [
@@ -38,7 +38,7 @@ Widget progresoContainer(
                     color: const Color.fromARGB(151, 254, 252, 238),
                   )),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 23),
             ProgressBar(porcentaje: porcentaje),
           ],
         ),
