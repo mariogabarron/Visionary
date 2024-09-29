@@ -16,5 +16,27 @@ class Objetivo {
     fecha_terminado = null,
     terminado = false;
 
+  bool isDone() {
+    return terminado;
+  }
+
+  bool canBeDone() {
+    if(listaTareas.isEmpty) {
+      return false;
+    }
+    for(var t in listaTareas) {
+      if(!t.isDone()) return false;
+    }
+    return true;
+  }
+
+  void makeDone() {
+    if(canBeDone()) {
+      terminado = true;
+    }
+  }
+
+
+
 }
 
