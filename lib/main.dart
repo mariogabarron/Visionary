@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/views/homepage/homepage_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,6 +10,7 @@ void main() {
   Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  MobileAds.instance.initialize();
   runApp(MaterialApp(
     title: 'Visionary',
     theme: ThemeData(
