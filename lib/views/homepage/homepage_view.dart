@@ -1,8 +1,10 @@
+import 'dart:developer' as d;
 import 'dart:math';
-
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/views/homepage/homepage_widgets/frase_container.dart';
 import 'package:visionary/views/homepage/homepage_widgets/objetivos_row.dart';
@@ -20,6 +22,35 @@ class HomepageView extends StatefulWidget {
 
 class _HomepageViewState extends State<HomepageView> {
   bool _showTutorial = false;
+  BannerAd? _banner;
+  bool _isAdLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _banner = BannerAd(
+      adUnitId: 'ca-app-pub-9277052423554636/8823906684',
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          setState(() {
+            _isAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          ad.dispose();
+          d.log("QUE $error");
+        },
+      ),
+    )..load();
+  }
+
+  @override
+  void dispose() {
+    _banner?.dispose();
+    super.dispose();
+  }
 
   void _tutorialMenuUno() {
     setState(() {
@@ -112,12 +143,20 @@ class _HomepageViewState extends State<HomepageView> {
                       children: [
                         const SizedBox(height: 20),
                         tareasContainer(context),
-                        const SizedBox(height: 55),
+                        const SizedBox(height: 30),
                         porqueContainer(context),
-                        const SizedBox(height: 55),
+                        const SizedBox(height: 70),
                         progresoContainer(context: context, porcentaje: 0.4),
                         const SizedBox(height: 50),
                         const FraseContainer(),
+                        const SizedBox(height: 30),
+                        if(_isAdLoaded)
+                          Container(
+                            alignment: Alignment.center,
+                            width: _banner!.size.width.toDouble(),
+                            height: _banner!.size.height.toDouble(),
+                            child: AdWidget(ad: _banner!),
+                          )
                       ],
                     ),
                   ),

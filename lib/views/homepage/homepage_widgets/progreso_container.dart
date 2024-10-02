@@ -28,17 +28,7 @@ Widget progresoContainer(
                     color: const Color(0xFFFEFCEE),
                   )),
             ]),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Text("Cada 1% te acerca un poco más al resultado.",
-                  style: GoogleFonts.poppins(
-                    fontStyle: FontStyle.normal,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: const Color.fromARGB(151, 254, 252, 238),
-                  )),
-            ),
-            const SizedBox(height: 23),
+            const SizedBox(height: 12),
             ProgressBar(porcentaje: porcentaje),
           ],
         ),
