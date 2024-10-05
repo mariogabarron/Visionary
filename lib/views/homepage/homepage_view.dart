@@ -1,6 +1,5 @@
 import 'dart:developer' as d;
 import 'dart:math';
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,7 +19,8 @@ class HomepageView extends StatefulWidget {
   State<HomepageView> createState() => _HomepageViewState();
 }
 
-class _HomepageViewState extends State<HomepageView> {
+class _HomepageViewState extends State<HomepageView>
+    with SingleTickerProviderStateMixin {
   bool _showTutorial = false;
   BannerAd? _banner;
   bool _isAdLoaded = false;
@@ -120,7 +120,7 @@ class _HomepageViewState extends State<HomepageView> {
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF6D97AC), Color.fromARGB(255, 207, 175, 148)],
+                colors: [Color(0xFF6D97AC), Color.fromARGB(255, 212, 176, 146)],
                 transform: GradientRotation(88 * pi / 180),
               ),
             ),
@@ -142,15 +142,15 @@ class _HomepageViewState extends State<HomepageView> {
                     child: Column(
                       children: [
                         const SizedBox(height: 20),
-                        tareasContainer(context),
+                        const TareasContainer(),
                         const SizedBox(height: 30),
-                        porqueContainer(context),
-                        const SizedBox(height: 70),
+                        const PorqueLoHagoContainer(),
+                        const SizedBox(height: 30),
                         progresoContainer(context: context, porcentaje: 0.4),
                         const SizedBox(height: 50),
                         const FraseContainer(),
                         const SizedBox(height: 30),
-                        if(_isAdLoaded)
+                        if (_isAdLoaded)
                           Container(
                             alignment: Alignment.center,
                             width: _banner!.size.width.toDouble(),
