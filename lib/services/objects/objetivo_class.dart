@@ -15,6 +15,7 @@ class Objetivo {
     'name',
     'motive',
     'created_at',
+    'finished',
     'finished_at',
     'tasks'
   };
@@ -27,7 +28,7 @@ class Objetivo {
     _listaTareas = const [],
     _fecha_creado = DateTime.now(),
     _fecha_terminado = null,
-    _dbref = userRoute()!.push().path,
+    _dbref = userRoute()!.child("objectives").push().path,
     _terminado = false;
 
   static Future<Objetivo> from_ref(DatabaseReference ref) async {
@@ -36,6 +37,7 @@ class Objetivo {
     DateTime fecha_creado = DateTime.now();
     DateTime? fecha_terminado;
     List<Tarea> lista_tareas = [];
+    bool terminado = false;
 
     if ((await ref.get()).exists) {
       List<Future<DataSnapshot>> futures = [];
@@ -54,6 +56,7 @@ class Objetivo {
           if (e.key == 'created_at') fecha_creado = DateTime.parse(e.value.toString());
           if (e.key == 'finished_at') fecha_terminado = e.value.toString() == "null" ? null : DateTime.parse(e.value.toString());
           if (e.key == 'tasks') lista_tareas = await Tarea.from_ref(e.ref);
+          if(e.key == 'finished') terminado = e.value.toString().toLowerCase() == "true";
         }
       }
       var result = Objetivo(nombre: nombre, porquelohago: porquelohago);
@@ -61,6 +64,7 @@ class Objetivo {
       result._fecha_terminado = fecha_terminado;
       result._listaTareas = lista_tareas;
       result._dbref = ref.path;
+      result._terminado = terminado;
       return result;
 
     }
@@ -80,6 +84,7 @@ class Objetivo {
       'motive': _porquelohago,
       'created_at': _fecha_creado.toUtc().toIso8601String(),
       'finished_at': _fecha_terminado == null ? "null" : _fecha_terminado!.toUtc().toIso8601String(),
+      'finished' : _terminado
     });
   }
 
