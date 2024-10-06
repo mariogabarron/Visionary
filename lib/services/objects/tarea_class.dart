@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:visionary/services/objects/recordatorio.dart';
 
 class Tarea {
@@ -16,6 +17,12 @@ class Tarea {
         this.times_done = 0,
         this.recordatorio
       });
+
+  static Future<List<Tarea>> from_ref(DatabaseReference ref) async {
+    throw UnimplementedError("No implementado");
+  }
+
+
 
   bool isDone() {
     return need_done == times_done;
@@ -38,6 +45,8 @@ class Tarea {
       dates.removeLast();
     }
   }
+
+
   
 
 }
