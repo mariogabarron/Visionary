@@ -7,10 +7,11 @@ class Objetivo {
   String _porquelohago;
   String _dbref;
   List<Tarea> _listaTareas;
-  DateTime _fecha_creado;
-  DateTime? _fecha_terminado;
+  DateTime _fechaCreado;
+  DateTime? _fechaTerminado;
   bool _terminado;
 
+  /// Claves de los campos de la base de datos.
   static final Set<String> _keys = {
     'name',
     'motive',
@@ -20,23 +21,22 @@ class Objetivo {
     'tasks'
   };
 
+  Objetivo({required String nombre, required String porquelohago})
+      : _nombre = nombre,
+        _porquelohago = porquelohago,
+        _listaTareas = const [],
+        _fechaCreado = DateTime.now(),
+        _fechaTerminado = null,
+        _dbref = userRoute()!.child("objectives").push().path,
+        _terminado = false;
 
-
-  Objetivo({
-    required String nombre,
-    required String porquelohago}) :  _nombre = nombre, _porquelohago = porquelohago,
-    _listaTareas = const [],
-    _fecha_creado = DateTime.now(),
-    _fecha_terminado = null,
-    _dbref = userRoute()!.child("objectives").push().path,
-    _terminado = false;
-
-  static Future<Objetivo> from_ref(DatabaseReference ref) async {
+  /// Obtiene un objetivo desde la referencia en la base de datos
+  static Future<Objetivo> fromRef(DatabaseReference ref) async {
     String nombre = "";
     String porquelohago = "";
-    DateTime fecha_creado = DateTime.now();
-    DateTime? fecha_terminado;
-    List<Tarea> lista_tareas = [];
+    DateTime fechaCreado = DateTime.now();
+    DateTime? fechaTerminado;
+    List<Tarea> listaTareas = [];
     bool terminado = false;
 
     if ((await ref.get()).exists) {
@@ -47,73 +47,78 @@ class Objetivo {
       await Future.wait(futures as Iterable<Future>);
       for (final entry in futures) {
         if (!(await entry).exists && (await entry).key != 'tasks') {
-          throw ArgumentError("The reference provided did not contain an objective.");
-        }
-        else {
+          throw ArgumentError(
+              "The reference provided did not contain an objective.");
+        } else {
           var e = await entry;
           if (e.key == 'name') nombre = e.value.toString();
           if (e.key == 'motive') porquelohago = e.value.toString();
-          if (e.key == 'created_at') fecha_creado = DateTime.parse(e.value.toString());
-          if (e.key == 'finished_at') fecha_terminado = e.value.toString() == "null" ? null : DateTime.parse(e.value.toString());
-          if (e.key == 'tasks') lista_tareas = await Tarea.from_ref(e.ref);
-          if(e.key == 'finished') terminado = e.value.toString().toLowerCase() == "true";
+          if (e.key == 'created_at') fechaCreado = DateTime.parse(e.value.toString());
+          if (e.key == 'finished_at') fechaTerminado = e.value.toString() == "null" ? null : DateTime.parse(e.value.toString());
+          if (e.key == 'tasks') listaTareas = await Tarea.from_ref(e.ref);
+          if (e.key == 'finished') terminado = e.value.toString().toLowerCase() == "true";
         }
       }
       var result = Objetivo(nombre: nombre, porquelohago: porquelohago);
-      result._fecha_creado = fecha_creado;
-      result._fecha_terminado = fecha_terminado;
-      result._listaTareas = lista_tareas;
+      result._fechaCreado = fechaCreado;
+      result._fechaTerminado = fechaTerminado;
+      result._listaTareas = listaTareas;
       result._dbref = ref.path;
       result._terminado = terminado;
       return result;
-
     }
     throw ArgumentError("The reference provided did not contain an objective.");
   }
 
   String get name => _nombre;
-  String get motive => _porquelohago;
-  bool get isDone => _terminado;
-  DateTime get createdAt => _fecha_creado;
-  bool get finished => _fecha_terminado != null;
-  DateTime? get finishedAt => _fecha_terminado;
 
+  String get motive => _porquelohago;
+
+  bool get isDone => _terminado;
+
+  DateTime get createdAt => _fechaCreado;
+
+  bool get finished => _fechaTerminado != null;
+
+  DateTime? get finishedAt => _fechaTerminado;
+
+  /// Actuliza el objetivo en la base de datos.
   void update() {
     FirebaseDatabase.instance.ref(_dbref).update({
       'name': _nombre,
       'motive': _porquelohago,
-      'created_at': _fecha_creado.toUtc().toIso8601String(),
-      'finished_at': _fecha_terminado == null ? "null" : _fecha_terminado!.toUtc().toIso8601String(),
-      'finished' : _terminado
+      'created_at': _fechaCreado.toUtc().toIso8601String(),
+      'finished_at': _fechaTerminado == null
+          ? "null"
+          : _fechaTerminado!.toUtc().toIso8601String(),
+      'finished': _terminado
     });
   }
 
-  void edit(String new_name, String new_motive) {
-    _nombre = new_name;
-    _porquelohago = new_motive;
+  /// Edita el nombre y el porqué del objetivo.
+  void edit(String newName, String newMotive) {
+    _nombre = newName;
+    _porquelohago = newMotive;
     update();
   }
 
+  /// Determina si el objetivo puede marcarse como completado (solo si todas las tareas han sido completadas)
   bool canBeDone() {
-    if(_listaTareas.isEmpty) {
+    if (_listaTareas.isEmpty) {
       return false;
     }
-    for(var t in _listaTareas) {
-      if(!t.isDone()) return false;
+    for (var t in _listaTareas) {
+      if (!t.isDone()) return false;
     }
     return true;
   }
 
+  /// Da por terminado el objetivo, si es posible.
   void makeDone() {
-    if(canBeDone()) {
+    if (canBeDone()) {
       _terminado = true;
-      _fecha_terminado = DateTime.now();
+      _fechaTerminado = DateTime.now();
       update();
     }
   }
-
-
-
-
 }
-
