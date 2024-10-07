@@ -102,8 +102,8 @@ class Objetivo {
 
 
   /// Actuliza el objetivo en la base de datos.
-  void update() {
-    FirebaseDatabase.instance.ref(_dbref).update({
+  void update() async {
+    await FirebaseDatabase.instance.ref(_dbref).update({
       'name': _nombre,
       'motive': _porquelohago,
       'created_at': _fechaCreado.toUtc().toIso8601String(),
