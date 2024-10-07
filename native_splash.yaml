@@ -1,0 +1,11 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  color: '#fefcee'
+  image: 'assets/images/LOGOTIPOCONFONDO.png'
+
+  android_12:
+    color: "#fefcee"
+    image: 'assets/images/LOGOTIPOCONFONDO.png'

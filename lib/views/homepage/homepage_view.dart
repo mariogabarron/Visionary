@@ -30,8 +30,9 @@ class _HomepageViewState extends State<HomepageView>
   void initState() {
     super.initState();
     String id = "";
-    if(Platform.isAndroid) id = "ca-app-pub-9277052423554636/5898360447";
-    else if (Platform.isIOS) id = 'ca-app-pub-9277052423554636/8823906684';
+    if (Platform.isAndroid) {
+      id = "ca-app-pub-9277052423554636/5898360447";
+    } else if (Platform.isIOS) id = 'ca-app-pub-9277052423554636/8823906684';
     _banner = BannerAd(
       adUnitId: id,
       size: AdSize.banner,
