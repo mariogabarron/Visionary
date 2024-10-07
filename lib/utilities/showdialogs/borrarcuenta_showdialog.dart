@@ -67,7 +67,7 @@ void showAlertBorrarCuenta(BuildContext context) {
                     ),
                     onPressed: () {
                       // Acción de borrar cuenta
-                      Navigator.of(context).pushReplacementNamed(splashScreen);
+                      Navigator.of(context).pushReplacementNamed(loginView);
                     },
                     child: Text(
                       'Borrar',

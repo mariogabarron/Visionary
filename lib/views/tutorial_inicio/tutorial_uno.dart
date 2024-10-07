@@ -93,7 +93,7 @@ class _TutorialUnoState extends State<TutorialUno> {
                     ),
                     onPressed: () {
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                          splashScreen, (route) => false);
+                          tutorialDos, (route) => false);
                     },
                   ),
                 ),

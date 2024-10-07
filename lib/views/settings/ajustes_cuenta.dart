@@ -16,7 +16,7 @@ class AjustesCuenta extends StatefulWidget {
 class _AjustesCuentaState extends State<AjustesCuenta> {
   void _cerrarSesion() {
     logOut();
-    Navigator.of(context).pushReplacementNamed(splashScreen);
+    Navigator.of(context).pushReplacementNamed(loginView);
   }
 
   void _politicaPrivacidad() {}
