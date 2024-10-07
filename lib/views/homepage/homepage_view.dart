@@ -1,4 +1,5 @@
 import 'dart:developer' as d;
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +29,11 @@ class _HomepageViewState extends State<HomepageView>
   @override
   void initState() {
     super.initState();
+    String id = "";
+    if(Platform.isAndroid) id = "ca-app-pub-9277052423554636/5898360447";
+    else if (Platform.isIOS) id = 'ca-app-pub-9277052423554636/8823906684';
     _banner = BannerAd(
-      adUnitId: 'ca-app-pub-9277052423554636/8823906684',
+      adUnitId: id,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
