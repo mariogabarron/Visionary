@@ -70,6 +70,21 @@ class Objetivo {
     throw ArgumentError("The reference provided did not contain an objective.");
   }
 
+  /// Obtiene la lista de objetivos del usuario.
+  static Future<List<Objetivo>> getList() async {
+    List<Future<Objetivo>> futures = [];
+    List<Objetivo> result = [];
+    var ref = await userRoute()!.child("objectives").get();
+    for(var entry in ref.children) {
+      futures.add(fromRef(entry.ref));
+    }
+    await Future.wait(futures as Iterable<Future>);
+    for(var f in futures) {
+      result.add(await f);
+    }
+    return result;
+  }
+
   String get name => _nombre;
 
   String get motive => _porquelohago;
