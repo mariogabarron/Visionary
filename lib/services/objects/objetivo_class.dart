@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:visionary/services/db/db_user_management.dart';
+import 'package:visionary/services/objects/recordatorio.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
 
 class Objetivo {
@@ -24,7 +27,7 @@ class Objetivo {
   Objetivo({required String nombre, required String porquelohago})
       : _nombre = nombre,
         _porquelohago = porquelohago,
-        _listaTareas = const [],
+        _listaTareas = [],
         _fechaCreado = DateTime.now(),
         _fechaTerminado = null,
         _dbref = userRoute()!.child("objectives").push().path,
@@ -55,7 +58,7 @@ class Objetivo {
           if (e.key == 'motive') porquelohago = e.value.toString();
           if (e.key == 'created_at') fechaCreado = DateTime.parse(e.value.toString());
           if (e.key == 'finished_at') fechaTerminado = e.value.toString() == "null" ? null : DateTime.parse(e.value.toString());
-          if (e.key == 'tasks') listaTareas = await Tarea.from_ref(e.ref);
+          if (e.key == 'tasks') listaTareas = await Tarea.getList(e.ref);
           if (e.key == 'finished') terminado = e.value.toString().toLowerCase() == "true";
         }
       }
@@ -97,6 +100,8 @@ class Objetivo {
 
   DateTime? get finishedAt => _fechaTerminado;
 
+
+
   /// Actuliza el objetivo en la base de datos.
   void update() {
     FirebaseDatabase.instance.ref(_dbref).update({
@@ -108,6 +113,9 @@ class Objetivo {
           : _fechaTerminado!.toUtc().toIso8601String(),
       'finished': _terminado
     });
+    for(var task in _listaTareas) {
+      task.update();
+    }
   }
 
   /// Edita el nombre y el porqué del objetivo.
@@ -135,5 +143,23 @@ class Objetivo {
       _fechaTerminado = DateTime.now();
       update();
     }
+  }
+
+  void addTask(String name, int priority, int needDone, Recordatorio? reminder) {
+    _listaTareas.add(Tarea(_dbref, name: name, priority: priority, need_done: needDone, recordatorio: reminder));
+    update();
+  }
+
+  /// Imprime los campos del objetivo
+  void print() {
+    log("Objetivo: $_nombre, Motivo: $_porquelohago, Creado: $_fechaCreado, Terminado: $_terminado. Tareas a continuación.");
+    if (_listaTareas.isEmpty) log("Lista de tareas vacía");
+    else {
+      for(var tarea in _listaTareas) {
+        tarea.print();
+      }
+    }
+
+
   }
 }
