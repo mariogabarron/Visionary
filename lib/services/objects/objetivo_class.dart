@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:visionary/services/db/db_user_management.dart';
 import 'package:visionary/services/objects/recordatorio.dart';
@@ -145,15 +144,18 @@ class Objetivo {
     }
   }
 
+  /// Añade una nueva tarea al objetivo, y actualiza la base de datos.
   void addTask(String name, int priority, int needDone, Recordatorio? reminder) {
-    _listaTareas.add(Tarea(_dbref, name: name, priority: priority, need_done: needDone, recordatorio: reminder));
+    _listaTareas.add(Tarea(_dbref, name: name, priority: priority, needDone: needDone, recordatorio: reminder));
     update();
   }
 
   /// Imprime los campos del objetivo
   void print() {
     log("Objetivo: $_nombre, Motivo: $_porquelohago, Creado: $_fechaCreado, Terminado: $_terminado. Tareas a continuación.");
-    if (_listaTareas.isEmpty) log("Lista de tareas vacía");
+    if (_listaTareas.isEmpty) {
+      log("Lista de tareas vacía");
+    }
     else {
       for(var tarea in _listaTareas) {
         tarea.print();
