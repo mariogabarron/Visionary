@@ -28,6 +28,7 @@ class _TareaCreadaViewState extends State<TareaCreadaView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
