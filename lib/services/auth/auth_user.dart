@@ -43,7 +43,7 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithEmail(
     String email, String password) async {
   try {
     UserCredential? cred = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-    updateLoginDate();
+    updateLogin();
     return (
       cred, null
     );
@@ -92,7 +92,7 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithGoogle() async {
       if (!await userIsRegistered()) {
         registerUser(userCredential.user!.displayName!);
       }
-      updateLoginDate();
+      updateLogin();
       return (userCredential, null);
     } on FirebaseAuthException catch (e) {
       return (null, e);

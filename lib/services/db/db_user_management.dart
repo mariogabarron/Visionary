@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:visionary/services/auth/auth_user.dart';
 
 const Set<String> keys = {
@@ -10,7 +11,8 @@ const Set<String> keys = {
   'country',
   'deleted',
   'last_login',
-  'last_login_offset'
+  'last_login_offset',
+  'app_version'
 };
 
 DatabaseReference? userRoute() {
@@ -47,6 +49,7 @@ Future<bool> userIsRegistered() async {
 /// PRECONDICION: Debe haberse iniciado sesión en Firebase
 Future<void> registerUser(String name) async {
   assert(currentUser != null);
+  var packageInfo = PackageInfo.fromPlatform();
   var user = currentUser!;
   var route = userRoute()!;
   var now = DateTime.now().toUtc().toIso8601String();
@@ -60,13 +63,14 @@ Future<void> registerUser(String name) async {
       "deleted": false,
       "last_login": now,
       "last_login_offset": nowTz,
+      "app_version": (await packageInfo).version
     });
 
 }
 
 /// Actualiza la fecha de inicio de sesión del usuario.
 /// PRECONDICION: Debe haberse iniciado sesión en Firebase
-Future<void> updateLoginDate() async {
+Future<void> updateLogin() async {
   assert(currentUser !=  null);
   var route = userRoute()!;
   var now = DateTime.now().toUtc().toIso8601String();
@@ -74,6 +78,7 @@ Future<void> updateLoginDate() async {
 
   await route.update({
     "last_login": now,
-    "last_login_offset" : nowTz
+    "last_login_offset" : nowTz,
+    "app_version": (await PackageInfo.fromPlatform()).version
   });
 }
