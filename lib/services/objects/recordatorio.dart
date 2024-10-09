@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 
 enum TipoRecordatorio { mensual, semanal }
-
+enum WeekDays {L, M, X, J, V, S, D}
 class Recordatorio {
   TipoRecordatorio tipoRecordatorio;
   String codigo;
@@ -35,5 +35,46 @@ class Recordatorio {
     }
     return Recordatorio(tipoRecordatorio: reminder, hora: hora, codigo: code);
   }
+
+  Set<WeekDays>? getWeekDays() {
+    if(tipoRecordatorio == TipoRecordatorio.mensual) return null;
+    Set<WeekDays> wd = <WeekDays>{};
+    for(var char in codigo.split("")) {
+      switch(char) {
+        case 'L':
+          wd.add(WeekDays.L);
+          break;
+        case 'M':
+          wd.add(WeekDays.M);
+          break;
+        case 'X':
+          wd.add(WeekDays.X);
+          break;
+        case 'J':
+          wd.add(WeekDays.J);
+          break;
+        case 'V':
+          wd.add(WeekDays.V);
+          break;
+        case 'S':
+          wd.add(WeekDays.S);
+          break;
+        case 'D':
+          wd.add(WeekDays.D);
+          break;
+      }
+    }
+    return wd;
+  }
+
+  Set<int>? getMonthDays() {
+    if (tipoRecordatorio == TipoRecordatorio.semanal) return null;
+    Set<int> md = <int>{};
+    for(var month in codigo.split(";")) {
+      md.add(int.parse(month));
+    }
+    return md;
+  }
+
 
 }
