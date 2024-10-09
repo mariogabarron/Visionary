@@ -142,8 +142,8 @@ class Tarea {
   }
 
   /// Actualiza la tarea en base de datos.
-  void update() {
-    FirebaseDatabase.instance.ref(_dbRef).update({
+  void update() async {
+    await FirebaseDatabase.instance.ref(_dbRef).update({
       'name': _name,
       'priority': _priority,
       'need_done': _needDone,

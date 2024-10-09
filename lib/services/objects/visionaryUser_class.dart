@@ -1,11 +1,10 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:visionary/services/db/db_user_management.dart';
-import 'package:visionary/services/objects/objetivo_class.dart';
 
 class VisionaryUser {
-  String _name;
-  String _email;
-  String _country;
+  final String _name;
+  final String _email;
+  final String _country;
   List<(String, DatabaseReference)> _objectives;
 
   static const Set<String> _keys = {
@@ -21,7 +20,9 @@ class VisionaryUser {
       _name = name, _country = country, _objectives = objectives, _email = email;
 
   /// Obtiene el VisionaryUser que ha iniciado sesión.
+  /// PRECONDICIÓN: El usuario debe haber iniciado sesión.
   static Future<VisionaryUser> fromLogin() async {
+    assert(userRoute() != null);
     var data = userRoute()!.get();
     String name = "", country = "", email = "";
     List<(String, DatabaseReference)> objectives = [];
@@ -44,6 +45,15 @@ class VisionaryUser {
 
   String get country => _country;
 
-  List<(String, DatabaseReference)> get objectives => _objectives;
+  List<(String, DatabaseReference)> get objectives => List.from(_objectives);
+
+  /// Actualiza la lista de objetivos del VisionaryUser
+  void updateObjectives() async {
+    List<(String, DatabaseReference)> list = [];
+    for(var entry in (await userRoute()!.child("objectives").get()).children) {
+      list.add( ( (await entry.ref.child("name").get()).value.toString(),  entry.ref) );
+    }
+    _objectives = list;
+  }
 
 }
