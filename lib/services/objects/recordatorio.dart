@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_database/firebase_database.dart';
 
 enum TipoRecordatorio { mensual, semanal }
@@ -76,5 +78,10 @@ class Recordatorio {
     return md;
   }
 
+  void print() {
+    int h = hora.$1;
+    int m = hora.$2;
+    log("Tipo de recordatorio: $tipoRecordatorio, código: $codigo, hora: ($h:$m)");
+  }
 
 }

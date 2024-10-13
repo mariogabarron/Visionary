@@ -139,6 +139,12 @@ class Tarea {
   /// Loguea en la consola los atributos de la tarea.
   void print() {
     log("Nombre: $_name, Prioridad: $_priority, Veces hecha: $_timesDone, Veces necesarias: $_needDone");
+    if(_recordatorio == null) {
+      log("Sin recordatorio asignado");
+    }
+    else {
+      _recordatorio!.print();
+    }
   }
 
   /// Actualiza la tarea en base de datos.
