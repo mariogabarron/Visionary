@@ -117,7 +117,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                             const SizedBox(height: 10),
                             // Utiliza AnimatedPadding para animar el cambio de padding inferior
                             AnimatedPadding(
-                              duration: const Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 150),
                               padding: EdgeInsets.only(bottom: _bottomPadding),
                               child: IconButton(
                                 icon: Icon(
