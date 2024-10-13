@@ -180,7 +180,7 @@ class Objetivo {
       for(var task in _listaTareas) {
         if(task.isDone()) count += task.priority;
       }
-      result = double.parse((count / total).toStringAsFixed(2));
+      result = ((count / total) * 10000).round() / 100;
     }
 
     return result;
