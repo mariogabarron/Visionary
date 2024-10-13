@@ -16,8 +16,12 @@ class VisionaryUser {
     'objectives'
   };
 
-  VisionaryUser({required name, required email, required country, required objectives}) :
-      _name = name, _country = country, _objectives = objectives, _email = email;
+  VisionaryUser(
+      {required name, required email, required country, required objectives})
+      : _name = name,
+        _country = country,
+        _objectives = objectives,
+        _email = email;
 
   /// Obtiene el VisionaryUser que ha iniciado sesión.
   /// PRECONDICIÓN: El usuario debe haber iniciado sesión.
@@ -26,17 +30,20 @@ class VisionaryUser {
     var data = userRoute()!.get();
     String name = "", country = "", email = "";
     List<(String, DatabaseReference)> objectives = [];
-    for(final entry in (await data).children) {
-      if(entry.key == "name") name = entry.value.toString();
-      if(entry.key == "country") country = entry.value.toString();
-      if(entry.key == "email") email = entry.value.toString();
-      if(entry.key == "objectives") {
+    for (final entry in (await data).children) {
+      if (entry.key == "name") name = entry.value.toString();
+      if (entry.key == "country") country = entry.value.toString();
+      if (entry.key == "email") email = entry.value.toString();
+      if (entry.key == "objectives") {
         for (final obj in entry.children) {
-          objectives.add( (obj.children.where( (x) => x.key =="name").first.value.toString(), obj.ref) );
+          final objName = obj.child("name").value.toString();
+          final objRef = obj.ref;
+          objectives.add((objName, objRef));
         }
       }
     }
-    return VisionaryUser(name: name, email: email, country: country, objectives: objectives);
+    return VisionaryUser(
+        name: name, email: email, country: country, objectives: objectives);
   }
 
   String get name => _name;
@@ -50,10 +57,10 @@ class VisionaryUser {
   /// Actualiza la lista de objetivos del VisionaryUser
   void updateObjectives() async {
     List<(String, DatabaseReference)> list = [];
-    for(var entry in (await userRoute()!.child("objectives").get()).children) {
-      list.add( ( (await entry.ref.child("name").get()).value.toString(),  entry.ref) );
+    for (var entry in (await userRoute()!.child("objectives").get()).children) {
+      list.add(
+          ((await entry.ref.child("name").get()).value.toString(), entry.ref));
     }
     _objectives = list;
   }
-
 }

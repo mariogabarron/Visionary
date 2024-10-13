@@ -13,12 +13,11 @@ class TareasContainer extends StatefulWidget {
 }
 
 class _TareasContainerState extends State<TareasContainer> {
-  double _bottomPadding = 10; // Inicialmente el padding inferior
+  double _bottomPadding = 8; // Inicialmente el padding inferior
 
   void _expandBottomPadding() {
     setState(() {
-      _bottomPadding =
-          _bottomPadding == 10 ? 180 : 10; // Alternar entre 10 y 100
+      _bottomPadding = _bottomPadding == 8 ? 180 : 8; // Alternar entre 10 y 100
     });
   }
 
@@ -121,7 +120,7 @@ class _TareasContainerState extends State<TareasContainer> {
                               padding: EdgeInsets.only(bottom: _bottomPadding),
                               child: IconButton(
                                 icon: Icon(
-                                  _bottomPadding == 10
+                                  _bottomPadding == 8
                                       ? CupertinoIcons.chevron_down
                                       : CupertinoIcons.chevron_up,
                                   color: const Color(0xFFFEFCEE),

@@ -13,15 +13,6 @@ class PorqueLoHagoContainer extends StatefulWidget {
 }
 
 class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
-  double _bottomPadding = 10; // Inicialmente el padding inferior
-
-  void _expandBottomPadding() {
-    setState(() {
-      _bottomPadding =
-          _bottomPadding == 10 ? 180 : 10; // Alternar entre 10 y 100
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -56,7 +47,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 10),
+                            left: 15.0, right: 15.0, top: 10, bottom: 10),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -116,20 +107,6 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                             ),
                             const SizedBox(height: 10),
                             // Utiliza AnimatedPadding para animar el cambio de padding inferior
-                            AnimatedPadding(
-                              duration: const Duration(milliseconds: 150),
-                              padding: EdgeInsets.only(bottom: _bottomPadding),
-                              child: IconButton(
-                                icon: Icon(
-                                  _bottomPadding == 10
-                                      ? CupertinoIcons.chevron_down
-                                      : CupertinoIcons.chevron_up,
-                                  color: const Color(0xFFFEFCEE),
-                                ),
-                                onPressed:
-                                    _expandBottomPadding, // Llama a la función que cambia el padding
-                              ),
-                            ),
                           ],
                         ),
                       ),
