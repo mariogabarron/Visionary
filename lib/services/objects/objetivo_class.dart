@@ -175,12 +175,14 @@ class Objetivo {
   double getProgress() {
     double result = 0.0;
     if(_listaTareas.isNotEmpty) {
-      int count = _totalPrioridades();
+      int total = _totalPrioridades();
+      int count = 0;
       for(var task in _listaTareas) {
-        if(task.isDone()) result += task.priority / count;
+        if(task.isDone()) count += task.priority;
       }
+      result = double.parse((count / total).toStringAsFixed(2));
     }
-    result = double.parse(result.toStringAsFixed(2));
+
     return result;
   }
 
