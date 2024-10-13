@@ -161,7 +161,28 @@ class Objetivo {
         tarea.print();
       }
     }
-
-
   }
+
+  int _totalPrioridades() {
+    int n = 0;
+    for(var task in _listaTareas) {
+      n += task.priority;
+    }
+    return n;
+  }
+
+  /// Obtiene el progreso del objetivo.
+  double getProgress() {
+    double result = 0.0;
+    if(_listaTareas.isNotEmpty) {
+      int count = _totalPrioridades();
+      for(var task in _listaTareas) {
+        if(task.isDone()) result += task.priority / count;
+      }
+    }
+    result = double.parse(result.toStringAsFixed(2));
+    return result;
+  }
+
+
 }
