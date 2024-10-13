@@ -3,12 +3,17 @@ import 'dart:developer';
 import 'package:firebase_database/firebase_database.dart';
 
 enum TipoRecordatorio { mensual, semanal }
-enum WeekDays {L, M, X, J, V, S, D}
+
+enum WeekDays { L, M, X, J, V, S, D }
+
 class Recordatorio {
   TipoRecordatorio tipoRecordatorio;
   String codigo;
   (int, int) hora;
-  Recordatorio({required this.tipoRecordatorio, required this.hora, required this.codigo});
+  Recordatorio(
+      {required this.tipoRecordatorio,
+      required this.hora,
+      required this.codigo});
 
   static final Set<String> _keys = {
     'type',
@@ -17,8 +22,11 @@ class Recordatorio {
   };
 
   static TipoRecordatorio stringToReminder(String r) {
-    if (r == "M") return TipoRecordatorio.mensual;
-    else if (r == "S") return TipoRecordatorio.semanal;
+    if (r == "M") {
+      return TipoRecordatorio.mensual;
+    } else if (r == "S") {
+      return TipoRecordatorio.semanal;
+    }
 
     throw ArgumentError("The provided string was not a valid reminder.");
   }
@@ -27,10 +35,12 @@ class Recordatorio {
     TipoRecordatorio reminder = TipoRecordatorio.semanal;
     String code = "";
     (int, int) hora = (0, 0);
-    for(var entry in (await ref.get()).children) {
-      if(entry.key.toString() == "type") reminder = stringToReminder(entry.value.toString());
-      if(entry.key.toString() == "code") code = entry.value.toString();
-      if(entry.key.toString() == "hora") {
+    for (var entry in (await ref.get()).children) {
+      if (entry.key.toString() == "type") {
+        reminder = stringToReminder(entry.value.toString());
+      }
+      if (entry.key.toString() == "code") code = entry.value.toString();
+      if (entry.key.toString() == "hora") {
         List<String> split = entry.value.toString().split(":");
         hora = (int.parse(split.first), int.parse(split.last));
       }
@@ -39,10 +49,10 @@ class Recordatorio {
   }
 
   Set<WeekDays>? getWeekDays() {
-    if(tipoRecordatorio == TipoRecordatorio.mensual) return null;
+    if (tipoRecordatorio == TipoRecordatorio.mensual) return null;
     Set<WeekDays> wd = <WeekDays>{};
-    for(var char in codigo.split("")) {
-      switch(char) {
+    for (var char in codigo.split("")) {
+      switch (char) {
         case 'L':
           wd.add(WeekDays.L);
           break;
@@ -72,7 +82,7 @@ class Recordatorio {
   Set<int>? getMonthDays() {
     if (tipoRecordatorio == TipoRecordatorio.semanal) return null;
     Set<int> md = <int>{};
-    for(var month in codigo.split(";")) {
+    for (var month in codigo.split(";")) {
       md.add(int.parse(month));
     }
     return md;
@@ -83,5 +93,4 @@ class Recordatorio {
     int m = hora.$2;
     log("Tipo de recordatorio: $tipoRecordatorio, código: $codigo, hora: ($h:$m)");
   }
-
 }

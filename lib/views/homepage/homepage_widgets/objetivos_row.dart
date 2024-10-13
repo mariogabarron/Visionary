@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/visionaryUser_class.dart';
 import 'package:visionary/utilities/showdialogs/homepage/editarobjetivo_showdialog.dart';
 
 class ObjetivosRow extends StatelessWidget {
-  const ObjetivosRow({super.key});
+  ObjetivosRow({super.key});
+
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +54,7 @@ class ObjetivosRow extends StatelessWidget {
                               GestureDetector(
                                 onLongPress: () =>
                                     showAlertBottomEditarObjetivo(
-                                        context, name),
+                                        context, name, controller),
                                 child: Text(
                                   name,
                                   style: const TextStyle(
@@ -66,9 +69,17 @@ class ObjetivosRow extends StatelessWidget {
                         ),
                       const SizedBox(width: 10),
                       TextButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(crearObjetivoUno);
+                        onPressed: () async {
+                          VisionaryUser v = await VisionaryUser.fromLogin();
+                          Objetivo x = Objetivo(
+                              nombre: "Nuevo objetivo",
+                              porquelohago: "por qué no");
+                          x.update();
+                          v.updateObjectives();
+                          if (context.mounted) {
+                            Navigator.of(context)
+                                .pushReplacementNamed(crearObjetivoUno);
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:

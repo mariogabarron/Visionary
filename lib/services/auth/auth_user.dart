@@ -34,11 +34,10 @@ User? get currentUser {
 Future<(UserCredential?, FirebaseAuthException?)> loginWithEmail(
     String email, String password) async {
   try {
-    UserCredential? cred = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+    UserCredential? cred = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
     updateLogin();
-    return (
-      cred, null
-    );
+    return (cred, null);
   } on FirebaseAuthException catch (e) {
     return (null, e);
   }
@@ -85,6 +84,7 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithGoogle() async {
         registerUser(userCredential.user!.displayName!);
       }
       updateLogin();
+      print("Hecho");
       return (userCredential, null);
     } on FirebaseAuthException catch (e) {
       return (null, e);

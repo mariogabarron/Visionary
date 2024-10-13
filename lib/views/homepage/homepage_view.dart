@@ -32,7 +32,9 @@ class _HomepageViewState extends State<HomepageView>
     String id = "";
     if (Platform.isAndroid) {
       id = "ca-app-pub-9277052423554636/5898360447";
-    } else if (Platform.isIOS) id = 'ca-app-pub-9277052423554636/8823906684';
+    } else if (Platform.isIOS) {
+      id = 'ca-app-pub-9277052423554636/8823906684';
+    }
     _banner = BannerAd(
       adUnitId: id,
       size: AdSize.banner,
@@ -72,6 +74,7 @@ class _HomepageViewState extends State<HomepageView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -131,6 +134,7 @@ class _HomepageViewState extends State<HomepageView>
             ),
           ),
           SafeArea(
+            bottom: false,
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -143,7 +147,7 @@ class _HomepageViewState extends State<HomepageView>
                     child: Divider(color: Color(0xFFFEFCEE)),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Column(
                       children: [
                         const SizedBox(height: 20),
@@ -152,12 +156,12 @@ class _HomepageViewState extends State<HomepageView>
                         const PorqueLoHagoContainer(),
                         const SizedBox(height: 30),
                         progresoContainer(context: context, porcentaje: 0.4),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 20),
                         const FraseContainer(),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 20),
                         if (_isAdLoaded)
                           Container(
-                            alignment: Alignment.center,
+                            alignment: Alignment.bottomCenter,
                             width: _banner!.size.width.toDouble(),
                             height: _banner!.size.height.toDouble(),
                             child: AdWidget(ad: _banner!),

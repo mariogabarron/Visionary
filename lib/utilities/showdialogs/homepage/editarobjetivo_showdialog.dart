@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void showAlertBottomEditarObjetivo(BuildContext context, String objetivo) {
+// TODO: hay que pasarle en vez del String objetivo, Objetivo objetivo.
+void showAlertBottomEditarObjetivo(
+    BuildContext context, String objetivo, TextEditingController controller) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -46,7 +48,8 @@ void showAlertBottomEditarObjetivo(BuildContext context, String objetivo) {
                     label: "",
                     inputType: TextInputType.name,
                     hintText: "Escribe el nuevo nombre",
-                    maxWords: 20),
+                    maxWords: 20,
+                    controller: controller),
                 const SizedBox(height: 30),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -55,7 +58,7 @@ void showAlertBottomEditarObjetivo(BuildContext context, String objetivo) {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.of(context).pop();
                   },
                   child: Text(
@@ -139,7 +142,8 @@ Widget _buildInputField(
     String? hintText,
     bool obscureText = false,
     required TextInputType inputType,
-    int? maxWords}) {
+    int? maxWords,
+    required TextEditingController controller}) {
   TextInputType keyboardType = TextInputType.text;
 
   if (inputType == TextInputType.emailAddress) {
