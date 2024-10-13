@@ -6,14 +6,6 @@ import 'dart:developer' as devtools show log;
 import 'package:http/http.dart' as http;
 import 'package:visionary/services/db/db_user_management.dart';
 
-class VisionaryUser {
-  final String email;
-  final String name;
-  final String countryCode;
-  const VisionaryUser(
-      {required this.email, required this.name, required this.countryCode});
-}
-
 /// Obtiene el código del país del usuario por IP.
 Future<String> get getUserCountry async {
   final response = await http.get(Uri.parse('http://ip-api.com/json'));
