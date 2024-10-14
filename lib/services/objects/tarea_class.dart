@@ -117,6 +117,7 @@ class Tarea {
       _timesDone++;
       _dates.add(DateTime.now());
     }
+    update();
   }
 
   /// Descompleta la tarea una vez.
@@ -125,6 +126,7 @@ class Tarea {
       _timesDone--;
       _dates.removeLast();
     }
+    update();
   }
 
   /// Edita la tarea. ¡OJO! Si las vecesNecesarias son menores a las veces que se ha completado la tarea, ese campo no se editará.
@@ -134,6 +136,7 @@ class Tarea {
     _recordatorio = recordatorio;
 
     if(vecesNecesarias >= _timesDone) _needDone = vecesNecesarias;
+    update();
   }
 
   /// Loguea en la consola los atributos de la tarea.
@@ -149,12 +152,31 @@ class Tarea {
 
   /// Actualiza la tarea en base de datos.
   void update() async {
-    await FirebaseDatabase.instance.ref(_dbRef).update({
-      'name': _name,
-      'priority': _priority,
-      'need_done': _needDone,
-      'times_done': _timesDone,
-    });
+    if(_recordatorio != null) {
+      await FirebaseDatabase.instance.ref(_dbRef).update({
+        'name': _name,
+        'priority': _priority,
+        'need_done': _needDone,
+        'times_done': _timesDone,
+        'dates': _dates,
+        'reminder': _recordatorio!.toDbScheme()
+      });
+    }
+    else {
+      await FirebaseDatabase.instance.ref(_dbRef).update({
+        'name': _name,
+        'priority': _priority,
+        'need_done': _needDone,
+        'times_done': _timesDone,
+        'dates': _dates,
+      });
+    }
+
+  }
+
+  /// Borra la tarea de la base de datos. NO LA BORRA DE LA LISTA DE OBJETIVOS.
+  Future<void> deleteTask() async {
+    await FirebaseDatabase.instance.ref(_dbRef).remove();
   }
 
 }
