@@ -6,7 +6,7 @@ class VisionaryUser {
   final String _email;
   final String _country;
   List<(String, DatabaseReference)> _objectives;
-
+  /*
   static const Set<String> _keys = {
     'name',
     'email',
@@ -15,6 +15,7 @@ class VisionaryUser {
     'country',
     'objectives'
   };
+  */
 
   VisionaryUser(
       {required name, required email, required country, required objectives})
