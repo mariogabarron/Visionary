@@ -7,13 +7,13 @@ enum TipoRecordatorio { mensual, semanal }
 enum WeekDays { L, M, X, J, V, S, D }
 
 class Recordatorio {
-  TipoRecordatorio tipoRecordatorio;
-  String codigo;
-  (int, int) hora;
+  TipoRecordatorio _tipoRecordatorio;
+  String _codigo;
+  (int, int) _hora;
   Recordatorio(
-      {required this.tipoRecordatorio,
-      required this.hora,
-      required this.codigo});
+      {required TipoRecordatorio tipoRecordatorio,
+      required (int, int) hora,
+      required String codigo}) : _hora = hora, _codigo = codigo, _tipoRecordatorio = tipoRecordatorio;
 
   static final Set<String> _keys = {
     'type',
@@ -32,7 +32,7 @@ class Recordatorio {
   }
 
   String _reminderToString() {
-    if (tipoRecordatorio == TipoRecordatorio.mensual) return "M";
+    if (_tipoRecordatorio == TipoRecordatorio.mensual) return "M";
     else return "S";
   }
 
@@ -54,9 +54,9 @@ class Recordatorio {
   }
 
   Set<WeekDays>? getWeekDays() {
-    if (tipoRecordatorio == TipoRecordatorio.mensual) return null;
+    if (_tipoRecordatorio == TipoRecordatorio.mensual) return null;
     Set<WeekDays> wd = <WeekDays>{};
-    for (var char in codigo.split("")) {
+    for (var char in _codigo.split("")) {
       switch (char) {
         case 'L':
           wd.add(WeekDays.L);
@@ -85,26 +85,26 @@ class Recordatorio {
   }
 
   Set<int>? getMonthDays() {
-    if (tipoRecordatorio == TipoRecordatorio.semanal) return null;
+    if (_tipoRecordatorio == TipoRecordatorio.semanal) return null;
     Set<int> md = <int>{};
-    for (var month in codigo.split(";")) {
+    for (var month in _codigo.split(";")) {
       md.add(int.parse(month));
     }
     return md;
   }
 
   void print() {
-    int h = hora.$1;
-    int m = hora.$2;
-    log("Tipo de recordatorio: $tipoRecordatorio, código: $codigo, hora: ($h:$m)");
+    int h = _hora.$1;
+    int m = _hora.$2;
+    log("Tipo de recordatorio: $_tipoRecordatorio, código: $_codigo, hora: ($h:$m)");
   }
 
   Object toDbScheme() {
-    int h = hora.$1;
-    int m = hora.$2;
+    int h = _hora.$1;
+    int m = _hora.$2;
     return {
       'type': _reminderToString(),
-      'code': codigo,
+      'code': _codigo,
       'hora': "$h:$m"
     };
   }
