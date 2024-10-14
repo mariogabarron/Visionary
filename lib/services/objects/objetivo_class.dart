@@ -99,7 +99,7 @@ class Objetivo {
 
   DateTime? get finishedAt => _fechaTerminado;
 
-
+  List<Tarea> get listaTareas => _listaTareas;
 
   /// Actuliza el objetivo en la base de datos.
   void update() async {
