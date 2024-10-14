@@ -191,4 +191,10 @@ class Objetivo {
     await FirebaseDatabase.instance.ref(_dbref).remove();
   }
 
+  /// Borra la tarea del objetivo y de la base de datos.
+  Future<void> deleteTask(Tarea task) async {
+    await task.deleteTask();
+    _listaTareas.remove(task);
+  }
+
 }
