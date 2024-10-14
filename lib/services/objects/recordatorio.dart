@@ -31,6 +31,11 @@ class Recordatorio {
     throw ArgumentError("The provided string was not a valid reminder.");
   }
 
+  String _reminderToString() {
+    if (tipoRecordatorio == TipoRecordatorio.mensual) return "M";
+    else return "S";
+  }
+
   static Future<Recordatorio> fromRef(DatabaseReference ref) async {
     TipoRecordatorio reminder = TipoRecordatorio.semanal;
     String code = "";
@@ -92,5 +97,15 @@ class Recordatorio {
     int h = hora.$1;
     int m = hora.$2;
     log("Tipo de recordatorio: $tipoRecordatorio, código: $codigo, hora: ($h:$m)");
+  }
+
+  Object toDbScheme() {
+    int h = hora.$1;
+    int m = hora.$2;
+    return {
+      'type': _reminderToString(),
+      'code': codigo,
+      'hora': "$h:$m"
+    };
   }
 }
