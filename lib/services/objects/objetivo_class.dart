@@ -186,5 +186,9 @@ class Objetivo {
     return result;
   }
 
+  /// Borra el objetivo de la base de datos. Una vez ejecutado este método, no se debe utilizar más el objetivo.
+  Future<void> deleteObjective() async {
+    await FirebaseDatabase.instance.ref(_dbref).remove();
+  }
 
 }
