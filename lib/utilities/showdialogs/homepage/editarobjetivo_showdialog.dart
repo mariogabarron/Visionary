@@ -191,6 +191,7 @@ Widget _buildInputField(
             ),
             maxLength: maxWords,
             obscureText: obscureText,
+            controller: controller,
             decoration: InputDecoration(
               filled: true,
               fillColor: const Color.fromARGB(66, 76, 76, 76),
