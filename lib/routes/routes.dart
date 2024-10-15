@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:visionary/views/homepage/crearobjetivos_views/crearobjetivodos_view.dart';
 import 'package:visionary/views/homepage/crearobjetivos_views/crearobjetivouno_view.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareados_view.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareascuatro_view.dart';
@@ -26,7 +25,7 @@ const registerView = '/register-view/';
 const ajustesCuenta = '/ajustes-cuenta/';
 const homepageView = '/homepage-view/';
 const crearObjetivoUno = '/crearobjetivouno-view/';
-const crearObjetivoDos = '/crearobjetivodos-view';
+//const crearObjetivoDos = '/crearobjetivodos-view';
 const homepageVacioView = '/homepagevacio-view';
 const crearTareaUno = 'creartareauno-view';
 const crearTareaDos = 'creartareados-view';
@@ -37,37 +36,35 @@ const tareaCreadaView = 'tareacreada-view';
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case tutorialUno:
-      return _buildFadeRoute(const TutorialUno(), settings);
+      return buildFadeRoute(const TutorialUno());
     case tutorialDos:
-      return _buildFadeRoute(const TutorialDos(), settings);
+      return buildFadeRoute(const TutorialDos());
     case tutorialTres:
-      return _buildFadeRoute(const TutorialTres(), settings);
+      return buildFadeRoute(const TutorialTres());
     case tutorialCuatro:
-      return _buildFadeRoute(const TutorialCuatro(), settings);
+      return buildFadeRoute(const TutorialCuatro());
     case loginView:
-      return _buildFadeRoute(const LoginView(), settings);
+      return buildFadeRoute(const LoginView());
     case registerView:
-      return _buildFadeRoute(const RegisterView(), settings);
+      return buildFadeRoute(const RegisterView());
     case ajustesCuenta:
-      return _buildFadeRoute(const AjustesCuenta(), settings);
+      return buildFadeRoute(const AjustesCuenta());
     case homepageView:
-      return _buildFadeRoute(const HomepageView(), settings);
+      return buildFadeRoute(const HomepageView());
     case crearObjetivoUno:
-      return _buildFadeRoute(const CrearObjetivoUnoView(), settings);
-    case crearObjetivoDos:
-      return _buildFadeRoute(const CrearObjetivoDosView(), settings);
+      return buildFadeRoute(const CrearObjetivoUnoView());
     case homepageVacioView:
-      return _buildFadeRoute(const HomepageVacioView(), settings);
+      return buildFadeRoute(const HomepageVacioView());
     case crearTareaUno:
-      return _buildFadeRoute(const CreaTareaUnoView(), settings);
+      return buildFadeRoute(const CreaTareaUnoView());
     case crearTareaDos:
-      return _buildFadeRoute(const CreaTareaDosView(), settings);
+      return buildFadeRoute(const CreaTareaDosView());
     case crearTareaTres:
-      return _buildFadeRoute(const CreaTareaTresView(), settings);
+      return buildFadeRoute(const CreaTareaTresView());
     case crearTareaCuatro:
-      return _buildFadeRoute(const CreaTareaCuatroView(), settings);
+      return buildFadeRoute(const CreaTareaCuatroView());
     case tareaCreadaView:
-      return _buildFadeRoute(const TareaCreadaView(), settings);
+      return buildFadeRoute(const TareaCreadaView());
     default:
       return MaterialPageRoute(
         builder: (_) => const LoginView(),
@@ -76,7 +73,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   }
 }
 
-PageRouteBuilder _buildFadeRoute(Widget page, RouteSettings settings) {
+PageRouteBuilder buildFadeRoute(Widget page) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -92,6 +89,5 @@ PageRouteBuilder _buildFadeRoute(Widget page, RouteSettings settings) {
         child: child,
       );
     },
-    settings: settings,
   );
 }

@@ -6,7 +6,7 @@ import 'package:visionary/services/objects/tarea_class.dart';
 
 class Objetivo {
   String _nombre;
-  String _porquelohago;
+  String? _porquelohago;
   String _dbref;
   List<Tarea> _listaTareas;
   DateTime _fechaCreado;
@@ -23,7 +23,7 @@ class Objetivo {
     'tasks'
   };
 
-  Objetivo({required String nombre, required String porquelohago})
+  Objetivo({required String nombre, String? porquelohago})
       : _nombre = nombre,
         _porquelohago = porquelohago,
         _listaTareas = [],
@@ -35,7 +35,7 @@ class Objetivo {
   /// Obtiene un objetivo desde la referencia en la base de datos
   static Future<Objetivo> fromRef(DatabaseReference ref) async {
     String nombre = "";
-    String porquelohago = "";
+    String? porquelohago = "";
     DateTime fechaCreado = DateTime.now();
     DateTime? fechaTerminado;
     List<Tarea> listaTareas = [];
@@ -55,10 +55,15 @@ class Objetivo {
           var e = await entry;
           if (e.key == 'name') nombre = e.value.toString();
           if (e.key == 'motive') porquelohago = e.value.toString();
-          if (e.key == 'created_at') fechaCreado = DateTime.parse(e.value.toString());
-          if (e.key == 'finished_at') fechaTerminado = e.value.toString() == "null" ? null : DateTime.parse(e.value.toString());
+          if (e.key == 'created_at')
+            fechaCreado = DateTime.parse(e.value.toString());
+          if (e.key == 'finished_at')
+            fechaTerminado = e.value.toString() == "null"
+                ? null
+                : DateTime.parse(e.value.toString());
           if (e.key == 'tasks') listaTareas = await Tarea.getList(e.ref);
-          if (e.key == 'finished') terminado = e.value.toString().toLowerCase() == "true";
+          if (e.key == 'finished')
+            terminado = e.value.toString().toLowerCase() == "true";
         }
       }
       var result = Objetivo(nombre: nombre, porquelohago: porquelohago);
@@ -77,11 +82,11 @@ class Objetivo {
     List<Future<Objetivo>> futures = [];
     List<Objetivo> result = [];
     var ref = await userRoute()!.child("objectives").get();
-    for(var entry in ref.children) {
+    for (var entry in ref.children) {
       futures.add(fromRef(entry.ref));
     }
     await Future.wait(futures as Iterable<Future>);
-    for(var f in futures) {
+    for (var f in futures) {
       result.add(await f);
     }
     return result;
@@ -89,7 +94,7 @@ class Objetivo {
 
   String get name => _nombre;
 
-  String get motive => _porquelohago;
+  String? get motive => _porquelohago;
 
   bool get isDone => _terminado;
 
@@ -112,13 +117,13 @@ class Objetivo {
           : _fechaTerminado!.toUtc().toIso8601String(),
       'finished': _terminado
     });
-    for(var task in _listaTareas) {
+    for (var task in _listaTareas) {
       task.update();
     }
   }
 
   /// Edita el nombre y el porqué del objetivo.
-  void edit(String newName, String newMotive) {
+  void edit(String newName, String? newMotive) {
     _nombre = newName;
     _porquelohago = newMotive;
     update();
@@ -145,8 +150,13 @@ class Objetivo {
   }
 
   /// Añade una nueva tarea al objetivo, y actualiza la base de datos.
-  void addTask(String name, int priority, int needDone, Recordatorio? reminder) {
-    _listaTareas.add(Tarea(_dbref, name: name, priority: priority, needDone: needDone, recordatorio: reminder));
+  void addTask(
+      String name, int priority, int needDone, Recordatorio? reminder) {
+    _listaTareas.add(Tarea(_dbref,
+        name: name,
+        priority: priority,
+        needDone: needDone,
+        recordatorio: reminder));
     update();
   }
 
@@ -155,9 +165,8 @@ class Objetivo {
     log("Objetivo: $_nombre, Motivo: $_porquelohago, Creado: $_fechaCreado, Terminado: $_terminado. Tareas a continuación.");
     if (_listaTareas.isEmpty) {
       log("Lista de tareas vacía");
-    }
-    else {
-      for(var tarea in _listaTareas) {
+    } else {
+      for (var tarea in _listaTareas) {
         tarea.print();
       }
     }
@@ -165,7 +174,7 @@ class Objetivo {
 
   int _totalPrioridades() {
     int n = 0;
-    for(var task in _listaTareas) {
+    for (var task in _listaTareas) {
       n += task.priority;
     }
     return n;
@@ -174,11 +183,11 @@ class Objetivo {
   /// Obtiene el progreso del objetivo.
   double getProgress() {
     double result = 0.0;
-    if(_listaTareas.isNotEmpty) {
+    if (_listaTareas.isNotEmpty) {
       int total = _totalPrioridades();
       int count = 0;
-      for(var task in _listaTareas) {
-        if(task.isDone()) count += task.priority;
+      for (var task in _listaTareas) {
+        if (task.isDone()) count += task.priority;
       }
       result = ((count / total) * 10000).round() / 100;
     }
@@ -196,5 +205,4 @@ class Objetivo {
     await task.deleteTask();
     _listaTareas.remove(task);
   }
-
 }

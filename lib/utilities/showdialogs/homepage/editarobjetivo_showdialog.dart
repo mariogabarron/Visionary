@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:visionary/services/objects/objetivo_class.dart';
+import 'package:visionary/services/objects/visionaryUser_class.dart';
 
-// TODO: hay que pasarle en vez del String objetivo, Objetivo objetivo.
 void showAlertBottomEditarObjetivo(
-    BuildContext context, String objetivo, TextEditingController controller) {
+    BuildContext context, Objetivo objetivo, TextEditingController controller) {
+  String nombreObjetivo = objetivo.name;
+  controller.text = objetivo.name;
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -25,7 +28,7 @@ void showAlertBottomEditarObjetivo(
               children: [
                 const SizedBox(height: 10),
                 Text(
-                  'Editar objetivo "$objetivo"',
+                  'Editar objetivo "$nombreObjetivo"',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
@@ -35,7 +38,7 @@ void showAlertBottomEditarObjetivo(
                 ),
                 const SizedBox(height: 30),
                 Text(
-                  'Cambiar nombre al objetivo $objetivo',
+                  'Cambiar nombre al objetivo $nombreObjetivo',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.normal,
@@ -59,7 +62,10 @@ void showAlertBottomEditarObjetivo(
                     ),
                   ),
                   onPressed: () async {
-                    Navigator.of(context).pop();
+                    VisionaryUser u = await VisionaryUser.fromLogin();
+                    objetivo.edit(controller.text, objetivo.motive);
+                    u.updateObjectives();
+                    if (context.mounted) Navigator.of(context).pop();
                   },
                   child: Text(
                     'Guardar',
@@ -114,8 +120,13 @@ void showAlertBottomEditarObjetivo(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      onPressed: () {
-                        // Acción de borrar cuenta
+                      onPressed: () async {
+                        objetivo.deleteObjective();
+                        VisionaryUser u = await VisionaryUser.fromLogin();
+                        u.updateObjectives();
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
                       },
                       child: Text(
                         'Borrar',

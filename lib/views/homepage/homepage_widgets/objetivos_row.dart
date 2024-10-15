@@ -5,10 +5,27 @@ import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/visionaryUser_class.dart';
 import 'package:visionary/utilities/showdialogs/homepage/editarobjetivo_showdialog.dart';
 
-class ObjetivosRow extends StatelessWidget {
-  ObjetivosRow({super.key});
+class ObjetivosRow extends StatefulWidget {
+  const ObjetivosRow({super.key});
 
-  final TextEditingController controller = TextEditingController();
+  @override
+  State<ObjetivosRow> createState() => _ObjetivosRowState();
+}
+
+class _ObjetivosRowState extends State<ObjetivosRow> {
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,18 +62,23 @@ class ObjetivosRow extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      for (var (name, _) in objectives)
+                      for (var objetivo in objectives)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 13),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
-                                onLongPress: () =>
+                                onLongPress: () async {
+                                  Objetivo obj =
+                                      await Objetivo.fromRef(objetivo.$2);
+                                  if (context.mounted) {
                                     showAlertBottomEditarObjetivo(
-                                        context, name, controller),
+                                        context, obj, controller);
+                                  }
+                                },
                                 child: Text(
-                                  name,
+                                  objetivo.$1,
                                   style: const TextStyle(
                                     color: Color.fromARGB(201, 254, 252, 238),
                                     fontSize: 15,
@@ -70,12 +92,6 @@ class ObjetivosRow extends StatelessWidget {
                       const SizedBox(width: 10),
                       TextButton(
                         onPressed: () async {
-                          VisionaryUser v = await VisionaryUser.fromLogin();
-                          Objetivo x = Objetivo(
-                              nombre: "Nuevo objetivo",
-                              porquelohago: "por qué no");
-                          x.update();
-                          v.updateObjectives();
                           if (context.mounted) {
                             Navigator.of(context)
                                 .pushReplacementNamed(crearObjetivoUno);

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
+import 'package:visionary/utilities/showdialogs/objetivovacio_showdialog.dart';
+import 'package:visionary/views/homepage/crearobjetivos_views/crearobjetivodos_view.dart';
 
 class CrearObjetivoUnoView extends StatefulWidget {
   const CrearObjetivoUnoView({super.key});
@@ -88,8 +90,13 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
               const SizedBox(height: 20),
               IconButton(
                   onPressed: () {
-                    Navigator.of(context)
-                        .pushReplacementNamed(crearObjetivoDos);
+                    final nombreTarea = _nombreTareaEditingController.text;
+                    if (nombreTarea != "") {
+                      Navigator.of(context).pushReplacement(buildFadeRoute(
+                          CrearObjetivoDosView(nombreTarea: nombreTarea)));
+                    } else {
+                      showAlertObjetivoVacio(context);
+                    }
                   },
                   icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
                   color: const Color(0xFFFEFCEE))

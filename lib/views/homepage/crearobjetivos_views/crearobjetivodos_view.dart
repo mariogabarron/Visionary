@@ -5,10 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/objects/objetivo_class.dart';
+import 'package:visionary/services/objects/visionaryUser_class.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 
 class CrearObjetivoDosView extends StatefulWidget {
-  const CrearObjetivoDosView({super.key});
+  final String nombreTarea;
+  const CrearObjetivoDosView({super.key, required this.nombreTarea});
 
   @override
   State<CrearObjetivoDosView> createState() => _CrearObjetivoDosViewState();
@@ -119,8 +122,16 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
                       ))),
               const SizedBox(height: 20),
               IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed(homepageView);
+                  onPressed: () async {
+                    VisionaryUser v = await VisionaryUser.fromLogin();
+                    Objetivo objetivoCreado = Objetivo(
+                        nombre: widget.nombreTarea,
+                        porquelohago: _porqueTareaEditingController.text);
+                    objetivoCreado.update();
+                    v.updateObjectives();
+                    if (context.mounted) {
+                      Navigator.of(context).pushReplacementNamed(homepageView);
+                    }
                   },
                   icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
                   color: const Color(0xFFFEFCEE))
