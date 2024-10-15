@@ -4,7 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:visionary/views/tutorial_inicio/tutorial_uno.dart';
+import 'package:visionary/views/tutorial_inicio/tutorial_inicio.dart';
 import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -33,7 +33,7 @@ void main() async {
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       useMaterial3: true,
     ),
-    home: const TutorialUno(),
+    home: const TutorialInicio(),
     onGenerateRoute: generateRoute,
   ));
 }

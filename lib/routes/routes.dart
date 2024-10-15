@@ -8,18 +8,11 @@ import 'package:visionary/views/homepage/creartareas_views/tareacreada_view.dart
 import 'package:visionary/views/homepage/homepage_view.dart';
 import 'package:visionary/views/auth_views/login_view.dart';
 import 'package:visionary/views/auth_views/register_view.dart';
-import 'package:visionary/views/homepage/homepagevacio_view.dart';
 import 'package:visionary/views/settings/ajustes_cuenta.dart';
 
-import '../views/tutorial_inicio/tutorial_cuatro.dart';
-import '../views/tutorial_inicio/tutorial_dos.dart';
-import '../views/tutorial_inicio/tutorial_tres.dart';
-import '../views/tutorial_inicio/tutorial_uno.dart';
+import '../views/tutorial_inicio/tutorial_inicio.dart';
 
-const tutorialUno = '/tutorial-uno/';
-const tutorialDos = '/tutorial-dos/';
-const tutorialTres = '/tutorial-tres/';
-const tutorialCuatro = '/tutorial-cuatro/';
+const tutorialInicio = '/tutorial-inicio/';
 const loginView = '/login-view/';
 const registerView = '/register-view/';
 const ajustesCuenta = '/ajustes-cuenta/';
@@ -35,14 +28,8 @@ const tareaCreadaView = 'tareacreada-view';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
-    case tutorialUno:
-      return buildFadeRoute(const TutorialUno());
-    case tutorialDos:
-      return buildFadeRoute(const TutorialDos());
-    case tutorialTres:
-      return buildFadeRoute(const TutorialTres());
-    case tutorialCuatro:
-      return buildFadeRoute(const TutorialCuatro());
+    case tutorialInicio:
+      return buildFadeRoute(const TutorialInicio());
     case loginView:
       return buildFadeRoute(const LoginView());
     case registerView:
@@ -53,8 +40,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return buildFadeRoute(const HomepageView());
     case crearObjetivoUno:
       return buildFadeRoute(const CrearObjetivoUnoView());
-    case homepageVacioView:
-      return buildFadeRoute(const HomepageVacioView());
     case crearTareaUno:
       return buildFadeRoute(const CreaTareaUnoView());
     case crearTareaDos:

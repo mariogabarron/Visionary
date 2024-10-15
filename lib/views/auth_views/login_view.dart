@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/auth/auth_user.dart';
+import 'package:visionary/services/db/db_user_management.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 
 class LoginView extends StatefulWidget {
@@ -31,18 +32,28 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _login() async {
-    if (await loginWithEmail(
-            _emailEditingController.text, _passwordEditingController.text) !=
-        (null, null)) {
-      if (mounted) {
-        Navigator.of(context).pushReplacementNamed(homepageVacioView);
+    final user = await loginWithEmail(
+        _emailEditingController.text, _passwordEditingController.text);
+
+    if (user != (null, null)) {
+      if (await userIsRegistered()) {
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed(homepageView);
+        }
       }
     }
   }
 
-  void _googleLogin() {
-    loginWithGoogle();
-    Navigator.of(context).pushReplacementNamed(homepageVacioView);
+  void _googleLogin() async {
+    final user = await loginWithGoogle();
+
+    if (user != (null, null)) {
+      if (await userIsRegistered()) {
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed(homepageView);
+        }
+      }
+    }
   }
 
   void _dontHaveAccount() {
@@ -93,7 +104,7 @@ class _LoginViewState extends State<LoginView> {
                       fontSize: 23,
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   buildInputField(
                       label: "Correo electrónico",
                       hintText: null, //"Escribe tu correo",

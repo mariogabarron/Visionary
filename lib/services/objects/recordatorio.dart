@@ -18,11 +18,13 @@ class Recordatorio {
         _codigo = codigo,
         _tipoRecordatorio = tipoRecordatorio;
 
+  /*
   static final Set<String> _keys = {
     'type',
     'code',
     'hora',
   };
+  */
 
   static TipoRecordatorio stringToReminder(String r) {
     if (r == "M") {

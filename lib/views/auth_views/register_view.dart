@@ -93,7 +93,7 @@ class _RegisterViewState extends State<RegisterView> {
                       fontSize: 23,
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   buildInputField(
                       label: "¿Cómo te llamas?",
                       hintText: null, //"Escribe tu nombre",
@@ -142,7 +142,7 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   const Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 40.0, vertical: 0.0),
