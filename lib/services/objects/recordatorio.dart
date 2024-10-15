@@ -7,13 +7,16 @@ enum TipoRecordatorio { mensual, semanal }
 enum WeekDays { L, M, X, J, V, S, D }
 
 class Recordatorio {
-  TipoRecordatorio _tipoRecordatorio;
-  String _codigo;
-  (int, int) _hora;
+  final TipoRecordatorio _tipoRecordatorio;
+  final String _codigo;
+  final (int, int) _hora;
   Recordatorio(
       {required TipoRecordatorio tipoRecordatorio,
       required (int, int) hora,
-      required String codigo}) : _hora = hora, _codigo = codigo, _tipoRecordatorio = tipoRecordatorio;
+      required String codigo})
+      : _hora = hora,
+        _codigo = codigo,
+        _tipoRecordatorio = tipoRecordatorio;
 
   static final Set<String> _keys = {
     'type',
@@ -32,8 +35,11 @@ class Recordatorio {
   }
 
   String _reminderToString() {
-    if (_tipoRecordatorio == TipoRecordatorio.mensual) return "M";
-    else return "S";
+    if (_tipoRecordatorio == TipoRecordatorio.mensual) {
+      return "M";
+    } else {
+      return "S";
+    }
   }
 
   static Future<Recordatorio> fromRef(DatabaseReference ref) async {
@@ -102,10 +108,6 @@ class Recordatorio {
   Object toDbScheme() {
     int h = _hora.$1;
     int m = _hora.$2;
-    return {
-      'type': _reminderToString(),
-      'code': _codigo,
-      'hora': "$h:$m"
-    };
+    return {'type': _reminderToString(), 'code': _codigo, 'hora': "$h:$m"};
   }
 }

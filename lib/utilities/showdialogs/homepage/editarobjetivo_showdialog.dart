@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/services/objects/objetivo_class.dart';
-import 'package:visionary/services/objects/visionaryUser_class.dart';
+import 'package:visionary/services/objects/visionary_user_class.dart';
 
 void showAlertBottomEditarObjetivo(
     BuildContext context, Objetivo objetivo, TextEditingController controller) {

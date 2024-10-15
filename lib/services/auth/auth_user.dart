@@ -84,7 +84,6 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithGoogle() async {
         registerUser(userCredential.user!.displayName!);
       }
       updateLogin();
-      print("Hecho");
       return (userCredential, null);
     } on FirebaseAuthException catch (e) {
       return (null, e);

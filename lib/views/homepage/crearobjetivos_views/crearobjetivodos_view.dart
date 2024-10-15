@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/objects/objetivo_class.dart';
-import 'package:visionary/services/objects/visionaryUser_class.dart';
+import 'package:visionary/services/objects/visionary_user_class.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 
 class CrearObjetivoDosView extends StatefulWidget {
