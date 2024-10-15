@@ -55,15 +55,18 @@ class Objetivo {
           var e = await entry;
           if (e.key == 'name') nombre = e.value.toString();
           if (e.key == 'motive') porquelohago = e.value.toString();
-          if (e.key == 'created_at')
+          if (e.key == 'created_at') {
             fechaCreado = DateTime.parse(e.value.toString());
-          if (e.key == 'finished_at')
+          }
+          if (e.key == 'finished_at') {
             fechaTerminado = e.value.toString() == "null"
                 ? null
                 : DateTime.parse(e.value.toString());
+          }
           if (e.key == 'tasks') listaTareas = await Tarea.getList(e.ref);
-          if (e.key == 'finished')
+          if (e.key == 'finished') {
             terminado = e.value.toString().toLowerCase() == "true";
+          }
         }
       }
       var result = Objetivo(nombre: nombre, porquelohago: porquelohago);

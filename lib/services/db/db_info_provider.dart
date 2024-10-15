@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 
 /// La versión del esquema de la base de datos con la que es compatible. Si se introduce un asterisco, significa compatibilidad total.
-const String COMPATIBLE_DB_SCHEME = "1.0";
+const String compatibleDbScheme = "1.0";
 
 /// Obtiene la versión de esquema de la base de datos.
 Future<String> dbScheme() async {
@@ -30,9 +30,9 @@ bool isGreaterVersion(String v1, String v2) {
 
 /// Determina si el esquema de la base de datos es compatible (válido) para la versión de la aplicación.
 Future<bool> validScheme() async {
-  if (COMPATIBLE_DB_SCHEME == "*") {
+  if (compatibleDbScheme == "*") {
     return true;
   } else {
-    return !isGreaterVersion(await dbScheme(), COMPATIBLE_DB_SCHEME);
+    return !isGreaterVersion(await dbScheme(), compatibleDbScheme);
   }
 }
