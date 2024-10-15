@@ -30,10 +30,14 @@ class _LoginViewState extends State<LoginView> {
     super.dispose();
   }
 
-  void _login() {
-    loginWithEmail(
-        _emailEditingController.text, _passwordEditingController.text);
-    Navigator.of(context).pushReplacementNamed(homepageVacioView);
+  void _login() async {
+    if (await loginWithEmail(
+            _emailEditingController.text, _passwordEditingController.text) !=
+        (null, null)) {
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed(homepageVacioView);
+      }
+    }
   }
 
   void _googleLogin() {

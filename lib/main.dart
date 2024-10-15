@@ -18,9 +18,11 @@ void main() async {
   FirebaseDatabase.instance.setPersistenceEnabled(true);
   await MobileAds.instance.initialize();
 
-  var notificationSettingsAndroid = AndroidInitializationSettings('app_icon');
-  var notoficationsSettingsIOS = DarwinInitializationSettings();
-  var notificationSettings = InitializationSettings(android: notificationSettingsAndroid, iOS: notoficationsSettingsIOS);
+  var notificationSettingsAndroid =
+      const AndroidInitializationSettings('app_icon');
+  var notoficationsSettingsIOS = const DarwinInitializationSettings();
+  var notificationSettings = InitializationSettings(
+      android: notificationSettingsAndroid, iOS: notoficationsSettingsIOS);
 
   await FlutterLocalNotificationsPlugin().initialize(notificationSettings);
 

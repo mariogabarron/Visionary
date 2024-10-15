@@ -19,9 +19,7 @@ class _TutorialUnoState extends State<TutorialUno> {
   }
 
   void inicialization() async {
-    print("pausing...");
     await Future.delayed(const Duration(seconds: 4));
-    print("unpausing");
     FlutterNativeSplash.remove();
   }
 

@@ -139,7 +139,7 @@ class _HomepageViewState extends State<HomepageView>
               child: Column(
                 children: [
                   const SizedBox(height: 10),
-                  ObjetivosRow(),
+                  const ObjetivosRow(),
                   const SizedBox(height: 10),
                   const Padding(
                     padding:
