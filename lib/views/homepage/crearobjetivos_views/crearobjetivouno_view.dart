@@ -90,8 +90,9 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
               const SizedBox(height: 20),
               IconButton(
                   onPressed: () {
-                    final nombreTarea = _nombreTareaEditingController.text;
-                    if (nombreTarea != "") {
+                    final nombreTarea =
+                        _nombreTareaEditingController.text.trim();
+                    if (nombreTarea.isNotEmpty) {
                       Navigator.of(context).pushReplacement(buildFadeRoute(
                           CrearObjetivoDosView(nombreTarea: nombreTarea)));
                     } else {
