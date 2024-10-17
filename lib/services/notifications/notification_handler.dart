@@ -6,12 +6,16 @@ const ANDROID_NOTIFICATION_ICON = 'background';
 
 class NotificationHandler {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  static final AndroidInitializationSettings androidConfig = AndroidInitializationSettings(ANDROID_NOTIFICATION_ICON);
+  static const AndroidInitializationSettings androidConfig = AndroidInitializationSettings(ANDROID_NOTIFICATION_ICON);
   static final DarwinInitializationSettings iOSConfig = DarwinInitializationSettings();
 
   static Future<void> initializaNotificationPlugin() async {
     var finalSettings = InitializationSettings(android: androidConfig, iOS: iOSConfig);
     await flutterLocalNotificationsPlugin.initialize(finalSettings);
+  }
+
+  static Future<bool?> requestPermissions() async {
+    return flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
   }
 
   /// ESTO ES UN COPIA Y PEGA TODO: REVISAR ESTA FUNCION
