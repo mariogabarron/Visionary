@@ -65,19 +65,20 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(
-            color: Color(0xFFFEFCEE),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        title: Center(
+          child: Text(
+            'Visionary.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: const Color(0xFFFEFCEE),
+            ),
           ),
-          title: Text('Visionary.',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                color: const Color(0xFFFEFCEE),
-                fontSize: 30,
-                fontStyle: FontStyle.normal,
-                fontWeight: FontWeight.bold,
-              ))),
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(

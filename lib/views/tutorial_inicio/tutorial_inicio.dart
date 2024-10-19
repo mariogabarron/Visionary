@@ -83,12 +83,15 @@ class _TutorialInicioState extends State<TutorialInicio> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: Text(
-          'Visionary.',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-            color: const Color(0xFFFEFCEE),
+        title: Center(
+          child: Text(
+            'Visionary.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: const Color(0xFFFEFCEE),
+            ),
           ),
         ),
       ),
@@ -102,6 +105,8 @@ class _TutorialInicioState extends State<TutorialInicio> {
         itemCount: tutorials.length,
         itemBuilder: (context, index) {
           return Container(
+            height: MediaQuery.of(context).size.height,
+            width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFF6D97AC), Color(0xFFF6D0B1)],

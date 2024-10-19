@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
-import 'package:visionary/services/auth/auth_user.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
+import 'package:visionary/services/auth/auth_user.dart';
+
+import '../../services/db/db_user_management.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -39,9 +41,16 @@ class _RegisterViewState extends State<RegisterView> {
     Navigator.of(context).pushReplacementNamed(homepageVacioView);
   }
 
-  void _googleLogin() {
-    loginWithGoogle();
-    Navigator.of(context).pushReplacementNamed(homepageVacioView);
+  void _googleLogin() async {
+    final user = await loginWithGoogle();
+
+    if (user != (null, null)) {
+      if (await userIsRegistered()) {
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed(homepageView);
+        }
+      }
+    }
   }
 
   void _alreadyGotAccount() {
@@ -53,19 +62,20 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(
-            color: Color(0xFFFEFCEE),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        title: Center(
+          child: Text(
+            'Visionary.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: const Color(0xFFFEFCEE),
+            ),
           ),
-          title: Text('Visionary.',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                color: const Color(0xFFFEFCEE),
-                fontSize: 30,
-                fontStyle: FontStyle.normal,
-                fontWeight: FontWeight.bold,
-              ))),
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
