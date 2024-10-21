@@ -36,11 +36,10 @@ class _LoginViewState extends State<LoginView> {
         _emailEditingController.text, _passwordEditingController.text);
 
     if (user != (null, null)) {
-      if (await userIsRegistered()) {
         if (mounted) {
           Navigator.of(context).pushReplacementNamed(homepageView);
         }
-      }
+
     }
   }
 
@@ -48,11 +47,10 @@ class _LoginViewState extends State<LoginView> {
     final user = await loginWithGoogle();
 
     if (user != (null, null)) {
-      if (await userIsRegistered()) {
         if (mounted) {
           Navigator.of(context).pushReplacementNamed(homepageView);
         }
-      }
+
     }
   }
 

@@ -38,18 +38,17 @@ class _RegisterViewState extends State<RegisterView> {
   void _register() {
     registerWithEmail(_nameEditingController.text, _emailEditingController.text,
         _passwordEditingController.text);
-    Navigator.of(context).pushReplacementNamed(homepageVacioView);
+    Navigator.of(context).pushReplacementNamed(homepageView);
   }
 
   void _googleLogin() async {
     final user = await loginWithGoogle();
 
     if (user != (null, null)) {
-      if (await userIsRegistered()) {
         if (mounted) {
           Navigator.of(context).pushReplacementNamed(homepageView);
         }
-      }
+
     }
   }
 

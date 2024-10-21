@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 
+import '../../services/auth/auth_user.dart';
+
 void showAlertBorrarCuenta(BuildContext context) {
   showDialog(
     context: context,
@@ -66,7 +68,7 @@ void showAlertBorrarCuenta(BuildContext context) {
                       ),
                     ),
                     onPressed: () {
-                      // Acción de borrar cuenta
+                      deleteAccount();
                       Navigator.of(context).pushReplacementNamed(loginView);
                     },
                     child: Text(

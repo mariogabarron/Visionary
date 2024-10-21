@@ -23,7 +23,6 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
   void _terminosYCondiciones() {}
   void _valorarApp() {}
   void _borrarCuenta() {
-    deleteAccount();
     showAlertBorrarCuenta(context);
   }
 
