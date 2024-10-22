@@ -12,7 +12,8 @@ const Set<String> keys = {
   'deleted',
   'last_login',
   'last_login_offset',
-  'app_version'
+  'app_version',
+  'verified'
 };
 
 DatabaseReference? userRoute() {
@@ -47,7 +48,7 @@ Future<bool> userIsRegistered() async {
 
 /// Registra al usuario en la base de datos.
 /// PRECONDICION: Debe haberse iniciado sesión en Firebase
-Future<void> registerUser(String name) async {
+Future<void> registerUser(String name, bool verified) async {
   assert(currentUser != null);
   var packageInfo = PackageInfo.fromPlatform();
   var user = currentUser!;
@@ -63,9 +64,23 @@ Future<void> registerUser(String name) async {
       "deleted": false,
       "last_login": now,
       "last_login_offset": nowTz,
-      "app_version": (await packageInfo).version
+      "app_version": (await packageInfo).version,
+      "verified": verified
     });
+}
 
+Future<bool> isVerified() async {
+  assert(currentUser != null);
+  var u = (await userRoute()!.child("verified").get());
+  return u.exists && u.value == true;
+}
+Future<void> verifyUser() async {
+  assert(currentUser != null);
+
+  var route = userRoute()!;
+  await route.update({
+    "verified": true
+  });
 }
 
 /// Actualiza la fecha de inicio de sesión del usuario.
@@ -80,5 +95,14 @@ Future<void> updateLogin() async {
     "last_login": now,
     "last_login_offset" : nowTz,
     "app_version": (await PackageInfo.fromPlatform()).version
+  });
+}
+
+Future<void> deleteUser() async {
+  assert(currentUser != null);
+  var route = userRoute()!;
+
+  await route.update({
+    "deleted": true
   });
 }

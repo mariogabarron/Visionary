@@ -31,13 +31,21 @@ User? get currentUser {
 /// Inicia sesión con email y contraseña, y devuelve los credenciales del usuario y una excepción no simultáneamente nulables.
 /// - Si el inicio de sesión es satisfactorio, devolverá los credenciales del usuario en la primera posición de la tupla.
 /// - Si ocurre un error, no se devolverán credenciales, y se devolverá una excepción [FirebaseAuthException] que se podrá controlar.
+/// - Si la cuenta no está activada, se devuelve (null, null)
 Future<(UserCredential?, FirebaseAuthException?)> loginWithEmail(
     String email, String password) async {
   try {
     UserCredential? cred = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
-    updateLogin();
-    return (cred, null);
+    if(cred.user!.emailVerified) {
+      if (! await isVerified() ) {
+        await verifyUser();
+      }
+      updateLogin();
+      return (cred, null);
+    }
+    else return (null, null);
+
   } on FirebaseAuthException catch (e) {
     return (null, e);
   }
@@ -52,16 +60,25 @@ Future<FirebaseAuthException?> registerWithEmail(
   try {
     var cred = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
+    var u = FirebaseAuth.instance.currentUser == null;
+    devtools.log(u.toString());
     await cred.user?.sendEmailVerification();
-    await registerUser(name);
+    await registerUser(name, false);
     await FirebaseAuth.instance.signOut();
     return null;
   } on FirebaseAuthException catch (e) {
     devtools.log(e.code);
     if (e.code == "email-already-in-use") {
-      var a = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      await a.user?.sendEmailVerification();
+      try {
+        var a = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+        await a.user?.sendEmailVerification();
+        await FirebaseAuth.instance.signOut();
+      }
+      on FirebaseAuthException catch(e) {
+        devtools.log(e.code);
+        return e;
+      }
     }
     return e;
   }
@@ -81,7 +98,7 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithGoogle() async {
               idToken: auth.idToken, accessToken: auth.accessToken));
       // Comprueba si el nombre ya está escrito, y lo cambio si no existe.
       if (!await userIsRegistered()) {
-        registerUser(userCredential.user!.displayName!);
+        registerUser(userCredential.user!.displayName!, true);
       }
       updateLogin();
       return (userCredential, null);
@@ -107,6 +124,7 @@ Future<void> deleteAccount() async {
   final user = FirebaseAuth.instance.currentUser;
   if (user != null) {
     try {
+      await deleteUser();
       await user.delete();
       devtools.log("Usuario eliminado");
     } on FirebaseAuthException catch (e) {
@@ -118,3 +136,4 @@ Future<void> deleteAccount() async {
     devtools.log("User doesn't exist");
   }
 }
+

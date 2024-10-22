@@ -35,10 +35,9 @@ class _RegisterViewState extends State<RegisterView> {
     super.dispose();
   }
 
-  void _register() {
-    registerWithEmail(_nameEditingController.text, _emailEditingController.text,
+  Future<void> _register() async {
+    await registerWithEmail(_nameEditingController.text, _emailEditingController.text,
         _passwordEditingController.text);
-    Navigator.of(context).pushReplacementNamed(homepageView);
   }
 
   void _googleLogin() async {
