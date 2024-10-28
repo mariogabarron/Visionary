@@ -37,15 +37,15 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithEmail(
   try {
     UserCredential? cred = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
-    if(cred.user!.emailVerified) {
-      if (! await isVerified() ) {
+    if (cred.user!.emailVerified) {
+      if (!await isVerified()) {
         await verifyUser();
       }
       updateLogin();
       return (cred, null);
+    } else {
+      return (null, null);
     }
-    else return (null, null);
-
   } on FirebaseAuthException catch (e) {
     return (null, e);
   }
@@ -74,8 +74,7 @@ Future<FirebaseAuthException?> registerWithEmail(
             .signInWithEmailAndPassword(email: email, password: password);
         await a.user?.sendEmailVerification();
         await FirebaseAuth.instance.signOut();
-      }
-      on FirebaseAuthException catch(e) {
+      } on FirebaseAuthException catch (e) {
         devtools.log(e.code);
         return e;
       }
@@ -136,4 +135,3 @@ Future<void> deleteAccount() async {
     devtools.log("User doesn't exist");
   }
 }
-

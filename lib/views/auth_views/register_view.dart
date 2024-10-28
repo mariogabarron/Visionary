@@ -5,8 +5,6 @@ import 'package:visionary/routes/routes.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 import 'package:visionary/services/auth/auth_user.dart';
 
-import '../../services/db/db_user_management.dart';
-
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
@@ -36,18 +34,17 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Future<void> _register() async {
-    await registerWithEmail(_nameEditingController.text, _emailEditingController.text,
-        _passwordEditingController.text);
+    await registerWithEmail(_nameEditingController.text,
+        _emailEditingController.text, _passwordEditingController.text);
   }
 
   void _googleLogin() async {
     final user = await loginWithGoogle();
 
     if (user != (null, null)) {
-        if (mounted) {
-          Navigator.of(context).pushReplacementNamed(homepageView);
-        }
-
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed(homepageView);
+      }
     }
   }
 

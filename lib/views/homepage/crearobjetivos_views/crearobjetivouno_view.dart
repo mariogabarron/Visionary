@@ -75,7 +75,7 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                   inputType: TextInputType.name,
                   hintText: "Escríbelo en una palabra",
                   controller: _nombreTareaEditingController,
-                  maxWords: null),
+                  maxWords: 20),
               const SizedBox(height: 20),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40.0),

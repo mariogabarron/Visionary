@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/auth/auth_user.dart';
-import 'package:visionary/services/db/db_user_management.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 
 class LoginView extends StatefulWidget {
@@ -36,10 +35,9 @@ class _LoginViewState extends State<LoginView> {
         _emailEditingController.text, _passwordEditingController.text);
 
     if (user != (null, null)) {
-        if (mounted) {
-          Navigator.of(context).pushReplacementNamed(homepageView);
-        }
-
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed(homepageView);
+      }
     }
   }
 
@@ -47,10 +45,9 @@ class _LoginViewState extends State<LoginView> {
     final user = await loginWithGoogle();
 
     if (user != (null, null)) {
-        if (mounted) {
-          Navigator.of(context).pushReplacementNamed(homepageView);
-        }
-
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed(homepageView);
+      }
     }
   }
 

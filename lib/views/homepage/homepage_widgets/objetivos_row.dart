@@ -14,6 +14,8 @@ class ObjetivosRow extends StatefulWidget {
 class _ObjetivosRowState extends State<ObjetivosRow> {
   late TextEditingController controller;
   late Future<VisionaryUser> _futureUser;
+  var selectedObjetivoRef;
+  int? selectedObjetivoIndex;
 
   @override
   void initState() {
@@ -51,9 +53,15 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
         } else if (snapshot.hasData) {
           final user = snapshot.data!;
           final objectives = user.objectives;
+          if (selectedObjetivoIndex == null && objectives.isNotEmpty) {
+            selectedObjetivoIndex = 0;
+          }
 
+          final selectedObjetivoRef = selectedObjetivoIndex != null
+              ? objectives[selectedObjetivoIndex!].$2
+              : null;
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            padding: const EdgeInsets.symmetric(horizontal: 35.0),
             child: ClipRect(
               child: ShaderMask(
                 shaderCallback: (Rect bounds) {
@@ -74,31 +82,46 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      for (var objetivo in objectives)
+                      for (var i = 0; i < objectives.length; i++)
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 13),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedObjetivoIndex = i;
+                                  });
+                                },
                                 onLongPress: () async {
                                   Objetivo obj =
-                                      await Objetivo.fromRef(objetivo.$2);
+                                      await Objetivo.fromRef(objectives[i].$2);
                                   if (context.mounted) {
                                     showAlertBottomEditarObjetivo(
                                         context, obj, controller, reloadData);
-                                    reloadData();
+                                    //reloadData();
                                   }
                                 },
-                                child: Text(
-                                  objetivo.$1,
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(201, 254, 252, 238),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
+                                child: Opacity(
+                                  opacity: selectedObjetivoRef == null ||
+                                          objectives[i].$2 ==
+                                              selectedObjetivoRef
+                                      ? 1.0 // Objetivo seleccionado o sin selección
+                                      : 0.4, // Objetivo no seleccionado
+                                  child: Text(
+                                    objectives[i].$1,
+                                    style: TextStyle(
+                                      color: const Color.fromARGB(
+                                              201, 254, 252, 238)
+                                          .withOpacity(
+                                              0.8), // Color con 80% de opacidad
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),

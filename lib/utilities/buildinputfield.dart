@@ -37,6 +37,14 @@ Widget buildInputField(
             borderRadius: BorderRadius.circular(30.0),
           ),
           child: TextField(
+            buildCounter: (
+              BuildContext context, {
+              required int currentLength,
+              required int? maxLength,
+              required bool isFocused,
+            }) {
+              return null;
+            },
             controller: controller,
             keyboardType: keyboardType,
             style: GoogleFonts.poppins(
