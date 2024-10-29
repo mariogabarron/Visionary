@@ -55,11 +55,17 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
           final objectives = user.objectives;
           if (selectedObjetivoIndex == null && objectives.isNotEmpty) {
             selectedObjetivoIndex = 0;
+          } else if (objectives.isEmpty) {
+            selectedObjetivoIndex = null;
+          } else if (selectedObjetivoIndex != null) {
+            selectedObjetivoIndex = selectedObjetivoIndex! < objectives.length
+                ? selectedObjetivoIndex
+                : 0;
+            final selectedObjetivoRef = selectedObjetivoIndex != null
+                ? objectives[selectedObjetivoIndex!].$2
+                : null;
           }
 
-          final selectedObjetivoRef = selectedObjetivoIndex != null
-              ? objectives[selectedObjetivoIndex!].$2
-              : null;
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35.0),
             child: ClipRect(
@@ -100,7 +106,7 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                   if (context.mounted) {
                                     showAlertBottomEditarObjetivo(
                                         context, obj, controller, reloadData);
-                                    //reloadData();
+                                    reloadData();
                                   }
                                 },
                                 child: Opacity(
@@ -111,11 +117,8 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                       : 0.4, // Objetivo no seleccionado
                                   child: Text(
                                     objectives[i].$1,
-                                    style: TextStyle(
-                                      color: const Color.fromARGB(
-                                              201, 254, 252, 238)
-                                          .withOpacity(
-                                              0.8), // Color con 80% de opacidad
+                                    style: const TextStyle(
+                                      color: Color.fromARGB(201, 254, 252, 238),
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),

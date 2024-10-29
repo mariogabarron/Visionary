@@ -201,12 +201,9 @@ class _HomepageViewState extends State<HomepageView>
                   return Center(
                     child: SingleChildScrollView(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
+                            padding: const EdgeInsets.symmetric(horizontal: 60),
                             child: Center(
                               child: Text(
                                   textAlign: TextAlign.center,
@@ -248,6 +245,7 @@ class _HomepageViewState extends State<HomepageView>
                               ),
                             ),
                           ),
+                          const SizedBox(height: 100),
                         ],
                       ),
                     ),

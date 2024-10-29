@@ -133,7 +133,7 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
                       Navigator.of(context).pushReplacementNamed(homepageView);
                     }
                   },
-                  icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
+                  icon: const Icon(CupertinoIcons.arrow_right),
                   color: const Color(0xFFFEFCEE))
             ],
           ),

@@ -88,19 +88,50 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                         fontWeight: FontWeight.normal,
                       ))),
               const SizedBox(height: 20),
-              IconButton(
-                  onPressed: () {
-                    final nombreTarea =
-                        _nombreTareaEditingController.text.trim();
-                    if (nombreTarea.isNotEmpty) {
-                      Navigator.of(context).pushReplacement(buildFadeRoute(
-                          CrearObjetivoDosView(nombreTarea: nombreTarea)));
-                    } else {
-                      showAlertObjetivoVacio(context);
-                    }
-                  },
-                  icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
-                  color: const Color(0xFFFEFCEE))
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_upward,
+                        color: Color(0xFFFEFCEE),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(homepageView);
+                      },
+                    ),
+                  ),
+                  const RotatedBox(
+                    quarterTurns: 3,
+                    child: Icon(
+                      null,
+                      color: Color(0xFFFEFCEE),
+                    ),
+                  ),
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_downward,
+                          color: Color(0xFFFEFCEE),
+                        ),
+                        onPressed: () {
+                          final nombreTarea =
+                              _nombreTareaEditingController.text.trim();
+                          if (nombreTarea.isNotEmpty) {
+                            Navigator.of(context).pushReplacement(
+                                buildFadeRoute(CrearObjetivoDosView(
+                                    nombreTarea: nombreTarea)));
+                          } else {
+                            showAlertObjetivoVacio(context);
+                          }
+                        }),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
