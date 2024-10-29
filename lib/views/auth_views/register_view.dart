@@ -35,7 +35,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   Future<void> _register() async {
     await registerWithEmail(_nameEditingController.text,
-        _emailEditingController.text, _passwordEditingController.text);
+        _emailEditingController.text, _passwordEditingController.text, context);
   }
 
   void _googleLogin() async {

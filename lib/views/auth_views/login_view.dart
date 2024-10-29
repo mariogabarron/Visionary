@@ -32,9 +32,9 @@ class _LoginViewState extends State<LoginView> {
 
   void _login() async {
     final user = await loginWithEmail(
-        _emailEditingController.text, _passwordEditingController.text);
+        _emailEditingController.text, _passwordEditingController.text, context);
 
-    if (user != (null, null)) {
+    if (user.$1 != null) {
       if (mounted) {
         Navigator.of(context).pushReplacementNamed(homepageView);
       }

@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:developer' as devtools show log;
 import 'package:http/http.dart' as http;
 import 'package:visionary/services/db/db_user_management.dart';
+import 'package:visionary/utilities/showdialogs/authexceptions/accountCreated_showDialog.dart';
+import 'package:visionary/utilities/showdialogs/authexceptions/authexceptions_showdialog.dart';
 
 /// Obtiene el código del país del usuario por IP.
 Future<String> get getUserCountry async {
@@ -33,7 +36,7 @@ User? get currentUser {
 /// - Si ocurre un error, no se devolverán credenciales, y se devolverá una excepción [FirebaseAuthException] que se podrá controlar.
 /// - Si la cuenta no está activada, se devuelve (null, null)
 Future<(UserCredential?, FirebaseAuthException?)> loginWithEmail(
-    String email, String password) async {
+    String email, String password, BuildContext context) async {
   try {
     UserCredential? cred = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
@@ -47,6 +50,9 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithEmail(
       return (null, null);
     }
   } on FirebaseAuthException catch (e) {
+    if (context.mounted) {
+      showAlertAuthException(context, e.code);
+    }
     return (null, e);
   }
 }
@@ -56,19 +62,25 @@ Future<(UserCredential?, FirebaseAuthException?)> loginWithEmail(
 /// - Si la función tiene un error, se devuelve la [FirebaseAuthException] resultante del error.
 /// - Si la función tiene un error debido a que ya existe un usuario registrado con ese email, antes de devolver el error error, reenvía el correo de confirmación.
 Future<FirebaseAuthException?> registerWithEmail(
-    String name, String email, String password) async {
+    String name, String email, String password, BuildContext context) async {
   try {
     var cred = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
     var u = FirebaseAuth.instance.currentUser == null;
     devtools.log(u.toString());
+    if (context.mounted) {
+      showAlertCreatedAccount(context);
+    }
     await cred.user?.sendEmailVerification();
     await registerUser(name, false);
     await FirebaseAuth.instance.signOut();
     return null;
   } on FirebaseAuthException catch (e) {
     devtools.log(e.code);
-    if (e.code == "email-already-in-use") {
+    if (context.mounted) {
+      showAlertAuthException(context, e.code);
+    }
+    /*if (e.code == "email-already-in-use") {
       try {
         var a = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
@@ -78,7 +90,7 @@ Future<FirebaseAuthException?> registerWithEmail(
         devtools.log(e.code);
         return e;
       }
-    }
+    }*/
     return e;
   }
 }
