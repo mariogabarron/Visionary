@@ -26,16 +26,37 @@ class _HomepageViewState extends State<HomepageView>
   bool _showTutorial = false;
   BannerAd? _banner;
   bool _isAdLoaded = false;
+  bool _hasObjectives = true; // Variable para controlar si hay objetivos
+  Future<bool>? _objectivesFuture; // Almacena el Future de los objetivos
+
+  late AnimationController _animationController;
+  late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    String id = "";
-    if (Platform.isAndroid) {
-      id = "ca-app-pub-9277052423554636/5898360447";
-    } else if (Platform.isIOS) {
-      id = 'ca-app-pub-9277052423554636/8823906684';
-    }
+
+    // Inicializar AnimationController y Animation primero
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 20),
+    )..repeat();
+
+    _animation = Tween<double>(begin: 0, end: 2 * pi).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.linear,
+      ),
+    );
+
+    // Luego, inicializar el Future de objetivos
+    _objectivesFuture = _checkObjectives();
+
+    // Inicializar los anuncios
+    String id = Platform.isAndroid
+        ? "ca-app-pub-9277052423554636/5898360447"
+        : 'ca-app-pub-9277052423554636/8823906684';
+
     _banner = BannerAd(
       adUnitId: id,
       size: AdSize.banner,
@@ -48,7 +69,7 @@ class _HomepageViewState extends State<HomepageView>
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           ad.dispose();
-          d.log("QUE $error");
+          d.log("Error al cargar anuncio: $error");
         },
       ),
     )..load();
@@ -56,6 +77,7 @@ class _HomepageViewState extends State<HomepageView>
 
   @override
   void dispose() {
+    _animationController.dispose();
     _banner?.dispose();
     super.dispose();
   }
@@ -74,7 +96,16 @@ class _HomepageViewState extends State<HomepageView>
 
   Future<bool> _checkObjectives() async {
     final objectives = (await VisionaryUser.fromLogin()).objectives;
-    return objectives.isNotEmpty;
+    setState(() {
+      _hasObjectives = objectives.isNotEmpty;
+    });
+    return _hasObjectives;
+  }
+
+  void _onEmptyObjectives() {
+    setState(() {
+      _hasObjectives = false; // Cambia a la vista vacía si no hay objetivos
+    });
   }
 
   @override
@@ -90,6 +121,7 @@ class _HomepageViewState extends State<HomepageView>
         ),
         title: Stack(
           children: [
+            // Elimina el AnimatedBuilder de aquí
             Positioned(
               left: 12,
               top: 0,
@@ -131,21 +163,28 @@ class _HomepageViewState extends State<HomepageView>
       ),
       body: Stack(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF6D97AC), Color.fromARGB(255, 212, 176, 146)],
-                transform: GradientRotation(88 * pi / 180),
-              ),
-            ),
+          AnimatedBuilder(
+            animation: _animationController,
+            builder: (context, child) {
+              return Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: const [
+                      Color(0xFF6D97AC),
+                      Color.fromARGB(255, 212, 176, 146),
+                    ],
+                    transform: GradientRotation(_animation.value),
+                  ),
+                ),
+              );
+            },
           ),
           SafeArea(
             bottom: false,
             child: FutureBuilder<bool>(
-              future: _checkObjectives(),
+              future: _objectivesFuture, // Usa el Future almacenado
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  // Mientras se espera la respuesta, muestra un cargador
                   return const Center(
                     child: CircularProgressIndicator(
                       valueColor:
@@ -162,7 +201,7 @@ class _HomepageViewState extends State<HomepageView>
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        const ObjetivosRow(),
+                        ObjetivosRow(onEmptyObjectives: _onEmptyObjectives),
                         const SizedBox(height: 10),
                         const Padding(
                           padding: EdgeInsets.symmetric(
@@ -206,42 +245,39 @@ class _HomepageViewState extends State<HomepageView>
                             padding: const EdgeInsets.symmetric(horizontal: 60),
                             child: Center(
                               child: Text(
-                                  textAlign: TextAlign.center,
-                                  'Añade tu primer objetivo para empezar a cumplirlo.',
-                                  style: GoogleFonts.poppins(
-                                      color: const Color(0xFFFEFCEE),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold)),
+                                'Añade tu primer objetivo para empezar a cumplirlo.',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.poppins(
+                                  color: const Color(0xFFFEFCEE),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 30.0, vertical: 0.0),
-                            child: Divider(color: Colors.transparent),
-                          ),
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 30.0),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed(crearObjetivoUno);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color(0xFFFEFCEE).withOpacity(0.2),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushReplacementNamed(crearObjetivoUno);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color(0xFFFEFCEE).withOpacity(0.2),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                child: Text('Añadir objetivo',
-                                    style: GoogleFonts.poppins(
-                                        color: const Color(0xFFFEFCEE),
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold)),
+                              ),
+                              child: Text(
+                                'Añadir objetivo',
+                                style: GoogleFonts.poppins(
+                                  color: const Color(0xFFFEFCEE),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),

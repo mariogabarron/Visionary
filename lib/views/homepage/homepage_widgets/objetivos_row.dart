@@ -5,7 +5,10 @@ import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/visionary_user_class.dart';
 
 class ObjetivosRow extends StatefulWidget {
-  const ObjetivosRow({super.key});
+  final VoidCallback
+      onEmptyObjectives; // Callback para notificar cuando no haya objetivos
+
+  const ObjetivosRow({super.key, required this.onEmptyObjectives});
 
   @override
   State<ObjetivosRow> createState() => _ObjetivosRowState();
@@ -32,8 +35,29 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
 
   void reloadData() {
     setState(() {
-      _futureUser = VisionaryUser.fromLogin();
+      _futureUser = VisionaryUser.fromLogin().then((user) {
+        if (user.objectives.isNotEmpty) {
+          selectedObjetivoIndex = 0;
+          selectedObjetivoRef = user.objectives[0].$2;
+        } else {
+          widget.onEmptyObjectives(); // Llama al callback si no hay objetivos
+        }
+        return user;
+      });
     });
+  }
+
+  // Modifica la función que elimina el objetivo para llamar a `onEmptyObjectives` si es el último objetivo
+  void deleteObjective(Objetivo objetivo) async {
+    await objetivo.deleteObjective();
+    VisionaryUser u = await VisionaryUser.fromLogin();
+    u.updateObjectives();
+
+    if (u.objectives.isEmpty) {
+      widget.onEmptyObjectives(); // Llama al callback si no hay más objetivos
+    } else {
+      reloadData(); // De lo contrario, recarga los datos
+    }
   }
 
   @override
@@ -53,18 +77,6 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
         } else if (snapshot.hasData) {
           final user = snapshot.data!;
           final objectives = user.objectives;
-          if (selectedObjetivoIndex == null && objectives.isNotEmpty) {
-            selectedObjetivoIndex = 0;
-          } else if (objectives.isEmpty) {
-            selectedObjetivoIndex = null;
-          } else if (selectedObjetivoIndex != null) {
-            selectedObjetivoIndex = selectedObjetivoIndex! < objectives.length
-                ? selectedObjetivoIndex
-                : 0;
-            final selectedObjetivoRef = selectedObjetivoIndex != null
-                ? objectives[selectedObjetivoIndex!].$2
-                : null;
-          }
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35.0),
@@ -98,6 +110,7 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                 onTap: () {
                                   setState(() {
                                     selectedObjetivoIndex = i;
+                                    selectedObjetivoRef = objectives[i].$2;
                                   });
                                 },
                                 onLongPress: () async {
@@ -117,8 +130,13 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                       : 0.4, // Objetivo no seleccionado
                                   child: Text(
                                     objectives[i].$1,
-                                    style: const TextStyle(
-                                      color: Color.fromARGB(201, 254, 252, 238),
+                                    style: TextStyle(
+                                      color: objectives[i].$2 ==
+                                              selectedObjetivoRef
+                                          ? const Color.fromARGB(201, 254, 252,
+                                              238) // Color resaltado para seleccionado
+                                          : const Color.fromARGB(201, 254, 252,
+                                              238), // Color normal
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),
