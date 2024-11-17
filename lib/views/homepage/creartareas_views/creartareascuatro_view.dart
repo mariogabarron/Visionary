@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/objects/recordatorio.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
+import 'package:visionary/services/objects/visionary_user_class.dart';
 
 class CreaTareaCuatroView extends StatefulWidget {
   final String objectiveRef;
@@ -28,6 +30,8 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
   final List<int> _selectedDays = []; // Lista para los días seleccionados
   late AnimationController _controller;
   late Animation<double> _animation;
+  TipoRecordatorio _selectedPeriodicity =
+      TipoRecordatorio.semanal; // Variable para periodicidad
 
   int _selectedNumberHour = 0;
   int _selectedNumberMinutes = 0;
@@ -64,7 +68,6 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
           style: GoogleFonts.poppins(
             color: const Color(0xFFFEFCEE),
             fontSize: 30,
-            fontStyle: FontStyle.normal,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -101,10 +104,10 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
                   String label;
                   switch (index) {
                     case 0:
-                      label = 'Semanal';
+                      label = 'Recordar tarea';
                       break;
                     case 1:
-                      label = 'Periódico';
+                      label = 'No recordar';
                       break;
                     default:
                       label = '';
@@ -192,83 +195,124 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
               _selectedFrequency == 0
                   ? Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(7, (index) {
-                            String dayLabel;
-                            switch (index) {
-                              case 0:
-                                dayLabel = 'L';
-                                break;
-                              case 1:
-                                dayLabel = 'M';
-                                break;
-                              case 2:
-                                dayLabel = 'X';
-                                break;
-                              case 3:
-                                dayLabel = 'J';
-                                break;
-                              case 4:
-                                dayLabel = 'V';
-                                break;
-                              case 5:
-                                dayLabel = 'S';
-                                break;
-                              case 6:
-                                dayLabel = 'D';
-                                break;
-                              default:
-                                dayLabel = '';
-                            }
-                            return GestureDetector(
-                              onTap: () {
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF6D97AC).withOpacity(0.7),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: DropdownButton<TipoRecordatorio>(
+                              value: _selectedPeriodicity,
+                              onChanged: (TipoRecordatorio? newValue) {
                                 setState(() {
-                                  if (_selectedDays.contains(index)) {
-                                    _selectedDays.remove(index);
-                                  } else {
-                                    _selectedDays.add(index);
-                                  }
+                                  _selectedPeriodicity = newValue!;
                                 });
                               },
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: _selectedDays.contains(index)
-                                      ? const LinearGradient(
-                                          colors: [
-                                            Color(0xFF6D97AC),
-                                            Color.fromARGB(255, 207, 175, 148),
-                                          ],
-                                        )
-                                      : LinearGradient(
-                                          colors: [
-                                            Colors.grey[300]!,
-                                            Colors.grey[400]!
-                                          ],
-                                        ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    dayLabel,
-                                    style: GoogleFonts.poppins(
-                                      color: _selectedDays.contains(index)
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                              items: TipoRecordatorio.values
+                                  .map<DropdownMenuItem<TipoRecordatorio>>(
+                                      (TipoRecordatorio value) {
+                                return DropdownMenuItem<TipoRecordatorio>(
+                                  value: value,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12.0, horizontal: 16.0),
+                                    child: Text(
+                                      value.toString().split('.').last,
+                                      style: GoogleFonts.poppins(
+                                        color: const Color(0xFFFEFCEE),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            );
-                          }),
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 25),
+                        // Mostrar solo los días si no es "Diario"
+                        _selectedPeriodicity == TipoRecordatorio.mensual ||
+                                _selectedPeriodicity == TipoRecordatorio.semanal
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: List.generate(7, (index) {
+                                  String dayLabel;
+                                  switch (index) {
+                                    case 0:
+                                      dayLabel = 'L';
+                                      break;
+                                    case 1:
+                                      dayLabel = 'M';
+                                      break;
+                                    case 2:
+                                      dayLabel = 'X';
+                                      break;
+                                    case 3:
+                                      dayLabel = 'J';
+                                      break;
+                                    case 4:
+                                      dayLabel = 'V';
+                                      break;
+                                    case 5:
+                                      dayLabel = 'S';
+                                      break;
+                                    case 6:
+                                      dayLabel = 'D';
+                                      break;
+                                    default:
+                                      dayLabel = '';
+                                  }
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        if (_selectedDays.contains(index)) {
+                                          _selectedDays.remove(index);
+                                        } else {
+                                          _selectedDays.add(index);
+                                        }
+                                      });
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 4.0),
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: _selectedDays.contains(index)
+                                            ? const LinearGradient(
+                                                colors: [
+                                                  Color(0xFF6D97AC),
+                                                  Color.fromARGB(
+                                                      255, 207, 175, 148),
+                                                ],
+                                              )
+                                            : LinearGradient(
+                                                colors: [
+                                                  Colors.grey[300]!,
+                                                  Colors.grey[400]!
+                                                ],
+                                              ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          dayLabel,
+                                          style: GoogleFonts.poppins(
+                                            color: _selectedDays.contains(index)
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              )
+                            : Container(),
                       ],
                     )
                   : Container(),
@@ -276,9 +320,9 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: Text(
                   _selectedFrequency == 0
-                      ? "Selecciona los días de la semana en los que te recordaremos que debes cumplir tu tarea\n\nAhora selecciona la hora:"
+                      ? ""
                       : _selectedFrequency == 1
-                          ? "Tu tarea te será recordada en función de la periodicidad con la que la hayas configurado.\n\nAhora selecciona la hora:"
+                          ? "No te recordaremos tu tarea."
                           : "Selecciona un tipo de recordatorio si deseas que te recordemos esta tarea",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
@@ -290,7 +334,8 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
                 ),
               ),
               const SizedBox(height: 20),
-              _selectedFrequency != null
+              // Mostrar solo la hora si "Diario" está seleccionado
+              _selectedFrequency == 0
                   ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: Column(
@@ -366,12 +411,29 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
                   : const Text(""),
               const SizedBox(height: 10),
               IconButton(
-                onPressed: () {
-                  Tarea(widget.objectiveRef,
-                      name: widget.nombre,
-                      priority: widget.prioridad,
-                      needDone: widget.vecesQueSeDebeDeHacer,
-                      recordatorio: null);
+                onPressed: () async {
+                  if (_selectedFrequency != 1) {
+                    Tarea t = Tarea(widget.objectiveRef,
+                        name: widget.nombre,
+                        priority: widget.prioridad,
+                        needDone: widget.vecesQueSeDebeDeHacer,
+                        recordatorio: Recordatorio(
+                            tipoRecordatorio: _selectedPeriodicity,
+                            hora: (_selectedNumberHour, _selectedNumberMinutes),
+                            codigo: "LMXJV"));
+                    t.update();
+                  } else {
+                    VisionaryUser v = await VisionaryUser.fromLogin();
+                    Tarea t = Tarea(widget.objectiveRef,
+                        name: widget.nombre,
+                        priority: widget.prioridad,
+                        needDone: widget.vecesQueSeDebeDeHacer,
+                        recordatorio: null);
+                    t.print();
+                    t.update();
+                    v.updateObjectives();
+                  }
+
                   Navigator.of(context).pushReplacementNamed(tareaCreadaView);
                 },
                 icon: const Icon(CupertinoIcons.arrow_right_circle_fill),

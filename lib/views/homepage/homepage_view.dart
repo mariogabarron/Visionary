@@ -32,6 +32,9 @@ class _HomepageViewState extends State<HomepageView>
   late AnimationController _animationController;
   late Animation<double> _animation;
 
+  String selectedObjectiveName =
+      ''; // Variable para almacenar el nombre del objetivo seleccionado
+
   @override
   void initState() {
     super.initState();
@@ -106,6 +109,15 @@ class _HomepageViewState extends State<HomepageView>
     setState(() {
       _hasObjectives = false; // Cambia a la vista vacía si no hay objetivos
     });
+  }
+
+  dynamic onObjectiveSelected(String objectiveName) {
+    setState(() {
+      selectedObjectiveName = objectiveName;
+    });
+    if (objectiveName == "Volar") {
+      print("A");
+    }
   }
 
   @override
@@ -201,7 +213,10 @@ class _HomepageViewState extends State<HomepageView>
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        ObjetivosRow(onEmptyObjectives: _onEmptyObjectives),
+                        ObjetivosRow(
+                          onEmptyObjectives: _onEmptyObjectives,
+                          onObjectiveSelected: onObjectiveSelected,
+                        ),
                         const SizedBox(height: 10),
                         const Padding(
                           padding: EdgeInsets.symmetric(
@@ -213,7 +228,7 @@ class _HomepageViewState extends State<HomepageView>
                           child: Column(
                             children: [
                               const SizedBox(height: 20),
-                              const TareasContainer(),
+                              TareasContainer(objetivo: selectedObjectiveName),
                               const SizedBox(height: 30),
                               const PorqueLoHagoContainer(),
                               const SizedBox(height: 30),

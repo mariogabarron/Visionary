@@ -6,14 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/utilities/showdialogs/homepage/tareas_showdialog.dart';
 
 class TareasContainer extends StatefulWidget {
-  const TareasContainer({super.key});
+  final String objetivo;
+  const TareasContainer({super.key, required this.objetivo});
 
   @override
   State<TareasContainer> createState() => _TareasContainerState();
 }
 
 class _TareasContainerState extends State<TareasContainer> {
-  double _bottomPadding = 8; // Inicialmente el padding inferior
+  double _bottomPadding = 8;
 
   void _expandBottomPadding() {
     setState(() {
@@ -24,7 +25,7 @@ class _TareasContainerState extends State<TareasContainer> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showAlertTareas(context),
+      onTap: () => showAlertTareas(context, widget.objetivo),
       child: Stack(
         children: [
           Container(
@@ -84,7 +85,7 @@ class _TareasContainerState extends State<TareasContainer> {
                                         CupertinoIcons.pencil_circle_fill),
                                     color: const Color(0xFFFEFCEE),
                                     onPressed: () {
-                                      showAlertTareas(context);
+                                      showAlertTareas(context, widget.objetivo);
                                     },
                                   ),
                                 ),
