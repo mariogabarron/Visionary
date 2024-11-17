@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
+import 'package:visionary/views/homepage/creartareas_views/creartareados_view.dart';
 
 class CreaTareaUnoView extends StatefulWidget {
-  const CreaTareaUnoView({super.key});
+  final String objectiveRef;
+
+  const CreaTareaUnoView({super.key, required this.objectiveRef});
 
   @override
   State<CreaTareaUnoView> createState() => _CreaTareaUnoViewState();
@@ -88,7 +91,11 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
               const SizedBox(height: 20),
               IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushReplacementNamed(crearTareaDos);
+                    Navigator.of(context)
+                        .pushReplacement(buildFadeRoute(CreaTareaDosView(
+                      nombreTarea: _nombreTareaEditingController.text,
+                      objectiveRef: widget.objectiveRef,
+                    )));
                   },
                   icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
                   color: const Color(0xFFFEFCEE))

@@ -3,9 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/views/homepage/creartareas_views/creartareatres_view.dart';
 
 class CreaTareaDosView extends StatefulWidget {
-  const CreaTareaDosView({super.key});
+  final String objectiveRef;
+  final String nombreTarea;
+
+  const CreaTareaDosView(
+      {super.key, required this.nombreTarea, required this.objectiveRef});
 
   @override
   State<CreaTareaDosView> createState() => _CreaTareaDosViewState();
@@ -167,7 +172,11 @@ class _CreaTareaDosViewState extends State<CreaTareaDosView>
               const SizedBox(height: 20),
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(crearTareaTres);
+                  Navigator.of(context).pushReplacement(buildFadeRoute(
+                      CreaTareaTresView(
+                          nombreTarea: widget.nombreTarea,
+                          prioridad: _selectedPriority,
+                          objectiveRef: widget.objectiveRef)));
                 },
                 icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
                 color: const Color(0xFFFEFCEE),

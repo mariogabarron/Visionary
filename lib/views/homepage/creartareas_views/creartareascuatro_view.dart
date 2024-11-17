@@ -3,9 +3,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/objects/tarea_class.dart';
 
 class CreaTareaCuatroView extends StatefulWidget {
-  const CreaTareaCuatroView({super.key});
+  final String objectiveRef;
+  final String nombre;
+  final int prioridad;
+  final int vecesQueSeDebeDeHacer;
+
+  const CreaTareaCuatroView(
+      {super.key,
+      required this.nombre,
+      required this.prioridad,
+      required this.vecesQueSeDebeDeHacer,
+      required this.objectiveRef});
 
   @override
   State<CreaTareaCuatroView> createState() => _CreaTareaCuatroViewState();
@@ -356,6 +367,11 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
               const SizedBox(height: 10),
               IconButton(
                 onPressed: () {
+                  Tarea(widget.objectiveRef,
+                      name: widget.nombre,
+                      priority: widget.prioridad,
+                      needDone: widget.vecesQueSeDebeDeHacer,
+                      recordatorio: null);
                   Navigator.of(context).pushReplacementNamed(tareaCreadaView);
                 },
                 icon: const Icon(CupertinoIcons.arrow_right_circle_fill),

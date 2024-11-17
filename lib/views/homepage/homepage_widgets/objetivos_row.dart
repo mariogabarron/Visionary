@@ -5,10 +5,14 @@ import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/visionary_user_class.dart';
 
 class ObjetivosRow extends StatefulWidget {
-  final VoidCallback
-      onEmptyObjectives; // Callback para notificar cuando no haya objetivos
+  final VoidCallback onEmptyObjectives;
+  final Function(String)
+      onObjectiveSelected; // Callback para pasar el nombre del objetivo seleccionado
 
-  const ObjetivosRow({super.key, required this.onEmptyObjectives});
+  const ObjetivosRow(
+      {super.key,
+      required this.onEmptyObjectives,
+      required this.onObjectiveSelected});
 
   @override
   State<ObjetivosRow> createState() => _ObjetivosRowState();
@@ -45,19 +49,6 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
         return user;
       });
     });
-  }
-
-  // Modifica la función que elimina el objetivo para llamar a `onEmptyObjectives` si es el último objetivo
-  void deleteObjective(Objetivo objetivo) async {
-    await objetivo.deleteObjective();
-    VisionaryUser u = await VisionaryUser.fromLogin();
-    u.updateObjectives();
-
-    if (u.objectives.isEmpty) {
-      widget.onEmptyObjectives(); // Llama al callback si no hay más objetivos
-    } else {
-      reloadData(); // De lo contrario, recarga los datos
-    }
   }
 
   @override
@@ -112,6 +103,8 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                     selectedObjetivoIndex = i;
                                     selectedObjetivoRef = objectives[i].$2;
                                   });
+                                  widget.onObjectiveSelected(objectives[i]
+                                      .$1); // Pasa el nombre del objetivo al callback
                                 },
                                 onLongPress: () async {
                                   Objetivo obj =
@@ -126,17 +119,17 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                   opacity: selectedObjetivoRef == null ||
                                           objectives[i].$2 ==
                                               selectedObjetivoRef
-                                      ? 1.0 // Objetivo seleccionado o sin selección
-                                      : 0.4, // Objetivo no seleccionado
+                                      ? 1.0
+                                      : 0.4,
                                   child: Text(
                                     objectives[i].$1,
                                     style: TextStyle(
                                       color: objectives[i].$2 ==
                                               selectedObjetivoRef
-                                          ? const Color.fromARGB(201, 254, 252,
-                                              238) // Color resaltado para seleccionado
-                                          : const Color.fromARGB(201, 254, 252,
-                                              238), // Color normal
+                                          ? const Color.fromARGB(
+                                              201, 254, 252, 238)
+                                          : const Color.fromARGB(
+                                              201, 254, 252, 238),
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),

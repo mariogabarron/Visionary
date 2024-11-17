@@ -3,36 +3,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/views/homepage/creartareas_views/creartareascuatro_view.dart';
 
 class CreaTareaTresView extends StatefulWidget {
-  const CreaTareaTresView({super.key});
+  final String nombreTarea;
+  final int prioridad;
+  final String objectiveRef;
+
+  const CreaTareaTresView(
+      {super.key,
+      required this.nombreTarea,
+      required this.prioridad,
+      required this.objectiveRef});
 
   @override
   State<CreaTareaTresView> createState() => _CreaTareaTresViewState();
 }
 
-class _CreaTareaTresViewState extends State<CreaTareaTresView>
-    with SingleTickerProviderStateMixin {
-  int? _selectedFrequency;
-  final List<int> _selectedDays = []; // Lista para los días seleccionados
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 5),
-      vsync: this,
-    )..repeat();
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class _CreaTareaTresViewState extends State<CreaTareaTresView> {
+  int _selectedFrequency = 1;
+  int _selectedRepeticiones = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +60,7 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView>
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: Text(
-                  '¿Quieres que se repita tu tarea?',
+                  '¿Quieres que tu tarea se repita?',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFEFCEE),
@@ -87,10 +77,10 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView>
                   String label;
                   switch (index) {
                     case 0:
-                      label = 'Semanalmente';
+                      label = 'Se repite';
                       break;
                     case 1:
-                      label = 'Diariamente';
+                      label = 'No se repite';
                       break;
                     default:
                       label = '';
@@ -98,15 +88,7 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView>
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        if (_selectedFrequency == index) {
-                          _selectedFrequency = null;
-                        } else {
-                          _selectedFrequency = index;
-                        }
-                        if (_selectedFrequency == null) {
-                          _selectedDays
-                              .clear(); // Limpiar selección si no hay frecuencia
-                        }
+                        _selectedFrequency = index;
                       });
                     },
                     child: Container(
@@ -126,146 +108,76 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView>
                                 colors: [Colors.grey[300]!, Colors.grey[400]!],
                               ),
                       ),
-                      child: _selectedFrequency == index
-                          ? Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                AnimatedBuilder(
-                                  animation: _animation,
-                                  builder: (context, child) {
-                                    return Transform.rotate(
-                                      angle: _animation.value * 2 * pi,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          gradient: const LinearGradient(
-                                            colors: [
-                                              Color(0xFF6D97AC),
-                                              Color.fromARGB(255, 207, 175, 148)
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                Text(
-                                  label,
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Center(
-                              child: Text(
-                                label,
-                                style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
+                      child: Text(
+                        label,
+                        style: GoogleFonts.poppins(
+                          color: _selectedFrequency == index
+                              ? Colors.white
+                              : Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
                   );
                 }),
               ),
               const SizedBox(height: 30),
               _selectedFrequency == 0
-                  ? Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(7, (index) {
-                            String dayLabel;
-                            switch (index) {
-                              case 0:
-                                dayLabel = 'L';
-                                break;
-                              case 1:
-                                dayLabel = 'M';
-                                break;
-                              case 2:
-                                dayLabel = 'X';
-                                break;
-                              case 3:
-                                dayLabel = 'J';
-                                break;
-                              case 4:
-                                dayLabel = 'V';
-                                break;
-                              case 5:
-                                dayLabel = 'S';
-                                break;
-                              case 6:
-                                dayLabel = 'D';
-                                break;
-                              default:
-                                dayLabel = '';
-                            }
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (_selectedDays.contains(index)) {
-                                    _selectedDays.remove(index);
-                                  } else {
-                                    _selectedDays.add(index);
-                                  }
-                                });
-                              },
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: _selectedDays.contains(index)
-                                      ? const LinearGradient(
-                                          colors: [
-                                            Color(0xFF6D97AC),
-                                            Color.fromARGB(255, 207, 175, 148),
-                                          ],
-                                        )
-                                      : LinearGradient(
-                                          colors: [
-                                            Colors.grey[300]!,
-                                            Colors.grey[400]!
-                                          ],
-                                        ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    dayLabel,
-                                    style: GoogleFonts.poppins(
-                                      color: _selectedDays.contains(index)
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                    ),
-                                  ),
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (_selectedRepeticiones > 1) {
+                                      _selectedRepeticiones--;
+                                    }
+                                  });
+                                },
+                                icon: const Icon(
+                                    CupertinoIcons.minus_circle_fill),
+                                color: Colors.white,
+                                iconSize: 25,
+                              ),
+                              Text(
+                                '$_selectedRepeticiones',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
                                 ),
                               ),
-                            );
-                          }),
-                        ),
-                        const SizedBox(height: 25),
-                      ],
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _selectedRepeticiones++;
+                                  });
+                                },
+                                icon: const Icon(
+                                    CupertinoIcons.add_circled_solid),
+                                color: Colors.white,
+                                iconSize: 25,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     )
                   : Container(),
+              const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: Text(
                   _selectedFrequency == 0
-                      ? "Tu tarea se debe cumplir X VECES para darse por finalizada."
+                      ? "Selecciona el total de veces que debes de cumplir esta tarea para darla por finalizada."
                       : _selectedFrequency == 1
                           ? "Tu tarea sólo se debe cumplir una vez para finalizarse."
-                          : "Selecciona \"Sí\" si tu tarea se debe cumplir más de una vez para darse por finalizada.",
+                          : "Selecciona \"Se repite\" si tu tarea se debe cumplir más de una vez para darse por finalizada.",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFEFCEE),
@@ -278,7 +190,13 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView>
               const SizedBox(height: 20),
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(crearTareaCuatro);
+                  Navigator.of(context)
+                      .pushReplacement(buildFadeRoute(CreaTareaCuatroView(
+                    nombre: widget.nombreTarea,
+                    prioridad: widget.prioridad,
+                    vecesQueSeDebeDeHacer: _selectedRepeticiones,
+                    objectiveRef: widget.objectiveRef,
+                  )));
                 },
                 icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
                 color: const Color(0xFFFEFCEE),

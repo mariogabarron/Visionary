@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/utilities/showdialogs/homepage/editartarea_showdialog.dart';
+import 'package:visionary/views/homepage/creartareas_views/creartareauno_view.dart';
 
 void showAlertTareas(BuildContext context) {
   showDialog(
@@ -39,6 +40,8 @@ void showAlertTareas(BuildContext context) {
               ),
               const SizedBox(height: 50),
               Text(
+                // TODO: AÑADIR LA LISTA DE TAREAS, Y BOTÓN DE COMPLETARLAS
+                // TODO: MODUALIZARLO PARA METERO A LA HOMEPAGE DIRECTAMENTE
                 'No has creado aún tareas',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
@@ -59,7 +62,8 @@ void showAlertTareas(BuildContext context) {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushReplacementNamed(crearTareaUno);
+                      Navigator.of(context).pushReplacement(buildFadeRoute(
+                          CreaTareaUnoView(objectiveRef: objectiveRef)));
                     },
                     child: Text(
                       'Crear tarea',

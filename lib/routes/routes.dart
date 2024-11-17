@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:visionary/views/homepage/crearobjetivos_views/crearobjetivouno_view.dart';
-import 'package:visionary/views/homepage/creartareas_views/creartareados_view.dart';
-import 'package:visionary/views/homepage/creartareas_views/creartareascuatro_view.dart';
-import 'package:visionary/views/homepage/creartareas_views/creartareatres_view.dart';
-import 'package:visionary/views/homepage/creartareas_views/creartareauno_view.dart';
 import 'package:visionary/views/homepage/creartareas_views/tareacreada_view.dart';
 import 'package:visionary/views/homepage/homepage_view.dart';
 import 'package:visionary/views/auth_views/login_view.dart';
@@ -18,12 +14,7 @@ const registerView = '/register-view/';
 const ajustesCuenta = '/ajustes-cuenta/';
 const homepageView = '/homepage-view/';
 const crearObjetivoUno = '/crearobjetivouno-view/';
-//const crearObjetivoDos = '/crearobjetivodos-view';
 const homepageVacioView = '/homepagevacio-view';
-const crearTareaUno = 'creartareauno-view';
-const crearTareaDos = 'creartareados-view';
-const crearTareaTres = 'creartareatres-view';
-const crearTareaCuatro = 'creartareacuatro-view';
 const tareaCreadaView = 'tareacreada-view';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -40,14 +31,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return buildFadeRoute(const HomepageView());
     case crearObjetivoUno:
       return buildFadeRoute(const CrearObjetivoUnoView());
-    case crearTareaUno:
-      return buildFadeRoute(const CreaTareaUnoView());
-    case crearTareaDos:
-      return buildFadeRoute(const CreaTareaDosView());
-    case crearTareaTres:
-      return buildFadeRoute(const CreaTareaTresView());
-    case crearTareaCuatro:
-      return buildFadeRoute(const CreaTareaCuatroView());
+
     case tareaCreadaView:
       return buildFadeRoute(const TareaCreadaView());
     default:
