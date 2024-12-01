@@ -121,8 +121,7 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
                           _selectedFrequency = index;
                         }
                         if (_selectedFrequency == null) {
-                          _selectedDays
-                              .clear(); // Limpiar selección si no hay frecuencia
+                          _selectedDays.clear();
                         }
                       });
                     },

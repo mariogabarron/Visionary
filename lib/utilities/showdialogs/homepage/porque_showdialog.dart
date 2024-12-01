@@ -27,7 +27,7 @@ void showAlertPorque(BuildContext context) {
               children: [
                 const SizedBox(height: 16),
                 Text(
-                  '¿Por qué lo hago?',
+                  'Propósito',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,

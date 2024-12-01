@@ -38,7 +38,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
         return _buildStep(
           context: context,
           text:
-              "Escribe el sentido de cumplir ese objetivo para ti en la sección \"Por qué lo hago\"",
+              "Escribe el sentido de cumplir ese objetivo para ti en la sección \"Propósito\"",
         );
       case 3:
         return _buildStep(

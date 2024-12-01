@@ -42,7 +42,7 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
       _futureUser = VisionaryUser.fromLogin().then((user) {
         if (user.objectives.isNotEmpty) {
           selectedObjetivoIndex = 0;
-          selectedObjetivoRef = user.objectives[0].$2;
+          selectedObjetivoRef = user.objectives[0].$2.key;
         } else {
           widget.onEmptyObjectives(); // Llama al callback si no hay objetivos
         }
@@ -104,7 +104,9 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                     selectedObjetivoRef = objectives[i].$2;
                                   });
                                   widget.onObjectiveSelected(objectives[i]
-                                      .$1); // Pasa el nombre del objetivo al callback
+                                      .$2
+                                      .ref
+                                      .path); // Pasa el nombre del objetivo al callback
                                 },
                                 onLongPress: () async {
                                   Objetivo obj =
@@ -116,11 +118,8 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                   }
                                 },
                                 child: Opacity(
-                                  opacity: selectedObjetivoRef == null ||
-                                          objectives[i].$2 ==
-                                              selectedObjetivoRef
-                                      ? 1.0
-                                      : 0.4,
+                                  opacity:
+                                      selectedObjetivoIndex == i ? 1.0 : 0.4,
                                   child: Text(
                                     objectives[i].$1,
                                     style: TextStyle(

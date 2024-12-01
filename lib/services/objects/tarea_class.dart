@@ -21,14 +21,22 @@ class Tarea {
     'reminder'
   };
 
-  Tarea(String objectiveRef, {
-        required String name,
-        required int priority,
-        required int needDone,
-        required Recordatorio? recordatorio}) : _recordatorio = recordatorio, _needDone = needDone, _priority = priority, _name = name,
+  Tarea(String objectiveRef,
+      {required String name,
+      required int priority,
+      required int needDone,
+      required Recordatorio? recordatorio})
+      : _recordatorio = recordatorio,
+        _needDone = needDone,
+        _priority = priority,
+        _name = name,
         _dates = const [],
         _timesDone = 0,
-        _dbRef = FirebaseDatabase.instance.ref(objectiveRef).child("tasks").push().path;
+        _dbRef = FirebaseDatabase.instance
+            .ref(objectiveRef)
+            .child("tasks")
+            .push()
+            .path;
 
   /// Obtiene una tarea dada una referencia en base de datos. Si la referencia no apunta a una tarea válida, devuelve una excepción.
   static Future<Tarea> fromRef(DatabaseReference ref) async {
@@ -39,36 +47,43 @@ class Tarea {
     List<DateTime> dates = [];
     Recordatorio? reminder;
 
-    if((await ref.get()).exists) {
+    if ((await ref.get()).exists) {
       List<Future<DataSnapshot>> futures = [];
-      for(final entry in _keys) {
+      for (final entry in _keys) {
         futures.add(ref.child(entry).get());
       }
 
       await Future.wait(futures as Iterable<Future>);
 
       for (final entry in futures) {
-        if(!(await entry).exists && (await entry).key != 'dates' && (await entry).key != 'reminder') {
+        if (!(await entry).exists &&
+            (await entry).key != 'dates' &&
+            (await entry).key != 'reminder') {
           throw ArgumentError("The reference provided did not contain a task");
-        }
-        else {
+        } else {
           var e = await entry;
-          if(e.key == 'name') nombre = e.value.toString();
-          if(e.key == 'priority') priority = e.value as int;
-          if(e.key == 'need_done') needDone = e.value as int;
-          if(e.key == 'times_done') timesDone = e.value as int;
-          if(e.key == 'dates') dates = e.children.map( (x) => DateTime.parse(x.value.toString())).toList();
-          if(e.key == 'reminder') reminder = await Recordatorio.fromRef(e.ref);
+          if (e.key == 'name') nombre = e.value.toString();
+          if (e.key == 'priority') priority = e.value as int;
+          if (e.key == 'need_done') needDone = e.value as int;
+          if (e.key == 'times_done') timesDone = e.value as int;
+          if (e.key == 'dates')
+            dates = e.children
+                .map((x) => DateTime.parse(x.value.toString()))
+                .toList();
+          if (e.key == 'reminder') reminder = await Recordatorio.fromRef(e.ref);
         }
       }
-      var result = Tarea(ref.parent!.parent!.path ,name: nombre, priority: priority, needDone: needDone, recordatorio: reminder);
+      var result = Tarea(ref.parent!.parent!.path,
+          name: nombre,
+          priority: priority,
+          needDone: needDone,
+          recordatorio: reminder);
       result._dates = dates;
       result._recordatorio = reminder;
       result._timesDone = timesDone;
       return result;
     }
     throw ArgumentError("The reference provided did not contain a task");
-
   }
 
   /// Obtiene la lista de tareas de un objeto dada su referencia en base de datos. Devuelve una excepción si no era un objetivo.
@@ -76,17 +91,16 @@ class Tarea {
     List<Future<Tarea>> futures = [];
     List<Tarea> result = [];
     var ref = await objRef.get();
-    for(var entry in ref.children) {
+    for (var entry in ref.children) {
       futures.add(fromRef(entry.ref));
     }
     await Future.wait(futures as Iterable<Future>);
 
-    for(var f in futures) {
+    for (var f in futures) {
       result.add(await f);
     }
     return result;
   }
-
 
   String get name => _name;
 
@@ -100,7 +114,6 @@ class Tarea {
 
   String get dbRef => _dbRef;
 
-
   /// Determina si la tarea está terminada
   bool isDone() {
     return _needDone == _timesDone;
@@ -113,7 +126,7 @@ class Tarea {
 
   /// Completa la tarea una vez.
   void makeDone() {
-    if(_timesDone < _needDone) {
+    if (_timesDone < _needDone) {
       _timesDone++;
       _dates.add(DateTime.now());
     }
@@ -122,7 +135,7 @@ class Tarea {
 
   /// Descompleta la tarea una vez.
   void makeUndone() {
-    if(_timesDone > 0) {
+    if (_timesDone > 0) {
       _timesDone--;
       _dates.removeLast();
     }
@@ -130,29 +143,29 @@ class Tarea {
   }
 
   /// Edita la tarea. ¡OJO! Si las vecesNecesarias son menores a las veces que se ha completado la tarea, ese campo no se editará.
-  void editarTarea(String nombre, int prioridad, int vecesNecesarias, Recordatorio? recordatorio) {
+  void editarTarea(String nombre, int prioridad, int vecesNecesarias,
+      Recordatorio? recordatorio) {
     _name = nombre;
     _priority = prioridad;
     _recordatorio = recordatorio;
 
-    if(vecesNecesarias >= _timesDone) _needDone = vecesNecesarias;
+    if (vecesNecesarias >= _timesDone) _needDone = vecesNecesarias;
     update();
   }
 
   /// Loguea en la consola los atributos de la tarea.
   void print() {
     log("Nombre: $_name, Prioridad: $_priority, Veces hecha: $_timesDone, Veces necesarias: $_needDone");
-    if(_recordatorio == null) {
+    if (_recordatorio == null) {
       log("Sin recordatorio asignado");
-    }
-    else {
+    } else {
       _recordatorio!.print();
     }
   }
 
   /// Actualiza la tarea en base de datos.
   void update() async {
-    if(_recordatorio != null) {
+    if (_recordatorio != null) {
       await FirebaseDatabase.instance.ref(_dbRef).update({
         'name': _name,
         'priority': _priority,
@@ -161,8 +174,7 @@ class Tarea {
         'dates': _dates,
         'reminder': _recordatorio!.toDbScheme()
       });
-    }
-    else {
+    } else {
       await FirebaseDatabase.instance.ref(_dbRef).update({
         'name': _name,
         'priority': _priority,
@@ -171,12 +183,10 @@ class Tarea {
         'dates': _dates,
       });
     }
-
   }
 
   /// Borra la tarea de la base de datos. NO LA BORRA DE LA LISTA DE OBJETIVOS.
   Future<void> deleteTask() async {
     await FirebaseDatabase.instance.ref(_dbRef).remove();
   }
-
 }

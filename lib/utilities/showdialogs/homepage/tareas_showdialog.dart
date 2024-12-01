@@ -40,7 +40,6 @@ void showAlertTareas(BuildContext context, String objectiveRef) {
               ),
               const SizedBox(height: 50),
               Text(
-                // TODO: AÑADIR LA LISTA DE TAREAS, Y BOTÓN DE COMPLETARLAS
                 // TODO: MODUALIZARLO PARA METERO A LA HOMEPAGE DIRECTAMENTE
                 'No has creado aún tareas',
                 textAlign: TextAlign.center,

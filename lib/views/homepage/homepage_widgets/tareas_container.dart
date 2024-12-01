@@ -1,8 +1,11 @@
 import 'dart:ui';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:visionary/services/objects/objetivo_class.dart';
+import 'package:visionary/services/objects/tarea_class.dart';
 import 'package:visionary/utilities/showdialogs/homepage/tareas_showdialog.dart';
 
 class TareasContainer extends StatefulWidget {
@@ -15,11 +18,26 @@ class TareasContainer extends StatefulWidget {
 
 class _TareasContainerState extends State<TareasContainer> {
   double _bottomPadding = 8;
+  bool _isExpanded = false;
 
   void _expandBottomPadding() {
     setState(() {
+      _isExpanded = !_isExpanded;
       _bottomPadding = _bottomPadding == 8 ? 180 : 8; // Alternar entre 10 y 100
     });
+  }
+
+  DatabaseReference getRef() {
+    return FirebaseDatabase.instance.ref(widget.objetivo);
+  }
+
+  Future<Objetivo> getObjetivo() async {
+    return await Objetivo.fromRef(getRef());
+  }
+
+  Future<List<Tarea>> getListaTareas() async {
+    Objetivo o = await getObjetivo();
+    return o.listaTareas;
   }
 
   @override
@@ -103,31 +121,113 @@ class _TareasContainerState extends State<TareasContainer> {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Text(
-                                "Qué tengo que hacer para conseguir mi objetivo.",
-                                style: GoogleFonts.poppins(
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  color:
-                                      const Color.fromARGB(151, 254, 252, 238),
-                                ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Qué tengo que hacer para conseguir mi objetivo.",
+                                    style: GoogleFonts.poppins(
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                      color: const Color.fromARGB(
+                                          151, 254, 252, 238),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             const SizedBox(height: 10),
+
                             // Utiliza AnimatedPadding para animar el cambio de padding inferior
                             AnimatedPadding(
                               duration: const Duration(milliseconds: 150),
                               padding: EdgeInsets.only(bottom: _bottomPadding),
-                              child: IconButton(
-                                icon: Icon(
-                                  _bottomPadding == 8
-                                      ? CupertinoIcons.chevron_down
-                                      : CupertinoIcons.chevron_up,
-                                  color: const Color(0xFFFEFCEE),
-                                ),
-                                onPressed:
-                                    _expandBottomPadding, // Llama a la función que cambia el padding
+                              child: Column(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      _isExpanded
+                                          ? CupertinoIcons.chevron_up
+                                          : CupertinoIcons.chevron_down,
+                                      color: const Color(0xFFFEFCEE),
+                                    ),
+                                    onPressed: _expandBottomPadding,
+                                  ),
+                                  if (_isExpanded)
+                                    FutureBuilder<List<Tarea>>(
+                                      future: getListaTareas(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      Color(0xFFFEFCEE)),
+                                              strokeWidth: 3.0,
+                                            ),
+                                          );
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                            "Error: ${snapshot.error}",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              color: Colors.red,
+                                            ),
+                                          );
+                                        } else if (snapshot.hasData &&
+                                            snapshot.data!.isNotEmpty) {
+                                          // Agrega estado inicial de completado para cada tarea
+                                          List<bool> completed = List.generate(
+                                              snapshot.data!.length,
+                                              (index) => false);
+
+                                          return Column(
+                                            children: List.generate(
+                                              snapshot.data!.length,
+                                              (index) => Row(
+                                                children: [
+                                                  IconButton(
+                                                    icon: Icon(
+                                                      completed[index]
+                                                          ? CupertinoIcons
+                                                              .check_mark_circled_solid
+                                                          : CupertinoIcons
+                                                              .circle,
+                                                      color: const Color(
+                                                          0xFFFEFCEE),
+                                                    ),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        completed[index] =
+                                                            !completed[index];
+                                                      });
+                                                    },
+                                                  ),
+                                                  Text(
+                                                    snapshot.data![index].name,
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 16,
+                                                      color: const Color(
+                                                          0xFFFEFCEE),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return Text(
+                                            "No hay tareas disponibles.",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              color: const Color(0xFFFEFCEE),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                ],
                               ),
                             ),
                           ],

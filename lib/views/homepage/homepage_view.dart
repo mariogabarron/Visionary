@@ -32,8 +32,7 @@ class _HomepageViewState extends State<HomepageView>
   late AnimationController _animationController;
   late Animation<double> _animation;
 
-  String selectedObjectiveName =
-      ''; // Variable para almacenar el nombre del objetivo seleccionado
+  var selectedObjectiveName;
 
   @override
   void initState() {
@@ -99,9 +98,18 @@ class _HomepageViewState extends State<HomepageView>
 
   Future<bool> _checkObjectives() async {
     final objectives = (await VisionaryUser.fromLogin()).objectives;
-    setState(() {
-      _hasObjectives = objectives.isNotEmpty;
-    });
+    if (objectives.isNotEmpty) {
+      setState(() {
+        _hasObjectives = true;
+        selectedObjectiveName =
+            objectives[0].$2.ref.path; // Selecciona el primer objetivo
+      });
+    } else {
+      setState(() {
+        _hasObjectives = false;
+        selectedObjectiveName = null;
+      });
+    }
     return _hasObjectives;
   }
 
@@ -111,13 +119,10 @@ class _HomepageViewState extends State<HomepageView>
     });
   }
 
-  dynamic onObjectiveSelected(String objectiveName) {
+  dynamic onObjectiveSelected(String objectiveName) async {
     setState(() {
       selectedObjectiveName = objectiveName;
     });
-    if (objectiveName == "Volar") {
-      print("A");
-    }
   }
 
   @override
@@ -228,7 +233,8 @@ class _HomepageViewState extends State<HomepageView>
                           child: Column(
                             children: [
                               const SizedBox(height: 20),
-                              TareasContainer(objetivo: selectedObjectiveName),
+                              TareasContainer(
+                                  objetivo: selectedObjectiveName ?? "A"),
                               const SizedBox(height: 30),
                               const PorqueLoHagoContainer(),
                               const SizedBox(height: 30),

@@ -81,7 +81,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                   ),
                                 ),
                                 Text(
-                                  "¿Por qué lo hago?",
+                                  "Propósito",
                                   style: GoogleFonts.poppins(
                                     fontStyle: FontStyle.normal,
                                     fontSize: 23,
