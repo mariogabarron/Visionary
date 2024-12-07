@@ -1,11 +1,11 @@
 import 'dart:ui';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
+import 'package:visionary/utilities/showdialogs/homepage/editartarea_showdialog.dart';
 import 'package:visionary/utilities/showdialogs/homepage/tareas_showdialog.dart';
 
 class TareasContainer extends StatefulWidget {
@@ -17,13 +17,26 @@ class TareasContainer extends StatefulWidget {
 }
 
 class _TareasContainerState extends State<TareasContainer> {
+  late TextEditingController editingController;
   double _bottomPadding = 8;
   bool _isExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    editingController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    editingController.dispose();
+  }
 
   void _expandBottomPadding() {
     setState(() {
       _isExpanded = !_isExpanded;
-      _bottomPadding = _bottomPadding == 8 ? 180 : 8; // Alternar entre 10 y 100
+      _bottomPadding = _bottomPadding == 8 ? 35 : 8; // Alternar entre 10 y 100
     });
   }
 
@@ -38,6 +51,26 @@ class _TareasContainerState extends State<TareasContainer> {
   Future<List<Tarea>> getListaTareas() async {
     Objetivo o = await getObjetivo();
     return o.listaTareas;
+  }
+
+  String splitTextBySpaces(String text, int limit) {
+    List<String> words = text.split(' ');
+    StringBuffer buffer = StringBuffer();
+    String line = '';
+
+    for (String word in words) {
+      if ((line + word).length > limit) {
+        buffer.write('${line.trim()}\n');
+        line = '';
+      }
+      line += '$word ';
+    }
+
+    if (line.isNotEmpty) {
+      buffer.write(line.trim());
+    }
+
+    return buffer.toString();
   }
 
   @override
@@ -204,12 +237,29 @@ class _TareasContainerState extends State<TareasContainer> {
                                                       });
                                                     },
                                                   ),
-                                                  Text(
-                                                    snapshot.data![index].name,
-                                                    style: GoogleFonts.poppins(
-                                                      fontSize: 16,
-                                                      color: const Color(
-                                                          0xFFFEFCEE),
+                                                  GestureDetector(
+                                                    onLongPress: () {
+                                                      showAlertBottomEditarTarea(
+                                                          context,
+                                                          snapshot.data![index]
+                                                              .dbRef,
+                                                          snapshot.data![index]
+                                                              .name,
+                                                          editingController);
+                                                      print(
+                                                          "Texto mantenido: ${snapshot.data![index].name}");
+                                                    },
+                                                    child: Text(
+                                                      splitTextBySpaces(
+                                                          snapshot.data![index]
+                                                              .name,
+                                                          20),
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        fontSize: 16,
+                                                        color: const Color(
+                                                            0xFFFEFCEE),
+                                                      ),
                                                     ),
                                                   ),
                                                 ],

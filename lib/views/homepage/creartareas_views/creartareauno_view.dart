@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
+import 'package:visionary/utilities/showdialogs/objetivovacio_showdialog.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareados_view.dart';
 
 class CreaTareaUnoView extends StatefulWidget {
@@ -89,16 +90,53 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
                         fontWeight: FontWeight.normal,
                       ))),
               const SizedBox(height: 20),
-              IconButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pushReplacement(buildFadeRoute(CreaTareaDosView(
-                      nombreTarea: _nombreTareaEditingController.text,
-                      objectiveRef: widget.objectiveRef,
-                    )));
-                  },
-                  icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
-                  color: const Color(0xFFFEFCEE))
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_upward,
+                        color: Color(0xFFFEFCEE),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(homepageView);
+                      },
+                    ),
+                  ),
+                  const RotatedBox(
+                    quarterTurns: 3,
+                    child: Icon(
+                      null,
+                      color: Color(0xFFFEFCEE),
+                    ),
+                  ),
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_downward,
+                        color: Color(0xFFFEFCEE),
+                      ),
+                      onPressed: () {
+                        final nombreTarea =
+                            _nombreTareaEditingController.text.trim();
+                        if (nombreTarea.isNotEmpty) {
+                          Navigator.of(context)
+                              .pushReplacement(buildFadeRoute(CreaTareaDosView(
+                            nombreTarea: _nombreTareaEditingController.text,
+                            objectiveRef: widget.objectiveRef,
+                          )));
+                        } else {
+                          showAlertObjetivoVacio(context);
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

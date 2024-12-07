@@ -99,23 +99,18 @@ class _HomepageViewState extends State<HomepageView>
   Future<bool> _checkObjectives() async {
     final objectives = (await VisionaryUser.fromLogin()).objectives;
     if (objectives.isNotEmpty) {
-      setState(() {
-        _hasObjectives = true;
-        selectedObjectiveName =
-            objectives[0].$2.ref.path; // Selecciona el primer objetivo
-      });
+      selectedObjectiveName =
+          objectives[0].$2.ref.path; // Selecciona el primer objetivo
+      return true; // Hay objetivos
     } else {
-      setState(() {
-        _hasObjectives = false;
-        selectedObjectiveName = null;
-      });
+      selectedObjectiveName = null;
+      return false; // No hay objetivos
     }
-    return _hasObjectives;
   }
 
   void _onEmptyObjectives() {
     setState(() {
-      _hasObjectives = false; // Cambia a la vista vacía si no hay objetivos
+      _objectivesFuture = _checkObjectives(); // Regenera el Future
     });
   }
 
@@ -219,8 +214,8 @@ class _HomepageViewState extends State<HomepageView>
                       children: [
                         const SizedBox(height: 10),
                         ObjetivosRow(
-                          onEmptyObjectives: _onEmptyObjectives,
                           onObjectiveSelected: onObjectiveSelected,
+                          onObjectiveDeleted: _onEmptyObjectives,
                         ),
                         const SizedBox(height: 10),
                         const Padding(
@@ -240,16 +235,16 @@ class _HomepageViewState extends State<HomepageView>
                               const SizedBox(height: 30),
                               progresoContainer(
                                   context: context, porcentaje: 0.4),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 30),
                               const FraseContainer(),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 30),
                               if (_isAdLoaded)
                                 Container(
                                   alignment: Alignment.bottomCenter,
                                   width: _banner!.size.width.toDouble(),
                                   height: _banner!.size.height.toDouble(),
                                   child: AdWidget(ad: _banner!),
-                                )
+                                ),
                             ],
                           ),
                         ),

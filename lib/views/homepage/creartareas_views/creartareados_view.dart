@@ -74,7 +74,7 @@ class _CreaTareaDosViewState extends State<CreaTareaDosView>
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: Text(
-                  '¿Cuál es la prioridad de esta tarea en tu objetivo?',
+                  '¿Qué prioridad tiene esta tarea?',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: const Color(0xFFFEFCEE),

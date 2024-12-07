@@ -17,7 +17,7 @@ void showAlertObjetivoVacio(BuildContext context) {
             children: [
               const SizedBox(height: 15),
               Text(
-                'Debes de escribir un nombre para tu objetivo.',
+                'Debes de escribir algo.',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold,
@@ -27,7 +27,7 @@ void showAlertObjetivoVacio(BuildContext context) {
               ),
               const SizedBox(height: 25),
               Text(
-                'Este campo es obligatorio. Escribe en una o dos palabras qué objetivo deseas cumplir.',
+                'Este campo es obligatorio. Escribe en una o dos palabras qué deseas cumplir.',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.normal,

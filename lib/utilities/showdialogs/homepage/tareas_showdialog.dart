@@ -81,9 +81,7 @@ void showAlertTareas(BuildContext context, String objectiveRef) {
                       ),
                     ),
                     onPressed: () {
-                      //Navigator.of(context).pop();
-                      showAlertBottomEditarTarea(context,
-                          "Estudiar T9 biología y repaso porque me lo se todo todito todo");
+                      Navigator.of(context).pop();
                     },
                     child: Text(
                       'Continuar',

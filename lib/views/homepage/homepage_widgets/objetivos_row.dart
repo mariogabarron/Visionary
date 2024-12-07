@@ -5,14 +5,15 @@ import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/visionary_user_class.dart';
 
 class ObjetivosRow extends StatefulWidget {
-  final VoidCallback onEmptyObjectives;
   final Function(String)
       onObjectiveSelected; // Callback para pasar el nombre del objetivo seleccionado
+  final VoidCallback onObjectiveDeleted; // Callback para actualizar HomePage
 
-  const ObjetivosRow(
-      {super.key,
-      required this.onEmptyObjectives,
-      required this.onObjectiveSelected});
+  const ObjetivosRow({
+    super.key,
+    required this.onObjectiveSelected,
+    required this.onObjectiveDeleted,
+  });
 
   @override
   State<ObjetivosRow> createState() => _ObjetivosRowState();
@@ -44,7 +45,7 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
           selectedObjetivoIndex = 0;
           selectedObjetivoRef = user.objectives[0].$2.key;
         } else {
-          widget.onEmptyObjectives(); // Llama al callback si no hay objetivos
+          widget.onObjectiveDeleted(); // Llama al callback si no hay objetivos
         }
         return user;
       });
@@ -113,7 +114,11 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                       await Objetivo.fromRef(objectives[i].$2);
                                   if (context.mounted) {
                                     showAlertBottomEditarObjetivo(
-                                        context, obj, controller, reloadData);
+                                        context,
+                                        obj,
+                                        controller,
+                                        reloadData,
+                                        widget.onObjectiveDeleted);
                                     reloadData();
                                   }
                                 },
@@ -173,8 +178,12 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
   }
 }
 
-void showAlertBottomEditarObjetivo(BuildContext context, Objetivo objetivo,
-    TextEditingController controller, Function reloadData) {
+void showAlertBottomEditarObjetivo(
+    BuildContext context,
+    Objetivo objetivo,
+    TextEditingController controller,
+    Function reloadData,
+    VoidCallback onObjectiveDeleted) {
   String nombreObjetivo = objetivo.name;
   controller.text = objetivo.name;
 
@@ -239,6 +248,7 @@ void showAlertBottomEditarObjetivo(BuildContext context, Objetivo objetivo,
                     if (context.mounted) {
                       Navigator.of(context).pop(); // Cerrar el modal
                     }
+                    onObjectiveDeleted;
                   },
                   child: Text(
                     'Guardar',

@@ -1,7 +1,10 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:visionary/services/objects/tarea_class.dart';
 
-void showAlertBottomEditarTarea(BuildContext context, String tarea) {
+void showAlertBottomEditarTarea(BuildContext context, String tarea,
+    String nombre, TextEditingController editingController) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -23,7 +26,7 @@ void showAlertBottomEditarTarea(BuildContext context, String tarea) {
               children: [
                 const SizedBox(height: 10),
                 Text(
-                  'Editar tarea "$tarea"',
+                  'Editar tarea "$nombre"',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
@@ -33,7 +36,7 @@ void showAlertBottomEditarTarea(BuildContext context, String tarea) {
                 ),
                 const SizedBox(height: 30),
                 Text(
-                  'Cambiar nombre a la tarea "$tarea"',
+                  'Cambiar nombre a la tarea "$nombre"',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.normal,
@@ -46,7 +49,8 @@ void showAlertBottomEditarTarea(BuildContext context, String tarea) {
                     label: "",
                     inputType: TextInputType.name,
                     hintText: "Escribe el nuevo nombre",
-                    maxWords: 20),
+                    maxWords: 20,
+                    t: editingController),
                 const SizedBox(height: 30),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -55,8 +59,14 @@ void showAlertBottomEditarTarea(BuildContext context, String tarea) {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
+                  onPressed: () async {
+                    DatabaseReference dbRef =
+                        FirebaseDatabase.instance.ref(tarea);
+                    Tarea t = await Tarea.fromRef(dbRef);
+                    t.print();
+                    t.editarTarea(editingController.text, t.priority,
+                        t.needDone, t.recordatorio);
+                    if (context.mounted) Navigator.of(context).pop();
                   },
                   child: Text(
                     'Guardar',
@@ -74,7 +84,7 @@ void showAlertBottomEditarTarea(BuildContext context, String tarea) {
                 ),
                 const SizedBox(height: 25),
                 Text(
-                  'Eliminar tarea "$tarea"',
+                  'Eliminar tarea "$nombre"',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.normal,
@@ -111,8 +121,14 @@ void showAlertBottomEditarTarea(BuildContext context, String tarea) {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      onPressed: () {
-                        // Acción de borrar cuenta
+                      onPressed: () async {
+                        // Acción de borrar tarea
+                        print(tarea);
+
+                        DatabaseReference dbRef =
+                            FirebaseDatabase.instance.ref(tarea);
+                        Tarea t = await Tarea.fromRef(dbRef);
+                        t.deleteTask();
                       },
                       child: Text(
                         'Borrar',
@@ -139,6 +155,7 @@ Widget _buildInputField(
     String? hintText,
     bool obscureText = false,
     required TextInputType inputType,
+    required TextEditingController t,
     int? maxWords}) {
   TextInputType keyboardType = TextInputType.text;
 
@@ -169,6 +186,7 @@ Widget _buildInputField(
             borderRadius: BorderRadius.circular(30.0),
           ),
           child: TextField(
+            controller: t,
             keyboardType: keyboardType,
             style: GoogleFonts.poppins(
               color: const Color(0xFFFEFCEE),
