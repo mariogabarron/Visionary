@@ -28,21 +28,30 @@ class NotificationHandler {
   /// ESTO ES UN COPIA Y PEGA TODO: REVISAR ESTA FUNCION
   Future<void> scheduleNotification() async {
     var androidDetails = const AndroidNotificationDetails(
-        'channelId', 'channelName',
-        importance: Importance.max, priority: Priority.high);
+      'channelId',
+      'channelName',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
 
     var iOSDetails = const DarwinNotificationDetails();
-    var notificationDetails =
-        NotificationDetails(android: androidDetails, iOS: iOSDetails);
+
+    var notificationDetails = NotificationDetails(
+      android: androidDetails,
+      iOS: iOSDetails,
+    );
+
     tz.initializeTimeZones();
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        'Scheduled Notification',
-        'This is a test notification',
-        tz.TZDateTime.now(tz.getLocation("Europe/Madrid"))
-            .add(const Duration(seconds: 10)),
-        notificationDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+      0,
+      'Scheduled Notification',
+      'This is a test notification',
+      tz.TZDateTime.now(tz.getLocation("Europe/Madrid"))
+          .add(const Duration(seconds: 10)),
+      notificationDetails,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exact, // Added parameter
+    );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
-import 'package:visionary/utilities/showdialogs/homepage/editartarea_showdialog.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareauno_view.dart';
 
 void showAlertTareas(BuildContext context, String objectiveRef) {

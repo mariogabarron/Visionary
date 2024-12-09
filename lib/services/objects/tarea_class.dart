@@ -66,10 +66,11 @@ class Tarea {
           if (e.key == 'priority') priority = e.value as int;
           if (e.key == 'need_done') needDone = e.value as int;
           if (e.key == 'times_done') timesDone = e.value as int;
-          if (e.key == 'dates')
+          if (e.key == 'dates') {
             dates = e.children
                 .map((x) => DateTime.parse(x.value.toString()))
                 .toList();
+          }
           if (e.key == 'reminder') reminder = await Recordatorio.fromRef(e.ref);
         }
       }

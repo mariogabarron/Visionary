@@ -26,7 +26,7 @@ class _HomepageViewState extends State<HomepageView>
   bool _showTutorial = false;
   BannerAd? _banner;
   bool _isAdLoaded = false;
-  bool _hasObjectives = true; // Variable para controlar si hay objetivos
+  final bool _hasObjectives = true; // Variable para controlar si hay objetivos
   Future<bool>? _objectivesFuture; // Almacena el Future de los objetivos
 
   late AnimationController _animationController;

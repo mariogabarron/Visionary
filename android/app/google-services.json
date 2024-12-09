@@ -15,7 +15,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "241229525734-k0vgu2js0ukbq1o50g1bttjdirum9etl.apps.googleusercontent.com",
+          "client_id": "241229525734-1vb3d63fn6lggpsu1it3h8vpls4s47oi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.visionary",
+            "certificate_hash": "f111e183a5bee2b6ce7141a6353b6725f1a167af"
+          }
+        },
+        {
+          "client_id": "241229525734-v3p20igs2t0dilek9s0pu5va66pfdr3c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.visionary",
+            "certificate_hash": "c7d98f4f9b3e5b22a1d369abb0b3a15212c86995"
+          }
+        },
+        {
+          "client_id": "241229525734-ac1mb9gk57u3c0jejq6nqrthr9ksot40.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -28,7 +44,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "241229525734-k0vgu2js0ukbq1o50g1bttjdirum9etl.apps.googleusercontent.com",
+              "client_id": "241229525734-ac1mb9gk57u3c0jejq6nqrthr9ksot40.apps.googleusercontent.com",
               "client_type": 3
             },
             {
@@ -39,44 +55,9 @@
               }
             }
           ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:241229525734:android:48c0b23fc9efb5280d8127",
-        "android_client_info": {
-          "package_name": "com.visionary.app"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "241229525734-k0vgu2js0ukbq1o50g1bttjdirum9etl.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC4f-Nqj13mpICJAs_8tD52wQ5xjyKF2Js"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "241229525734-k0vgu2js0ukbq1o50g1bttjdirum9etl.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "241229525734-b4lue2f64n8gp5kkmbqbimkfkn837sp2.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.visionary"
-              }
-            }
-          ]
-        }
-      }
+      "admob_app_id": "ca-app-pub-9277052423554636~5299594643"
     }
   ],
   "configuration_version": "1"
