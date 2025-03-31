@@ -6,7 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/utilities/showdialogs/homepage/porque_showdialog.dart';
 
 class PorqueLoHagoContainer extends StatefulWidget {
-  const PorqueLoHagoContainer({super.key});
+  final String objetivo;
+  const PorqueLoHagoContainer({super.key, required this.objetivo});
 
   @override
   State<PorqueLoHagoContainer> createState() => _PorqueLoHagoContainerState();
@@ -16,7 +17,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showAlertPorque(context),
+      onTap: () => showAlertPorque(context, widget.objetivo),
       child: Stack(
         children: [
           Container(
@@ -76,7 +77,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                         CupertinoIcons.pencil_circle_fill),
                                     color: const Color(0xFFFEFCEE),
                                     onPressed: () {
-                                      showAlertPorque(context);
+                                      showAlertPorque(context, widget.objetivo);
                                     },
                                   ),
                                 ),

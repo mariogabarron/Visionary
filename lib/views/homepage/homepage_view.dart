@@ -231,7 +231,8 @@ class _HomepageViewState extends State<HomepageView>
                               TareasContainer(
                                   objetivo: selectedObjectiveName ?? "A"),
                               const SizedBox(height: 30),
-                              const PorqueLoHagoContainer(),
+                              PorqueLoHagoContainer(
+                                  objetivo: selectedObjectiveName ?? "A"),
                               const SizedBox(height: 30),
                               progresoContainer(
                                   context: context, porcentaje: 0.4),
