@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/objects/tarea_class.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareauno_view.dart';
 
-void showAlertTareas(BuildContext context, String objectiveRef) {
+void showAlertTareas(
+    BuildContext context, String objectiveRef, List<Tarea> tareas) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -27,9 +29,9 @@ void showAlertTareas(BuildContext context, String objectiveRef) {
                   color: const Color(0xFF26272C),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Text(
-                '¿Qué tengo que cumplir para\n conseguir mi objetivo?',
+                'Edita tus tareas en el desplegable\n del menú principal',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.normal,
@@ -38,16 +40,48 @@ void showAlertTareas(BuildContext context, String objectiveRef) {
                 ),
               ),
               const SizedBox(height: 50),
-              Text(
-                // TODO: MODUALIZARLO PARA METERO A LA HOMEPAGE DIRECTAMENTE
-                'No has creado aún tareas',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: const Color.fromARGB(183, 40, 40, 40),
+              if (tareas.isEmpty)
+                Text(
+                  'No has creado aún tareas',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: const Color.fromARGB(183, 40, 40, 40),
+                  ),
+                )
+              else
+                Column(
+                  children: [
+                    ...tareas.take(3).map((tarea) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Text(
+                          tarea.name,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            color: const Color(0xFF26272C),
+                          ),
+                        ),
+                      );
+                    }),
+                    if (tareas.length > 3)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          '...',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF26272C),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-              ),
               const SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

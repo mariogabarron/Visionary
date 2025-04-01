@@ -14,10 +14,26 @@ class PorqueLoHagoContainer extends StatefulWidget {
 }
 
 class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
+  bool _isDialogOpen = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showAlertPorque(context, widget.objetivo),
+      onTap: () {
+        if (_isDialogOpen) {
+          return; //  Impedir que se abra el diálogo si ya está abierto
+        }
+
+        setState(() {
+          _isDialogOpen = true; // Marcar el diálogo como abierto
+        });
+
+        showAlertPorque(context, widget.objetivo);
+
+        setState(() {
+          _isDialogOpen = false; // Marcar el diálogo como cerrado
+        });
+      },
       child: Stack(
         children: [
           Container(

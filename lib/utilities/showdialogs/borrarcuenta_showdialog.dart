@@ -28,7 +28,7 @@ void showAlertBorrarCuenta(BuildContext context) {
                   color: const Color(0xFF26272C),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 30),
               Text(
                 'Si borras tu cuenta, todos tus datos se borrarán permanentemente',
                 textAlign: TextAlign.center,
@@ -38,7 +38,7 @@ void showAlertBorrarCuenta(BuildContext context) {
                   color: const Color.fromARGB(255, 40, 40, 40),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -81,7 +81,7 @@ void showAlertBorrarCuenta(BuildContext context) {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
             ],
           ),
         ),

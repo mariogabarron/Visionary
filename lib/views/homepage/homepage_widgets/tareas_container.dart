@@ -20,6 +20,7 @@ class _TareasContainerState extends State<TareasContainer> {
   late TextEditingController editingController;
   double _bottomPadding = 8;
   bool _isExpanded = false;
+  bool _isDialogOpen = false;
 
   @override
   void initState() {
@@ -76,7 +77,23 @@ class _TareasContainerState extends State<TareasContainer> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showAlertTareas(context, widget.objetivo),
+      onTap: () async {
+        if (_isDialogOpen) {
+          return; // Evitar abrir múltiples diálogos
+        }
+
+        setState(() {
+          _isDialogOpen = true; // Marca que hay un diálogo abierto
+        });
+
+        List<Tarea> tareas = await getListaTareas();
+
+        if (context.mounted) showAlertTareas(context, widget.objetivo, tareas);
+
+        setState(() {
+          _isDialogOpen = false; // Marcar el diálogo como cerrado
+        });
+      },
       child: Stack(
         children: [
           Container(
@@ -135,8 +152,11 @@ class _TareasContainerState extends State<TareasContainer> {
                                     icon: const Icon(
                                         CupertinoIcons.pencil_circle_fill),
                                     color: const Color(0xFFFEFCEE),
-                                    onPressed: () {
-                                      showAlertTareas(context, widget.objetivo);
+                                    onPressed: () async {
+                                      List<Tarea> tareas =
+                                          await getListaTareas();
+                                      showAlertTareas(
+                                          context, widget.objetivo, tareas);
                                     },
                                   ),
                                 ),
@@ -193,11 +213,15 @@ class _TareasContainerState extends State<TareasContainer> {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
                                           return const Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      Color(0xFFFEFCEE)),
-                                              strokeWidth: 3.0,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(top: 20),
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                            Color>(
+                                                        Color(0xFFFEFCEE)),
+                                                strokeWidth: 3.0,
+                                              ),
                                             ),
                                           );
                                         } else if (snapshot.hasError) {
