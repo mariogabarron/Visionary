@@ -9,7 +9,7 @@ class Tarea {
   int _timesDone;
   List<DateTime> _dates;
   Recordatorio? _recordatorio;
-  final String _dbRef;
+  String _dbRef;
 
   /// Claves de la base de datos referentes a la tarea.
   static final Set<String> _keys = {
@@ -38,53 +38,61 @@ class Tarea {
             .push()
             .path;
 
+  Tarea.desdeRef(
+    String dbRef, {
+    required String name,
+    required int priority,
+    required int needDone,
+    required int timesDone,
+    required List<DateTime> dates,
+    Recordatorio? recordatorio,
+  })  : _dbRef = dbRef,
+        _name = name,
+        _priority = priority,
+        _needDone = needDone,
+        _timesDone = timesDone,
+        _dates = const [],
+        _recordatorio = recordatorio;
+
   /// Obtiene una tarea dada una referencia en base de datos. Si la referencia no apunta a una tarea válida, devuelve una excepción.
   static Future<Tarea> fromRef(DatabaseReference ref) async {
-    String nombre = "";
-    int priority = 0;
-    int needDone = 0;
-    int timesDone = 0;
-    List<DateTime> dates = [];
-    Recordatorio? reminder;
-
-    if ((await ref.get()).exists) {
-      List<Future<DataSnapshot>> futures = [];
-      for (final entry in _keys) {
-        futures.add(ref.child(entry).get());
-      }
-
-      await Future.wait(futures as Iterable<Future>);
-
-      for (final entry in futures) {
-        if (!(await entry).exists &&
-            (await entry).key != 'dates' &&
-            (await entry).key != 'reminder') {
-          throw ArgumentError("The reference provided did not contain a task");
-        } else {
-          var e = await entry;
-          if (e.key == 'name') nombre = e.value.toString();
-          if (e.key == 'priority') priority = e.value as int;
-          if (e.key == 'need_done') needDone = e.value as int;
-          if (e.key == 'times_done') timesDone = e.value as int;
-          if (e.key == 'dates') {
-            dates = e.children
-                .map((x) => DateTime.parse(x.value.toString()))
-                .toList();
-          }
-          if (e.key == 'reminder') reminder = await Recordatorio.fromRef(e.ref);
-        }
-      }
-      var result = Tarea(ref.parent!.parent!.path,
-          name: nombre,
-          priority: priority,
-          needDone: needDone,
-          recordatorio: reminder);
-      result._dates = dates;
-      result._recordatorio = reminder;
-      result._timesDone = timesDone;
-      return result;
+    final snapshot = await ref.get();
+    if (!snapshot.exists) {
+      throw ArgumentError("La referencia proporcionada no contiene una tarea.");
     }
-    throw ArgumentError("The reference provided did not contain a task");
+
+    // Se extraen los datos de la tarea del snapshot.
+    String nombre = snapshot.child('name').value.toString();
+    int priority = snapshot.child('priority').value as int;
+    int needDone = snapshot.child('need_done').value as int;
+    int timesDone = snapshot.child('times_done').value as int;
+
+    // Obtener la lista de fechas.
+    List<DateTime> dates = [];
+    final datesSnapshot = snapshot.child('dates');
+    if (datesSnapshot.exists) {
+      dates = datesSnapshot.children
+          .map((child) => DateTime.parse(child.value.toString()))
+          .toList();
+    }
+
+    // Obtener el recordatorio, si existe.
+    Recordatorio? reminder;
+    final reminderSnapshot = snapshot.child('reminder');
+    if (reminderSnapshot.exists) {
+      reminder = await Recordatorio.fromRef(reminderSnapshot.ref);
+    }
+
+    // Usar el constructor Tarea.desdeRef para reconstruir la tarea, asignando la referencia existente.
+    return Tarea.desdeRef(
+      ref.path,
+      name: nombre,
+      priority: priority,
+      needDone: needDone,
+      timesDone: timesDone,
+      dates: dates,
+      recordatorio: reminder,
+    );
   }
 
   /// Obtiene la lista de tareas de un objeto dada su referencia en base de datos. Devuelve una excepción si no era un objetivo.
@@ -129,7 +137,7 @@ class Tarea {
   void makeDone() {
     if (_timesDone < _needDone) {
       _timesDone++;
-      _dates.add(DateTime.now());
+      // _dates.add(DateTime.now());
     }
     update();
   }
@@ -138,7 +146,7 @@ class Tarea {
   void makeUndone() {
     if (_timesDone > 0) {
       _timesDone--;
-      _dates.removeLast();
+      //_dates.removeLast();
     }
     update();
   }

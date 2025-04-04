@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:developer';
 import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
 import 'package:visionary/utilities/showdialogs/homepage/editartarea_showdialog.dart';
@@ -153,10 +154,26 @@ class _TareasContainerState extends State<TareasContainer> {
                                         CupertinoIcons.pencil_circle_fill),
                                     color: const Color(0xFFFEFCEE),
                                     onPressed: () async {
+                                      if (_isDialogOpen) {
+                                        return; // Evitar abrir múltiples diálogos
+                                      }
+
+                                      setState(() {
+                                        _isDialogOpen =
+                                            true; // Marca que hay un diálogo abierto
+                                      });
+
                                       List<Tarea> tareas =
                                           await getListaTareas();
-                                      showAlertTareas(
-                                          context, widget.objetivo, tareas);
+
+                                      if (context.mounted)
+                                        showAlertTareas(
+                                            context, widget.objetivo, tareas);
+
+                                      setState(() {
+                                        _isDialogOpen =
+                                            false; // Marcar el diálogo como cerrado
+                                      });
                                     },
                                   ),
                                 ),
@@ -234,11 +251,6 @@ class _TareasContainerState extends State<TareasContainer> {
                                           );
                                         } else if (snapshot.hasData &&
                                             snapshot.data!.isNotEmpty) {
-                                          // Agrega estado inicial de completado para cada tarea
-                                          List<bool> completed = List.generate(
-                                              snapshot.data!.length,
-                                              (index) => false);
-
                                           return Column(
                                             children: List.generate(
                                               snapshot.data!.length,
@@ -246,7 +258,8 @@ class _TareasContainerState extends State<TareasContainer> {
                                                 children: [
                                                   IconButton(
                                                     icon: Icon(
-                                                      completed[index]
+                                                      snapshot.data![index]
+                                                              .isDone()
                                                           ? CupertinoIcons
                                                               .check_mark_circled_solid
                                                           : CupertinoIcons
@@ -254,30 +267,43 @@ class _TareasContainerState extends State<TareasContainer> {
                                                       color: const Color(
                                                           0xFFFEFCEE),
                                                     ),
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        completed[index] =
-                                                            !completed[index];
-                                                      });
+                                                    onPressed: () async {
+                                                      try {
+                                                        Tarea tarea = snapshot
+                                                            .data![index];
+                                                        print(tarea.dbRef);
+                                                        if (!tarea.isDone()) {
+                                                          tarea
+                                                              .makeDone(); // Incrementa el contador y actualiza la base de datos
+                                                        } else {
+                                                          tarea
+                                                              .makeUndone(); // Desmarca la tarea si ya estaba completada
+                                                        }
+
+                                                        // Recarga la lista de tareas después de actualizar
+                                                        setState(() {
+                                                          getListaTareas();
+                                                        });
+                                                      } catch (e) {
+                                                        print(
+                                                            "Error al completar la tarea: $e");
+                                                      }
                                                     },
                                                   ),
                                                   GestureDetector(
                                                     onLongPress: () {
                                                       showAlertBottomEditarTarea(
-                                                          context,
-                                                          snapshot.data![index]
-                                                              .dbRef,
-                                                          snapshot.data![index]
-                                                              .name,
-                                                          editingController);
-                                                      print(
-                                                          "Texto mantenido: ${snapshot.data![index].name}");
+                                                        context,
+                                                        snapshot
+                                                            .data![index].dbRef,
+                                                        snapshot
+                                                            .data![index].name,
+                                                        editingController,
+                                                      );
                                                     },
                                                     child: Text(
-                                                      splitTextBySpaces(
-                                                          snapshot.data![index]
-                                                              .name,
-                                                          20),
+                                                      // Texto simplificado al formato x/y
+                                                      "${splitTextBySpaces(snapshot.data![index].name, 20)} (${snapshot.data![index].timesDone}/${snapshot.data![index].needDone})",
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize: 16,

@@ -57,7 +57,7 @@ void showAlertTareas(
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: Text(
-                          tarea.name,
+                          "${tarea.name} (${tarea.timesDone}/${tarea.needDone})",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.normal,

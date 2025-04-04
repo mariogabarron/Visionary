@@ -71,7 +71,7 @@ void showAlertPorque(BuildContext context, String objetivo) async {
                                 fontWeight: FontWeight.bold,
                               ),
                               decoration: InputDecoration(
-                                hintText: "Tu propósito con esta meta...",
+                                hintText: "Escribe por qué quieres lograrlo...",
                                 hintStyle: GoogleFonts.poppins(
                                   color: const Color.fromARGB(183, 40, 40, 40),
                                   fontSize: 14,
@@ -100,7 +100,7 @@ void showAlertPorque(BuildContext context, String objetivo) async {
                               ),
                               child: Text(
                                 textController.text.isEmpty
-                                    ? "Tu propósito con esta meta..."
+                                    ? "Escribe aquí..."
                                     : textController.text,
                                 style: GoogleFonts.poppins(
                                   color: const Color(0xFF26272C),
@@ -142,7 +142,7 @@ void showAlertPorque(BuildContext context, String objetivo) async {
                         }
                       },
                       child: Text(
-                        'Continuar',
+                        'Guardar',
                         style: GoogleFonts.poppins(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
