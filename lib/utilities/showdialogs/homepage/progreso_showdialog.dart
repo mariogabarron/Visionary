@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/utilities/progressbar.dart';
 
-void showAlertProgreso(BuildContext context) {
+void showAlertProgreso(BuildContext context, double porcentaje) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -37,7 +37,7 @@ void showAlertProgreso(BuildContext context) {
                 ),
               ),
               const SizedBox(height: 30),
-              const ProgressBar(porcentaje: 0.4),
+              ProgressBar(porcentaje: porcentaje),
               const SizedBox(height: 30),
               RichText(
                   textAlign: TextAlign.center,
@@ -55,7 +55,7 @@ void showAlertProgreso(BuildContext context) {
                           ),
                         ),
                         TextSpan(
-                          text: "40%",
+                          text: "${porcentaje * 100}%",
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold,
                           ),

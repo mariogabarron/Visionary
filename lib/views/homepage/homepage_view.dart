@@ -1,11 +1,14 @@
 import 'dart:developer' as d;
 import 'dart:io';
 import 'dart:math';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/objects/objetivo_class.dart';
+import 'package:visionary/services/objects/tarea_class.dart';
 import 'package:visionary/services/objects/visionary_user_class.dart';
 import 'package:visionary/views/homepage/homepage_widgets/frase_container.dart';
 import 'package:visionary/views/homepage/homepage_widgets/objetivos_row.dart';
@@ -120,6 +123,21 @@ class _HomepageViewState extends State<HomepageView>
     });
   }
 
+  Future<List<Tarea>> getListaTareas() async {
+    if (selectedObjectiveName == null) {
+      return []; // Si no hay objetivo seleccionado, devuelve una lista vacía
+    }
+    final ref = FirebaseDatabase.instance.ref(selectedObjectiveName!);
+    final objetivo = await Objetivo.fromRef(ref);
+    return objetivo.listaTareas;
+  }
+
+  void actualizarProgreso() {
+    setState(() {
+      // Esto forzará la reconstrucción del ProgresoContainer
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,13 +247,13 @@ class _HomepageViewState extends State<HomepageView>
                             children: [
                               const SizedBox(height: 20),
                               TareasContainer(
-                                  objetivo: selectedObjectiveName ?? "A"),
+                                  objetivo: selectedObjectiveName ?? "A",
+                                  onTaskUpdated: actualizarProgreso),
                               const SizedBox(height: 30),
                               PorqueLoHagoContainer(
                                   objetivo: selectedObjectiveName ?? "A"),
                               const SizedBox(height: 30),
-                              progresoContainer(
-                                  context: context, porcentaje: 0.4),
+                              ProgresoContainer(tareasFuture: getListaTareas()),
                               const SizedBox(height: 30),
                               const FraseContainer(),
                               const SizedBox(height: 30),

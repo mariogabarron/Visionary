@@ -15,6 +15,26 @@ class PorqueLoHagoContainer extends StatefulWidget {
 
 class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
   bool _isDialogOpen = false;
+  String? _proposito;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProposito(); // Cargar el propósito al inicializar
+  }
+
+  Future<void> _loadProposito() async {
+    // Simula la obtención del propósito desde la base de datos o lógica
+    // Reemplaza esto con tu lógica real para obtener el propósito
+    final proposito = await Future.delayed(
+      const Duration(milliseconds: 500),
+      () => "Este es un ejemplo de propósito.", // Ejemplo de propósito
+    );
+
+    setState(() {
+      _proposito = proposito; // Actualiza el propósito
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +132,8 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
                               child: Text(
-                                "Escribe la razón por la que quiere cumplir este objetivo.",
+                                _proposito ??
+                                    "Escribe la razón por la que se quiere cumplir este objetivo.",
                                 style: GoogleFonts.poppins(
                                   fontStyle: FontStyle.normal,
                                   fontSize: 16,

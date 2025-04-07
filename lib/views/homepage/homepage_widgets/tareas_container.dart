@@ -6,12 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:developer';
 import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
+import 'package:visionary/utilities/animations/customloader.dart';
 import 'package:visionary/utilities/showdialogs/homepage/editartarea_showdialog.dart';
 import 'package:visionary/utilities/showdialogs/homepage/tareas_showdialog.dart';
 
 class TareasContainer extends StatefulWidget {
   final String objetivo;
-  const TareasContainer({super.key, required this.objetivo});
+  final VoidCallback onTaskUpdated; // Callback para notificar cambios
+  const TareasContainer(
+      {super.key, required this.objetivo, required this.onTaskUpdated});
 
   @override
   State<TareasContainer> createState() => _TareasContainerState();
@@ -232,13 +235,8 @@ class _TareasContainerState extends State<TareasContainer> {
                                           return const Center(
                                             child: Padding(
                                               padding: EdgeInsets.only(top: 20),
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                            Color>(
-                                                        Color(0xFFFEFCEE)),
-                                                strokeWidth: 3.0,
-                                              ),
+                                              child:
+                                                  CustomLoader(), // Usa el nuevo loader aquí
                                             ),
                                           );
                                         } else if (snapshot.hasError) {
@@ -271,16 +269,18 @@ class _TareasContainerState extends State<TareasContainer> {
                                                       try {
                                                         Tarea tarea = snapshot
                                                             .data![index];
-                                                        print(tarea.dbRef);
                                                         if (!tarea.isDone()) {
                                                           tarea
-                                                              .makeDone(); // Incrementa el contador y actualiza la base de datos
+                                                              .makeDone(); // Marca como completada
                                                         } else {
                                                           tarea
-                                                              .makeUndone(); // Desmarca la tarea si ya estaba completada
+                                                              .makeUndone(); // Desmarca la tarea
                                                         }
 
-                                                        // Recarga la lista de tareas después de actualizar
+                                                        // Notifica al widget padre que las tareas han cambiado
+                                                        widget.onTaskUpdated();
+
+                                                        // Recarga la lista de tareas
                                                         setState(() {
                                                           getListaTareas();
                                                         });
