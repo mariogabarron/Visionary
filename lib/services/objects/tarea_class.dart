@@ -7,19 +7,19 @@ class Tarea {
   int _priority;
   int _needDone;
   int _timesDone;
-  List<DateTime> _dates;
+  final List<DateTime> _dates;
   Recordatorio? _recordatorio;
-  String _dbRef;
+  final String _dbRef;
 
   /// Claves de la base de datos referentes a la tarea.
-  static final Set<String> _keys = {
+  /*static final Set<String> _keys = {
     'name',
     'priority',
     'need_done',
     'times_done',
     'dates',
     'reminder'
-  };
+  };*/
 
   Tarea(String objectiveRef,
       {required String name,

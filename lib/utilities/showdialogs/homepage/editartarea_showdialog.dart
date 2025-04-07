@@ -123,7 +123,7 @@ void showAlertBottomEditarTarea(BuildContext context, String tarea,
                       ),
                       onPressed: () async {
                         // Acción de borrar tarea
-                        print(tarea);
+                        //print(tarea);
 
                         DatabaseReference dbRef =
                             FirebaseDatabase.instance.ref(tarea);

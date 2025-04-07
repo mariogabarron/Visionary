@@ -27,7 +27,7 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
     with SingleTickerProviderStateMixin {
   final List<int> _selectedDays = []; // Lista para los días seleccionados
   late AnimationController _controller;
-  late Animation<double> _animation;
+  late Animation<double> animation;
   TipoRecordatorio _selectedPeriodicity =
       TipoRecordatorio.semanal; // Variable para periodicidad
   int _selectedNumberHour = 0;
@@ -40,7 +40,7 @@ class _CreaTareaCuatroViewState extends State<CreaTareaCuatroView>
       duration: const Duration(seconds: 5),
       vsync: this,
     )..repeat();
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+    animation = Tween<double>(begin: 0, end: 1).animate(_controller);
   }
 
   @override

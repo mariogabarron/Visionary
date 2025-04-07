@@ -123,19 +123,21 @@ void showAlertPorque(BuildContext context, String objetivo) async {
                           objetivoRef.update({
                             'proposito': textController.text,
                           }).then((_) {
-                            Navigator.of(context).pop();
+                            if (context.mounted) Navigator.of(context).pop();
                           }).catchError((error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Error al guardar el propósito: $error',
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Error al guardar el propósito: $error',
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                    ),
                                   ),
+                                  backgroundColor: Colors.red,
                                 ),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
+                              );
+                            }
                           });
                         } else {
                           Navigator.of(context).pop();

@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:developer' as devtools show log;
 import 'package:http/http.dart' as http;
 import 'package:visionary/services/db/db_user_management.dart';
-import 'package:visionary/utilities/showdialogs/authexceptions/accountCreated_showDialog.dart';
+import 'package:visionary/utilities/showdialogs/authexceptions/cuentacreada_showdialog.dart';
 import 'package:visionary/utilities/showdialogs/authexceptions/authexceptions_showdialog.dart';
 
 /// Obtiene el código del país del usuario por IP.

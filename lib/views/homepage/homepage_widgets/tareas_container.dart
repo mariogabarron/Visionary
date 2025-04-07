@@ -1,9 +1,9 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:developer';
 import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
 import 'package:visionary/utilities/animations/customloader.dart';
@@ -169,9 +169,10 @@ class _TareasContainerState extends State<TareasContainer> {
                                       List<Tarea> tareas =
                                           await getListaTareas();
 
-                                      if (context.mounted)
+                                      if (context.mounted) {
                                         showAlertTareas(
                                             context, widget.objetivo, tareas);
+                                      }
 
                                       setState(() {
                                         _isDialogOpen =
@@ -285,8 +286,7 @@ class _TareasContainerState extends State<TareasContainer> {
                                                           getListaTareas();
                                                         });
                                                       } catch (e) {
-                                                        print(
-                                                            "Error al completar la tarea: $e");
+                                                        log("Error al completar la tarea: $e");
                                                       }
                                                     },
                                                   ),

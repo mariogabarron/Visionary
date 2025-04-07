@@ -70,7 +70,7 @@ class _ProgresoContainerState extends State<ProgresoContainer>
       onTap: () async {
         // Retraso de 2 segundos antes de mostrar el diálogo
         await Future.delayed(const Duration(seconds: 1));
-        showAlertProgreso(context, _currentProgress);
+        if (context.mounted) showAlertProgreso(context, _currentProgress);
       },
       child: Stack(
         children: [
