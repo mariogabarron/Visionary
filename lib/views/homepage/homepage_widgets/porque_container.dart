@@ -1,13 +1,17 @@
 import 'dart:ui';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/utilities/showdialogs/homepage/porque_showdialog.dart';
 
 class PorqueLoHagoContainer extends StatefulWidget {
   final String objetivo;
-  const PorqueLoHagoContainer({super.key, required this.objetivo});
+  final VoidCallback onTaskUpdated;
+  const PorqueLoHagoContainer(
+      {super.key, required this.objetivo, required this.onTaskUpdated});
 
   @override
   State<PorqueLoHagoContainer> createState() => _PorqueLoHagoContainerState();
@@ -15,43 +19,50 @@ class PorqueLoHagoContainer extends StatefulWidget {
 
 class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
   bool _isDialogOpen = false;
-  String? _proposito;
+  bool _isExpanded = false; // Controla si el texto está expandido o contraído
+  double _bottomPadding = 8;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadProposito(); // Cargar el propósito al inicializar
+  Future<String?> _loadProposito() async {
+    try {
+      final objetivoRef = FirebaseDatabase.instance.ref(widget.objetivo);
+      final objetivo = await Objetivo.fromRef(objetivoRef);
+      return objetivo.motive ?? "No se especificó un propósito.";
+    } catch (e) {
+      return "No se pudo cargar el propósito.";
+    }
   }
 
-  Future<void> _loadProposito() async {
-    // Simula la obtención del propósito desde la base de datos o lógica
-    // Reemplaza esto con tu lógica real para obtener el propósito
-    final proposito = await Future.delayed(
-      const Duration(milliseconds: 500),
-      () => "Este es un ejemplo de propósito.", // Ejemplo de propósito
-    );
-
+  void _expandBottomPadding() {
     setState(() {
-      _proposito = proposito; // Actualiza el propósito
+      _isExpanded = !_isExpanded;
+      _bottomPadding = _bottomPadding == 8 ? 35 : 8; // Alternar entre 8 y 35
     });
+  }
+
+  String splitTextByWords(String text, int limit) {
+    List<String> words = text.split(' ');
+    if (words.length <= limit) return text;
+
+    return words.take(limit).join(' ') + '...';
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (_isDialogOpen) {
-          return; //  Impedir que se abra el diálogo si ya está abierto
-        }
+        if (_isDialogOpen) return;
 
         setState(() {
-          _isDialogOpen = true; // Marcar el diálogo como abierto
+          _isDialogOpen = true;
         });
 
-        showAlertPorque(context, widget.objetivo);
+        showAlertPorque(context, widget.objetivo, () {
+          setState(() {});
+          widget.onTaskUpdated();
+        });
 
         setState(() {
-          _isDialogOpen = false; // Marcar el diálogo como cerrado
+          _isDialogOpen = false;
         });
       },
       child: Stack(
@@ -84,7 +95,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 10, bottom: 10),
+                            left: 15.0, right: 15.0, top: 8),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -92,19 +103,14 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
-                                    shape: BoxShape
-                                        .circle, // Para que la sombra sea circular
+                                    shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
                                         color: const Color(0xFFFEFCEE)
-                                            .withOpacity(
-                                                0.15), // Color de la sombra
-                                        spreadRadius:
-                                            3, // Qué tanto se expande la sombra
-                                        blurRadius:
-                                            20, // Desenfoque de la sombra
-                                        offset: const Offset(0,
-                                            0), // Desplazamiento de la sombra (x, y)
+                                            .withOpacity(0.15),
+                                        spreadRadius: 3,
+                                        blurRadius: 20,
+                                        offset: const Offset(0, 0),
                                       ),
                                     ],
                                   ),
@@ -113,10 +119,15 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                         CupertinoIcons.pencil_circle_fill),
                                     color: const Color(0xFFFEFCEE),
                                     onPressed: () {
-                                      showAlertPorque(context, widget.objetivo);
+                                      showAlertPorque(context, widget.objetivo,
+                                          () {
+                                        setState(() {});
+                                        widget.onTaskUpdated();
+                                      });
                                     },
                                   ),
                                 ),
+                                const SizedBox(width: 5),
                                 Text(
                                   "Propósito",
                                   style: GoogleFonts.poppins(
@@ -128,23 +139,107 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                 ),
                               ],
                             ),
+                            const SizedBox(height: 5),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Text(
-                                _proposito ??
-                                    "Escribe la razón por la que se quiere cumplir este objetivo.",
-                                style: GoogleFonts.poppins(
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  color:
-                                      const Color.fromARGB(151, 254, 252, 238),
-                                ),
+                              child: Column(
+                                children: [
+                                  FutureBuilder<String?>(
+                                    future: _loadProposito(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        // Indicador de carga personalizado (reloj de arena)
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              CupertinoIcons.hourglass,
+                                              color: const Color.fromARGB(
+                                                  151, 254, 252, 238),
+                                              size: 20,
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Text(
+                                              "Cargando propósito...",
+                                              style: GoogleFonts.poppins(
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: const Color.fromARGB(
+                                                    151, 254, 252, 238),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return Text(
+                                          "Error al cargar el propósito.",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.normal,
+                                            color: const Color.fromARGB(
+                                                151, 254, 252, 238),
+                                          ),
+                                        );
+                                      } else {
+                                        // Texto predeterminado si no hay propósito
+                                        String fullText = snapshot
+                                                    .data?.isNotEmpty ==
+                                                true
+                                            ? snapshot.data!
+                                            : "Introduce aquí el propósito de tu objetivo.";
+                                        String displayedText = _isExpanded
+                                            ? fullText
+                                            : splitTextByWords(fullText, 20);
+
+                                        return Column(
+                                          crossAxisAlignment: CrossAxisAlignment
+                                              .start, // Alinear texto a la izquierda
+                                          children: [
+                                            Text(
+                                              displayedText,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: const Color.fromARGB(
+                                                    151, 254, 252, 238),
+                                              ),
+                                              textAlign: TextAlign
+                                                  .left, // Alinear texto a la izquierda
+                                            ),
+                                            if (fullText.split(' ').length > 20)
+                                              Center(
+                                                // Centrar el botón
+                                                child: IconButton(
+                                                  icon: Icon(
+                                                    _isExpanded
+                                                        ? CupertinoIcons
+                                                            .chevron_up
+                                                        : CupertinoIcons
+                                                            .chevron_down,
+                                                    color:
+                                                        const Color(0xFFFEFCEE),
+                                                  ),
+                                                  onPressed:
+                                                      _expandBottomPadding,
+                                                ),
+                                              ),
+                                          ],
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
                             const SizedBox(height: 10),
-                            // Utiliza AnimatedPadding para animar el cambio de padding inferior
+                            AnimatedPadding(
+                              duration: const Duration(milliseconds: 150),
+                              padding: EdgeInsets.only(bottom: _bottomPadding),
+                            ),
                           ],
                         ),
                       ),

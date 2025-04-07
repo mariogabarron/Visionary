@@ -201,6 +201,7 @@ class _HomepageViewState extends State<HomepageView>
                     colors: const [
                       Color(0xFF6D97AC),
                       Color.fromARGB(255, 212, 176, 146),
+                      //Colors.black, Colors.black
                     ],
                     transform: GradientRotation(_animation.value),
                   ),
@@ -250,7 +251,9 @@ class _HomepageViewState extends State<HomepageView>
                                   onTaskUpdated: actualizarProgreso),
                               const SizedBox(height: 30),
                               PorqueLoHagoContainer(
-                                  objetivo: selectedObjectiveName ?? "A"),
+                                objetivo: selectedObjectiveName ?? "A",
+                                onTaskUpdated: actualizarProgreso,
+                              ),
                               const SizedBox(height: 30),
                               ProgresoContainer(tareasFuture: getListaTareas()),
                               const SizedBox(height: 30),

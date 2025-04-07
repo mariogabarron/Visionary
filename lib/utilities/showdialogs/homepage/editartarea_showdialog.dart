@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
 
-void showAlertBottomEditarTarea(BuildContext context, String tarea,
-    String nombre, TextEditingController editingController) {
+void showAlertBottomEditarTarea(
+    BuildContext context,
+    String tareaRef,
+    String nombre,
+    TextEditingController editingController,
+    VoidCallback onTaskUpdated) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -46,11 +50,12 @@ void showAlertBottomEditarTarea(BuildContext context, String tarea,
                 ),
                 const SizedBox(height: 10),
                 _buildInputField(
-                    label: "",
-                    inputType: TextInputType.name,
-                    hintText: "Escribe el nuevo nombre",
-                    maxWords: 20,
-                    t: editingController),
+                  label: "",
+                  inputType: TextInputType.name,
+                  hintText: "Escribe el nuevo nombre",
+                  maxWords: 20,
+                  t: editingController,
+                ),
                 const SizedBox(height: 30),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -60,13 +65,43 @@ void showAlertBottomEditarTarea(BuildContext context, String tarea,
                     ),
                   ),
                   onPressed: () async {
-                    DatabaseReference dbRef =
-                        FirebaseDatabase.instance.ref(tarea);
-                    Tarea t = await Tarea.fromRef(dbRef);
-                    t.print();
-                    t.editarTarea(editingController.text, t.priority,
-                        t.needDone, t.recordatorio);
-                    if (context.mounted) Navigator.of(context).pop();
+                    try {
+                      // Obtén la referencia de la tarea
+                      DatabaseReference dbRef =
+                          FirebaseDatabase.instance.ref(tareaRef);
+
+                      // Carga la tarea desde la base de datos
+                      Tarea tarea = await Tarea.fromRef(dbRef);
+
+                      // Edita la tarea con el nuevo nombre
+                      tarea.editarTarea(
+                        editingController.text, // Nuevo nombre
+                        tarea.priority, // Mantén la prioridad actual
+                        tarea.needDone, // Mantén el número de veces necesarias
+                        tarea.recordatorio, // Mantén el recordatorio actual
+                      );
+
+                      // Llama al callback para notificar el cambio
+                      onTaskUpdated();
+
+                      // Cierra el modal después de guardar
+                      if (context.mounted) Navigator.of(context).pop();
+                    } catch (e) {
+                      // Manejo de errores
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Error al editar la tarea: $e',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                            ),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    }
                   },
                   child: Text(
                     'Guardar',
@@ -122,13 +157,38 @@ void showAlertBottomEditarTarea(BuildContext context, String tarea,
                         ),
                       ),
                       onPressed: () async {
-                        // Acción de borrar tarea
-                        //print(tarea);
+                        try {
+                          // Obtén la referencia de la tarea
+                          DatabaseReference dbRef =
+                              FirebaseDatabase.instance.ref(tareaRef);
 
-                        DatabaseReference dbRef =
-                            FirebaseDatabase.instance.ref(tarea);
-                        Tarea t = await Tarea.fromRef(dbRef);
-                        t.deleteTask();
+                          // Carga la tarea desde la base de datos
+                          Tarea tarea = await Tarea.fromRef(dbRef);
+
+                          // Borra la tarea
+                          await tarea.deleteTask();
+
+                          // Llama al callback para notificar el cambio
+                          onTaskUpdated();
+
+                          // Cierra el modal después de borrar
+                          if (context.mounted) Navigator.of(context).pop();
+                        } catch (e) {
+                          // Manejo de errores
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Error al borrar la tarea: $e',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        }
                       },
                       child: Text(
                         'Borrar',

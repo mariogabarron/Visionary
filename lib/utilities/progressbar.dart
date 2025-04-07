@@ -22,6 +22,7 @@ class ProgressBar extends StatelessWidget {
             width: 300 * porcentaje,
             decoration: BoxDecoration(
               color: Colors.blueGrey,
+              //color: Color.fromARGB(255, 111, 111, 105),
               borderRadius: BorderRadius.circular(15),
             ),
           ),

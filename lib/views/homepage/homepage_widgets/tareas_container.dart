@@ -293,13 +293,13 @@ class _TareasContainerState extends State<TareasContainer> {
                                                   GestureDetector(
                                                     onLongPress: () {
                                                       showAlertBottomEditarTarea(
-                                                        context,
-                                                        snapshot
-                                                            .data![index].dbRef,
-                                                        snapshot
-                                                            .data![index].name,
-                                                        editingController,
-                                                      );
+                                                          context,
+                                                          snapshot.data![index]
+                                                              .dbRef,
+                                                          snapshot.data![index]
+                                                              .name,
+                                                          editingController,
+                                                          widget.onTaskUpdated);
                                                     },
                                                     child: Text(
                                                       // Texto simplificado al formato x/y

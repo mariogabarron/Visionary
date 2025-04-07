@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-void showAlertPorque(BuildContext context, String objetivo) async {
+void showAlertPorque(
+    BuildContext context, String objetivo, VoidCallback onUpdated) async {
   TextEditingController textController = TextEditingController();
   bool isEditing = false;
   DatabaseReference objetivoRef = FirebaseDatabase.instance.ref(objetivo);
 
   // Carga el valor inicial del propósito
-  DataSnapshot snapshot = await objetivoRef.child('proposito').get();
+  DataSnapshot snapshot = await objetivoRef.child('motive').get();
   if (snapshot.exists) {
     textController.text = snapshot.value.toString();
   }
@@ -121,9 +122,12 @@ void showAlertPorque(BuildContext context, String objetivo) async {
                       onPressed: () {
                         if (textController.text.isNotEmpty) {
                           objetivoRef.update({
-                            'proposito': textController.text,
+                            'motive': textController.text,
                           }).then((_) {
-                            if (context.mounted) Navigator.of(context).pop();
+                            if (context.mounted) {
+                              onUpdated(); // Llama al callback después de guardar
+                              Navigator.of(context).pop();
+                            }
                           }).catchError((error) {
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
