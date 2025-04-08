@@ -35,6 +35,7 @@ class _HomepageViewState extends State<HomepageView>
   late Animation<double> _animation;
 
   String? selectedObjectiveName;
+  int? selectedObjectiveIndex;
 
   @override
   void initState() {
@@ -101,11 +102,13 @@ class _HomepageViewState extends State<HomepageView>
   Future<bool> _checkObjectives() async {
     final objectives = (await VisionaryUser.fromLogin()).objectives;
     if (objectives.isNotEmpty) {
-      selectedObjectiveName =
-          objectives[0].$2.ref.path; // Selecciona el primer objetivo
+      // Mantén el objetivo seleccionado o selecciona el primero si no hay uno
+      selectedObjectiveName ??= objectives[0].$2.ref.path;
+      selectedObjectiveIndex ??= 0;
       return true; // Hay objetivos
     } else {
       selectedObjectiveName = null;
+      selectedObjectiveIndex = null;
       return false; // No hay objetivos
     }
   }
@@ -116,9 +119,10 @@ class _HomepageViewState extends State<HomepageView>
     });
   }
 
-  dynamic onObjectiveSelected(String objectiveName) async {
+  dynamic onObjectiveSelected(String objectiveName, int index) {
     setState(() {
       selectedObjectiveName = objectiveName;
+      selectedObjectiveIndex = index; // Actualiza el índice seleccionado
     });
   }
 
@@ -234,6 +238,7 @@ class _HomepageViewState extends State<HomepageView>
                         ObjetivosRow(
                           onObjectiveSelected: onObjectiveSelected,
                           onObjectiveDeleted: _onEmptyObjectives,
+                          selectedObjectiveIndex: selectedObjectiveIndex,
                         ),
                         const SizedBox(height: 10),
                         const Padding(

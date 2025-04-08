@@ -5,15 +5,16 @@ import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/visionary_user_class.dart';
 
 class ObjetivosRow extends StatefulWidget {
-  final Function(String)
+  final Function(String, int)
       onObjectiveSelected; // Callback para pasar el nombre del objetivo seleccionado
   final VoidCallback onObjectiveDeleted; // Callback para actualizar HomePage
+  final int? selectedObjectiveIndex;
 
-  const ObjetivosRow({
-    super.key,
-    required this.onObjectiveSelected,
-    required this.onObjectiveDeleted,
-  });
+  const ObjetivosRow(
+      {super.key,
+      required this.onObjectiveSelected,
+      required this.onObjectiveDeleted,
+      required this.selectedObjectiveIndex});
 
   @override
   State<ObjetivosRow> createState() => _ObjetivosRowState();
@@ -29,7 +30,19 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
   void initState() {
     super.initState();
     controller = TextEditingController();
+    selectedObjetivoIndex = widget.selectedObjectiveIndex;
     reloadData();
+  }
+
+  @override
+  void didUpdateWidget(covariant ObjetivosRow oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Actualiza el índice seleccionado si cambia en el widget padre
+    if (widget.selectedObjectiveIndex != oldWidget.selectedObjectiveIndex) {
+      setState(() {
+        selectedObjetivoIndex = oldWidget.selectedObjectiveIndex;
+      });
+    }
   }
 
   @override
@@ -42,7 +55,7 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
     setState(() {
       _futureUser = VisionaryUser.fromLogin().then((user) {
         if (user.objectives.isNotEmpty) {
-          selectedObjetivoIndex = 0;
+          selectedObjetivoIndex ??= 0;
           selectedObjetivoRef = user.objectives[0].$2.key;
         } else {
           widget.onObjectiveDeleted(); // Llama al callback si no hay objetivos
@@ -104,10 +117,9 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                     selectedObjetivoIndex = i;
                                     selectedObjetivoRef = objectives[i].$2;
                                   });
-                                  widget.onObjectiveSelected(objectives[i]
-                                      .$2
-                                      .ref
-                                      .path); // Pasa el nombre del objetivo al callback
+                                  widget.onObjectiveSelected(
+                                      objectives[i].$2.ref.path,
+                                      i); // Pasa el índice
                                 },
                                 onLongPress: () async {
                                   Objetivo obj =

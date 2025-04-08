@@ -9,6 +9,8 @@ import 'package:visionary/services/objects/tarea_class.dart';
 import 'package:visionary/utilities/animations/customloader.dart';
 import 'package:visionary/utilities/showdialogs/homepage/editartarea_showdialog.dart';
 import 'package:visionary/utilities/showdialogs/homepage/tareas_showdialog.dart';
+import 'package:visionary/routes/routes.dart';
+import 'package:visionary/views/homepage/creartareas_views/creartareauno_view.dart'; // Import the file where CreaTareaUnoView is defined
 
 class TareasContainer extends StatefulWidget {
   final String objetivo;
@@ -154,7 +156,7 @@ class _TareasContainerState extends State<TareasContainer> {
                                   ),
                                   child: IconButton(
                                     icon: const Icon(
-                                        CupertinoIcons.pencil_circle_fill),
+                                        CupertinoIcons.add_circled_solid),
                                     color: const Color(0xFFFEFCEE),
                                     onPressed: () async {
                                       if (_isDialogOpen) {
@@ -166,12 +168,14 @@ class _TareasContainerState extends State<TareasContainer> {
                                             true; // Marca que hay un diálogo abierto
                                       });
 
-                                      List<Tarea> tareas =
-                                          await getListaTareas();
+                                      await getListaTareas();
 
                                       if (context.mounted) {
-                                        showAlertTareas(
-                                            context, widget.objetivo, tareas);
+                                        //showAlertTareas( context, widget.objetivo, tareas);
+                                        Navigator.of(context).pushReplacement(
+                                            buildFadeRoute(CreaTareaUnoView(
+                                                objectiveRef:
+                                                    widget.objetivo)));
                                       }
 
                                       setState(() {
@@ -250,6 +254,9 @@ class _TareasContainerState extends State<TareasContainer> {
                                           );
                                         } else if (snapshot.hasData &&
                                             snapshot.data!.isNotEmpty) {
+                                          snapshot.data!.sort((a, b) =>
+                                              b.priority.compareTo(a.priority));
+
                                           return Column(
                                             children: List.generate(
                                               snapshot.data!.length,
@@ -303,7 +310,8 @@ class _TareasContainerState extends State<TareasContainer> {
                                                     },
                                                     child: Text(
                                                       // Texto simplificado al formato x/y
-                                                      "${splitTextBySpaces(snapshot.data![index].name, 20)} (${snapshot.data![index].timesDone}/${snapshot.data![index].needDone})",
+                                                      "${splitTextBySpaces(snapshot.data![index].name, 20)}"
+                                                      "${snapshot.data![index].needDone > 1 ? " (${snapshot.data![index].timesDone}/${snapshot.data![index].needDone})" : ""}",
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize: 16,
@@ -312,6 +320,39 @@ class _TareasContainerState extends State<TareasContainer> {
                                                       ),
                                                     ),
                                                   ),
+                                                  if (snapshot.data![index]
+                                                              .needDone >
+                                                          1 &&
+                                                      snapshot.data![index]
+                                                              .timesDone >
+                                                          0) // Mostrar solo si needDone > 1 y timesDone > 0
+                                                    IconButton(
+                                                      icon: const Icon(
+                                                        CupertinoIcons
+                                                            .minus_circle,
+                                                        color:
+                                                            Color(0xFFFEFCEE),
+                                                      ),
+                                                      onPressed: () async {
+                                                        try {
+                                                          Tarea tarea = snapshot
+                                                              .data![index];
+                                                          tarea
+                                                              .makeUndone(); // Reduce en uno timesDone
+
+                                                          // Notifica al widget padre que las tareas han cambiado
+                                                          widget
+                                                              .onTaskUpdated();
+
+                                                          // Recarga la lista de tareas
+                                                          setState(() {
+                                                            getListaTareas();
+                                                          });
+                                                        } catch (e) {
+                                                          log("Error al reducir la tarea: $e");
+                                                        }
+                                                      },
+                                                    ),
                                                 ],
                                               ),
                                             ),
