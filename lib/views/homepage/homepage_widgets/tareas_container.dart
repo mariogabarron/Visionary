@@ -202,7 +202,7 @@ class _TareasContainerState extends State<TareasContainer> {
                               child: Column(
                                 children: [
                                   Text(
-                                    "Qué tengo que hacer para conseguir mi objetivo.",
+                                    "Crea, edita y completa aquí tus tareas",
                                     style: GoogleFonts.poppins(
                                       fontStyle: FontStyle.normal,
                                       fontSize: 16,

@@ -120,8 +120,10 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
                         color: Color(0xFFFEFCEE),
                       ),
                       onPressed: () {
-                        final nombreTarea =
+                        String nombreTarea =
                             _nombreTareaEditingController.text.trim();
+                        nombreTarea = nombreTarea.replaceAll(RegExp(r'\s+'),
+                            ' '); // Reemplazar múltiples espacios por uno solo
                         if (nombreTarea.isNotEmpty) {
                           Navigator.of(context)
                               .pushReplacement(buildFadeRoute(CreaTareaDosView(

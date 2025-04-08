@@ -55,7 +55,7 @@ void showAlertProgreso(BuildContext context, double porcentaje) {
                           ),
                         ),
                         TextSpan(
-                          text: "${porcentaje * 100}%",
+                          text: "${(porcentaje * 100).toStringAsFixed(1)}%",
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold,
                           ),

@@ -15,16 +15,16 @@ class CrearObjetivoUnoView extends StatefulWidget {
 }
 
 class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
-  late TextEditingController _nombreTareaEditingController;
+  late TextEditingController _nombreObjetivoEditingController;
   @override
   void initState() {
-    _nombreTareaEditingController = TextEditingController();
+    _nombreObjetivoEditingController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _nombreTareaEditingController.dispose();
+    _nombreObjetivoEditingController.dispose();
     super.dispose();
   }
 
@@ -73,7 +73,7 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                   label: "",
                   inputType: TextInputType.name,
                   hintText: "Escríbelo en una palabra",
-                  controller: _nombreTareaEditingController,
+                  controller: _nombreObjetivoEditingController,
                   maxWords: 20),
               const SizedBox(height: 20),
               Padding(
@@ -118,12 +118,15 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                           color: Color(0xFFFEFCEE),
                         ),
                         onPressed: () {
-                          final nombreTarea =
-                              _nombreTareaEditingController.text.trim();
-                          if (nombreTarea.isNotEmpty) {
+                          String nuevoNombre =
+                              _nombreObjetivoEditingController.text.trim();
+                          nuevoNombre = nuevoNombre.replaceAll(RegExp(r'\s+'),
+                              ' '); // Reemplazar múltiples espacios por uno solo
+
+                          if (nuevoNombre.isNotEmpty) {
                             Navigator.of(context).pushReplacement(
                                 buildFadeRoute(CrearObjetivoDosView(
-                                    nombreTarea: nombreTarea)));
+                                    nombreTarea: nuevoNombre)));
                           } else {
                             showAlertObjetivoVacio(context);
                           }

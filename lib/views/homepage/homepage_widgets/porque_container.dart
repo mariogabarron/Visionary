@@ -203,9 +203,9 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                               displayedText,
                                               style: GoogleFonts.poppins(
                                                 fontSize: 16,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 color: const Color.fromARGB(
-                                                    151, 254, 252, 238),
+                                                    179, 254, 252, 238),
                                               ),
                                               textAlign: TextAlign
                                                   .left, // Alinear texto a la izquierda

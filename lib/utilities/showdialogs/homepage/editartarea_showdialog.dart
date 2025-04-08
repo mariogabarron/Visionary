@@ -52,7 +52,7 @@ void showAlertBottomEditarTarea(
                 _buildInputField(
                   label: "",
                   inputType: TextInputType.name,
-                  hintText: "Escribe el nuevo nombre",
+                  hintText: nombre,
                   maxWords: 20,
                   t: editingController,
                 ),
@@ -66,6 +66,25 @@ void showAlertBottomEditarTarea(
                   ),
                   onPressed: () async {
                     try {
+                      // Obtener el texto ingresado y limpiar los espacios múltiples
+                      String nuevoNombre = editingController.text.trim();
+                      nuevoNombre = nuevoNombre.replaceAll(RegExp(r'\s+'),
+                          ' '); // Reemplazar múltiples espacios por uno solo
+
+                      // Verificar si el nuevo nombre no está vacío
+                      if (nuevoNombre.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'El nombre de la tarea no puede estar vacío.',
+                              style: GoogleFonts.poppins(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        return;
+                      }
+
                       // Obtén la referencia de la tarea
                       DatabaseReference dbRef =
                           FirebaseDatabase.instance.ref(tareaRef);
@@ -75,7 +94,7 @@ void showAlertBottomEditarTarea(
 
                       // Edita la tarea con el nuevo nombre
                       tarea.editarTarea(
-                        editingController.text, // Nuevo nombre
+                        nuevoNombre, // Nuevo nombre
                         tarea.priority, // Mantén la prioridad actual
                         tarea.needDone, // Mantén el número de veces necesarias
                         tarea.recordatorio, // Mantén el recordatorio actual

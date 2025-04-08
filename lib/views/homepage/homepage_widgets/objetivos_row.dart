@@ -37,10 +37,10 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
   @override
   void didUpdateWidget(covariant ObjetivosRow oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Actualiza el índice seleccionado si cambia en el widget padre
-    if (widget.selectedObjectiveIndex != oldWidget.selectedObjectiveIndex) {
+    if (widget.selectedObjectiveIndex != oldWidget.selectedObjectiveIndex ||
+        widget.selectedObjectiveIndex != selectedObjetivoIndex) {
       setState(() {
-        selectedObjetivoIndex = oldWidget.selectedObjectiveIndex;
+        selectedObjetivoIndex = widget.selectedObjectiveIndex;
       });
     }
   }
@@ -55,10 +55,17 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
     setState(() {
       _futureUser = VisionaryUser.fromLogin().then((user) {
         if (user.objectives.isNotEmpty) {
-          selectedObjetivoIndex ??= 0;
-          selectedObjetivoRef = user.objectives[0].$2.key;
+          // Solo asignar un valor por defecto si selectedObjetivoIndex es null
+          if (selectedObjetivoIndex == null ||
+              selectedObjetivoIndex! >= user.objectives.length) {
+            selectedObjetivoIndex = 0;
+            selectedObjetivoRef = user.objectives[0].$2.key;
+          } else {
+            selectedObjetivoRef =
+                user.objectives[selectedObjetivoIndex!].$2.key;
+          }
         } else {
-          widget.onObjectiveDeleted(); // Llama al callback si no hay objetivos
+          widget.onObjectiveDeleted();
         }
         return user;
       });
@@ -255,7 +262,25 @@ void showAlertBottomEditarObjetivo(
                   ),
                   onPressed: () async {
                     VisionaryUser u = await VisionaryUser.fromLogin();
-                    objetivo.edit(controller.text, objetivo.motive);
+                    String nuevoNombre = controller.text.trim();
+                    nuevoNombre = nuevoNombre.replaceAll(RegExp(r'\s+'),
+                        ' '); // Reemplazar múltiples espacios por uno solo
+
+                    // Verificar si el nuevo nombre no está vacío
+                    if (nuevoNombre.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'El nombre de la tarea no puede estar vacío.',
+                            style: GoogleFonts.poppins(color: Colors.white),
+                          ),
+                          backgroundColor:
+                              const Color.fromARGB(255, 106, 106, 106),
+                        ),
+                      );
+                      return;
+                    }
+                    objetivo.edit(nuevoNombre, objetivo.motive);
                     u.updateObjectives();
                     if (context.mounted) {
                       Navigator.of(context).pop(); // Cerrar el modal

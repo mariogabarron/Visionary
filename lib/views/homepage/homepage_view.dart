@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer' as d;
 import 'dart:io';
 import 'dart:math';
@@ -10,6 +11,7 @@ import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
 import 'package:visionary/services/objects/visionary_user_class.dart';
+import 'package:visionary/utilities/showdialogs/connectionlost.dart';
 import 'package:visionary/views/homepage/homepage_widgets/frase_container.dart';
 import 'package:visionary/views/homepage/homepage_widgets/objetivos_row.dart';
 import 'package:visionary/views/homepage/homepage_widgets/porque_container.dart';
@@ -36,6 +38,9 @@ class _HomepageViewState extends State<HomepageView>
 
   String? selectedObjectiveName;
   int? selectedObjectiveIndex;
+
+  bool _isConnected = true; // Estado de conexión
+  Timer? _connectionTimer; // Temporizador para verificar la conexión
 
   @override
   void initState() {
@@ -78,13 +83,40 @@ class _HomepageViewState extends State<HomepageView>
         },
       ),
     )..load();
+
+    _startConnectionCheck();
   }
 
   @override
   void dispose() {
     _animationController.dispose();
     _banner?.dispose();
+    _connectionTimer?.cancel();
     super.dispose();
+  }
+
+  /// Verifica la conexión a internet
+  Future<void> _checkConnection() async {
+    try {
+      // Intenta realizar una búsqueda DNS
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        setState(() {
+          _isConnected = true; // Hay conexión
+        });
+      }
+    } on SocketException catch (_) {
+      setState(() {
+        _isConnected = false; // No hay conexión
+      });
+    }
+  }
+
+  /// Inicia un temporizador para verificar la conexión periódicamente
+  void _startConnectionCheck() {
+    _connectionTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _checkConnection();
+    });
   }
 
   void _tutorialMenuUno() {
@@ -103,8 +135,10 @@ class _HomepageViewState extends State<HomepageView>
     final objectives = (await VisionaryUser.fromLogin()).objectives;
     if (objectives.isNotEmpty) {
       // Mantén el objetivo seleccionado o selecciona el primero si no hay uno
-      selectedObjectiveName ??= objectives[0].$2.ref.path;
-      selectedObjectiveIndex ??= 0;
+      if (selectedObjectiveName == null || selectedObjectiveIndex == null) {
+        selectedObjectiveName = objectives[0].$2.ref.path;
+        selectedObjectiveIndex = 0;
+      }
       return true; // Hay objetivos
     } else {
       selectedObjectiveName = null;
@@ -122,7 +156,7 @@ class _HomepageViewState extends State<HomepageView>
   dynamic onObjectiveSelected(String objectiveName, int index) {
     setState(() {
       selectedObjectiveName = objectiveName;
-      selectedObjectiveIndex = index; // Actualiza el índice seleccionado
+      selectedObjectiveIndex = index;
     });
   }
 
@@ -136,9 +170,7 @@ class _HomepageViewState extends State<HomepageView>
   }
 
   void actualizarProgreso() {
-    setState(() {
-      // Esto forzará la reconstrucción del ProgresoContainer
-    });
+    setState(() {});
   }
 
   @override
@@ -154,7 +186,6 @@ class _HomepageViewState extends State<HomepageView>
         ),
         title: Stack(
           children: [
-            // Elimina el AnimatedBuilder de aquí
             Positioned(
               left: 12,
               top: 0,
@@ -332,6 +363,7 @@ class _HomepageViewState extends State<HomepageView>
               },
             ),
           ),
+          if (!_isConnected) showAlertConnectionLost(context),
           if (_showTutorial) TutorialOverlay(onFinish: _endTutorial),
         ],
       ),

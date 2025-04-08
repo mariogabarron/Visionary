@@ -48,7 +48,7 @@ void showAlertPorque(
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      '“Quien sabe a dónde va y por qué, es quien consigue llegar”',
+                      "Escribe aquí el por qué quieres lograrlo",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.normal,
@@ -108,6 +108,7 @@ void showAlertPorque(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
+                                textAlign: TextAlign.left,
                               ),
                             ),
                     ),
@@ -120,32 +121,29 @@ void showAlertPorque(
                         ),
                       ),
                       onPressed: () {
-                        if (textController.text.isNotEmpty) {
-                          objetivoRef.update({
-                            'motive': textController.text,
-                          }).then((_) {
-                            if (context.mounted) {
-                              onUpdated(); // Llama al callback después de guardar
-                              Navigator.of(context).pop();
-                            }
-                          }).catchError((error) {
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Error al guardar el propósito: $error',
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                    ),
+                        objetivoRef.update({
+                          'motive': textController.text,
+                        }).then((_) {
+                          if (context.mounted) {
+                            onUpdated(); // Llama al callback después de guardar
+                            Navigator.of(context).pop();
+                          }
+                        }).catchError((error) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Error al guardar el propósito: $error',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
                                   ),
-                                  backgroundColor: Colors.red,
                                 ),
-                              );
-                            }
-                          });
-                        } else {
-                          Navigator.of(context).pop();
-                        }
+                                backgroundColor:
+                                    const Color.fromARGB(255, 54, 54, 54),
+                              ),
+                            );
+                          }
+                        });
                       },
                       child: Text(
                         'Guardar',
