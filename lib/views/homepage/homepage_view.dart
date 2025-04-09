@@ -39,7 +39,7 @@ class _HomepageViewState extends State<HomepageView>
   String? selectedObjectiveName;
   int? selectedObjectiveIndex;
 
-  bool _isConnected = true; // Estado de conexión
+  final ValueNotifier<bool> _isConnectedNotifier = ValueNotifier(true);
   Timer? _connectionTimer; // Temporizador para verificar la conexión
 
   @override
@@ -95,24 +95,21 @@ class _HomepageViewState extends State<HomepageView>
     super.dispose();
   }
 
-  /// Verifica la conexión a internet
   Future<void> _checkConnection() async {
     try {
-      // Intenta realizar una búsqueda DNS
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        setState(() {
-          _isConnected = true; // Hay conexión
-        });
+        if (!_isConnectedNotifier.value) {
+          _isConnectedNotifier.value = true; // Actualiza solo si cambia
+        }
       }
     } on SocketException catch (_) {
-      setState(() {
-        _isConnected = false; // No hay conexión
-      });
+      if (_isConnectedNotifier.value) {
+        _isConnectedNotifier.value = false; // Actualiza solo si cambia
+      }
     }
   }
 
-  /// Inicia un temporizador para verificar la conexión periódicamente
   void _startConnectionCheck() {
     _connectionTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
       _checkConnection();
@@ -363,7 +360,15 @@ class _HomepageViewState extends State<HomepageView>
               },
             ),
           ),
-          if (!_isConnected) showAlertConnectionLost(context),
+          ValueListenableBuilder<bool>(
+            valueListenable: _isConnectedNotifier,
+            builder: (context, isConnected, child) {
+              if (!isConnected) {
+                return showAlertConnectionLost(context);
+              }
+              return const SizedBox.shrink();
+            },
+          ),
           if (_showTutorial) TutorialOverlay(onFinish: _endTutorial),
         ],
       ),
