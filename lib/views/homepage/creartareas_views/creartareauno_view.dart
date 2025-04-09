@@ -1,10 +1,14 @@
 import 'dart:math';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/objects/objetivo_class.dart';
+import 'package:visionary/services/objects/tarea_class.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 import 'package:visionary/utilities/showdialogs/objetivovacio_showdialog.dart';
+import 'package:visionary/utilities/showdialogs/repetido_showdialog.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareados_view.dart';
 
 class CreaTareaUnoView extends StatefulWidget {
@@ -28,6 +32,19 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
   void dispose() {
     _nombreTareaEditingController.dispose();
     super.dispose();
+  }
+
+  Future<bool> _isNombreTareaDuplicado(String nombre) async {
+    // Obtiene el objetivo desde la referencia
+    Objetivo objetivo = await Objetivo.fromRef(
+        FirebaseDatabase.instance.ref(widget.objectiveRef));
+
+    // Obtiene la lista de nombres de las tareas
+    List<String> nombresTareas =
+        objetivo.listaTareas.map((tarea) => tarea.name.toLowerCase()).toList();
+
+    // Verifica si el nombre ya existe
+    return nombresTareas.contains(nombre.toLowerCase());
   }
 
   @override
@@ -119,17 +136,24 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
                         Icons.arrow_downward,
                         color: Color(0xFFFEFCEE),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         String nombreTarea =
                             _nombreTareaEditingController.text.trim();
                         nombreTarea = nombreTarea.replaceAll(RegExp(r'\s+'),
                             ' '); // Reemplazar múltiples espacios por uno solo
                         if (nombreTarea.isNotEmpty) {
-                          Navigator.of(context)
-                              .pushReplacement(buildFadeRoute(CreaTareaDosView(
-                            nombreTarea: _nombreTareaEditingController.text,
-                            objectiveRef: widget.objectiveRef,
-                          )));
+                          bool isDuplicado =
+                              await _isNombreTareaDuplicado(nombreTarea);
+                          if (isDuplicado) {
+                            // Mostrar un diálogo indicando que el nombre ya existe
+                            showAlertRepetido(context, 2);
+                          } else {
+                            Navigator.of(context).pushReplacement(
+                                buildFadeRoute(CreaTareaDosView(
+                              nombreTarea: nombreTarea,
+                              objectiveRef: widget.objectiveRef,
+                            )));
+                          }
                         } else {
                           showAlertObjetivoVacio(context);
                         }

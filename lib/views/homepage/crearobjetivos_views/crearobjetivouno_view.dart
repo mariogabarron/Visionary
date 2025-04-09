@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/objects/visionary_user_class.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 import 'package:visionary/utilities/showdialogs/objetivovacio_showdialog.dart';
+import 'package:visionary/utilities/showdialogs/repetido_showdialog.dart';
 import 'package:visionary/views/homepage/crearobjetivos_views/crearobjetivodos_view.dart';
 
 class CrearObjetivoUnoView extends StatefulWidget {
@@ -26,6 +28,14 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
   void dispose() {
     _nombreObjetivoEditingController.dispose();
     super.dispose();
+  }
+
+  Future<bool> _isNombreObjetivoDuplicado(String nombre) async {
+    VisionaryUser user = await VisionaryUser.fromLogin();
+    List<String> nombresObjetivos =
+        user.objectives.map((objetivo) => objetivo.$1).toList();
+    return nombresObjetivos.any((nombreExistente) =>
+        nombreExistente.toLowerCase() == nombre.toLowerCase());
   }
 
   @override
@@ -113,24 +123,32 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                   RotatedBox(
                     quarterTurns: 3,
                     child: IconButton(
-                        icon: const Icon(
-                          Icons.arrow_downward,
-                          color: Color(0xFFFEFCEE),
-                        ),
-                        onPressed: () {
-                          String nuevoNombre =
-                              _nombreObjetivoEditingController.text.trim();
-                          nuevoNombre = nuevoNombre.replaceAll(RegExp(r'\s+'),
-                              ' '); // Reemplazar múltiples espacios por uno solo
+                      icon: const Icon(
+                        Icons.arrow_downward,
+                        color: Color(0xFFFEFCEE),
+                      ),
+                      onPressed: () async {
+                        String nuevoNombre =
+                            _nombreObjetivoEditingController.text.trim();
+                        nuevoNombre = nuevoNombre.replaceAll(RegExp(r'\s+'),
+                            ' '); // Reemplazar múltiples espacios por uno solo
 
-                          if (nuevoNombre.isNotEmpty) {
+                        if (nuevoNombre.isNotEmpty) {
+                          bool isDuplicado =
+                              await _isNombreObjetivoDuplicado(nuevoNombre);
+                          if (isDuplicado) {
+                            if (context.mounted) showAlertRepetido(context, 1);
+                          } else {
+                            // ignore: use_build_context_synchronously
                             Navigator.of(context).pushReplacement(
                                 buildFadeRoute(CrearObjetivoDosView(
                                     nombreTarea: nuevoNombre)));
-                          } else {
-                            showAlertObjetivoVacio(context);
                           }
-                        }),
+                        } else {
+                          showAlertObjetivoVacio(context);
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),

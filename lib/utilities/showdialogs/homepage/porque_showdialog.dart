@@ -121,8 +121,12 @@ void showAlertPorque(
                         ),
                       ),
                       onPressed: () {
+                        String porqueTarea = textController.text.trim();
+                        porqueTarea =
+                            porqueTarea.replaceAll(RegExp(r'\s+'), ' ');
+
                         objetivoRef.update({
-                          'motive': textController.text,
+                          'motive': porqueTarea.isNotEmpty ? porqueTarea : "",
                         }).then((_) {
                           if (context.mounted) {
                             onUpdated(); // Llama al callback después de guardar

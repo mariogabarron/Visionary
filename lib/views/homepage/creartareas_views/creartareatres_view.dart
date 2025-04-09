@@ -3,7 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
+import 'package:visionary/services/objects/recordatorio.dart';
+import 'package:visionary/views/homepage/creartareas_views/creartareados_view.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareascuatro_view.dart';
+
+import '../../../services/objects/tarea_class.dart';
 
 class CreaTareaTresView extends StatefulWidget {
   final String nombreTarea;
@@ -188,18 +192,49 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView> {
                 ),
               ),
               const SizedBox(height: 20),
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacement(buildFadeRoute(CreaTareaCuatroView(
-                    nombre: widget.nombreTarea,
-                    prioridad: widget.prioridad,
-                    vecesQueSeDebeDeHacer: _selectedRepeticiones,
-                    objectiveRef: widget.objectiveRef,
-                  )));
-                },
-                icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
-                color: const Color(0xFFFEFCEE),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_upward,
+                        color: Color(0xFFFEFCEE),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(buildFadeRoute(
+                            CreaTareaDosView(
+                                nombreTarea: widget.nombreTarea,
+                                objectiveRef: widget.objectiveRef)));
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 20), // Espaciado entre botones
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_downward,
+                        color: Color(0xFFFEFCEE),
+                      ),
+                      onPressed: () {
+                        // TODO: Implementar la lógica para crear el recordatorio
+                        Tarea t = Tarea(widget.objectiveRef,
+                            name: widget.nombreTarea,
+                            priority: widget.prioridad,
+                            needDone: _selectedRepeticiones,
+                            recordatorio: Recordatorio(
+                                tipoRecordatorio: TipoRecordatorio.semanal,
+                                hora: (0, 0),
+                                codigo: "LMXJV"));
+                        t.update();
+                        Navigator.of(context)
+                            .pushReplacementNamed(tareaCreadaView);
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

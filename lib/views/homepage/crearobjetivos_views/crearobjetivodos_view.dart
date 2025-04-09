@@ -8,6 +8,7 @@ import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/visionary_user_class.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
+import 'package:visionary/utilities/showdialogs/objetivovacio_showdialog.dart';
 
 class CrearObjetivoDosView extends StatefulWidget {
   final String nombreTarea;
@@ -121,20 +122,53 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
                         fontWeight: FontWeight.normal,
                       ))),
               const SizedBox(height: 20),
-              IconButton(
-                  onPressed: () async {
-                    VisionaryUser v = await VisionaryUser.fromLogin();
-                    Objetivo objetivoCreado = Objetivo(
-                        nombre: widget.nombreTarea,
-                        porquelohago: _porqueTareaEditingController.text);
-                    objetivoCreado.update();
-                    v.updateObjectives();
-                    if (context.mounted) {
-                      Navigator.of(context).pushReplacementNamed(homepageView);
-                    }
-                  },
-                  icon: const Icon(CupertinoIcons.arrow_right),
-                  color: const Color(0xFFFEFCEE))
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_upward,
+                        color: Color(0xFFFEFCEE),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed(
+                            crearObjetivoUno); // Regresa a la pantalla anterior
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 20), // Espaciado entre botones
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_downward,
+                        color: Color(0xFFFEFCEE),
+                      ),
+                      onPressed: () async {
+                        String porqueTarea =
+                            _porqueTareaEditingController.text.trim();
+                        porqueTarea = porqueTarea.replaceAll(RegExp(r'\s+'),
+                            ' '); // Reemplazar múltiples espacios por uno solo
+
+                        VisionaryUser v = await VisionaryUser.fromLogin();
+                        Objetivo objetivoCreado = Objetivo(
+                          nombre: widget.nombreTarea,
+                          porquelohago:
+                              porqueTarea.isNotEmpty ? porqueTarea : "",
+                        );
+                        objetivoCreado.update();
+                        v.updateObjectives();
+                        if (context.mounted) {
+                          Navigator.of(context)
+                              .pushReplacementNamed(homepageView);
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

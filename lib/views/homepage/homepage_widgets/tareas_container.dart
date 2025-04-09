@@ -8,7 +8,8 @@ import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
 import 'package:visionary/utilities/animations/customloader.dart';
 import 'package:visionary/utilities/showdialogs/homepage/editartarea_showdialog.dart';
-import 'package:visionary/utilities/showdialogs/homepage/tareas_showdialog.dart';
+// QUITAMOS EL IMPORT DE TAREAS_SHOWDIALOG
+// import 'package:visionary/utilities/showdialogs/homepage/tareas_showdialog.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareauno_view.dart'; // Import the file where CreaTareaUnoView is defined
 
@@ -27,6 +28,9 @@ class _TareasContainerState extends State<TareasContainer> {
   double _bottomPadding = 8;
   bool _isExpanded = false;
   bool _isDialogOpen = false;
+
+  // Mapa para rastrear las tareas completadas y su animación
+  Map<String, bool> completedTasks = {};
 
   @override
   void initState() {
@@ -82,250 +86,230 @@ class _TareasContainerState extends State<TareasContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () async {
-        if (_isDialogOpen) {
-          return; // Evitar abrir múltiples diálogos
-        }
-
-        setState(() {
-          _isDialogOpen = true; // Marca que hay un diálogo abierto
-        });
-
-        List<Tarea> tareas = await getListaTareas();
-
-        if (context.mounted) showAlertTareas(context, widget.objetivo, tareas);
-
-        setState(() {
-          _isDialogOpen = false; // Marcar el diálogo como cerrado
-        });
-      },
-      child: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                    'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
-                fit: BoxFit.cover,
-              ),
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                  'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+              fit: BoxFit.cover,
             ),
           ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(
-                        width: 2.0,
-                        color: Colors.transparent,
-                      ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20.0),
+                    border: Border.all(
+                      width: 2.0,
+                      color: Colors.transparent,
                     ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape
-                                        .circle, // Para que la sombra sea circular
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFFFEFCEE)
-                                            .withOpacity(
-                                                0.15), // Color de la sombra
-                                        spreadRadius:
-                                            3, // Qué tanto se expande la sombra
-                                        blurRadius:
-                                            20, // Desenfoque de la sombra
-                                        offset: const Offset(0,
-                                            0), // Desplazamiento de la sombra (x, y)
-                                      ),
-                                    ],
-                                  ),
-                                  child: IconButton(
-                                    icon: const Icon(
-                                        CupertinoIcons.add_circled_solid),
-                                    color: const Color(0xFFFEFCEE),
-                                    onPressed: () async {
-                                      if (_isDialogOpen) {
-                                        return; // Evitar abrir múltiples diálogos
-                                      }
-
-                                      setState(() {
-                                        _isDialogOpen =
-                                            true; // Marca que hay un diálogo abierto
-                                      });
-
-                                      await getListaTareas();
-
-                                      if (context.mounted) {
-                                        //showAlertTareas( context, widget.objetivo, tareas);
-                                        Navigator.of(context).pushReplacement(
-                                            buildFadeRoute(CreaTareaUnoView(
-                                                objectiveRef:
-                                                    widget.objetivo)));
-                                      }
-
-                                      setState(() {
-                                        _isDialogOpen =
-                                            false; // Marcar el diálogo como cerrado
-                                      });
-                                    },
-                                  ),
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 8),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color(0xFFFEFCEE)
+                                          .withOpacity(0.15),
+                                      spreadRadius: 3,
+                                      blurRadius: 20,
+                                      offset: const Offset(0, 0),
+                                    ),
+                                  ],
                                 ),
+                                child: IconButton(
+                                  icon: const Icon(
+                                      CupertinoIcons.add_circled_solid),
+                                  color: const Color(0xFFFEFCEE),
+                                  onPressed: () async {
+                                    if (_isDialogOpen) {
+                                      return;
+                                    }
+
+                                    setState(() {
+                                      _isDialogOpen = true;
+                                    });
+
+                                    await getListaTareas();
+
+                                    if (context.mounted) {
+                                      Navigator.of(context).pushReplacement(
+                                          buildFadeRoute(CreaTareaUnoView(
+                                              objectiveRef: widget.objetivo)));
+                                    }
+
+                                    setState(() {
+                                      _isDialogOpen = false;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Text(
+                                "Tareas",
+                                style: GoogleFonts.poppins(
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xFFFEFCEE),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Column(
+                              children: [
                                 Text(
-                                  "Tareas",
+                                  "Crea, edita y completa aquí tus tareas",
                                   style: GoogleFonts.poppins(
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFFFEFCEE),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    color: const Color.fromARGB(
+                                        151, 254, 252, 238),
                                   ),
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Crea, edita y completa aquí tus tareas",
-                                    style: GoogleFonts.poppins(
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      color: const Color.fromARGB(
-                                          151, 254, 252, 238),
-                                    ),
+                          ),
+                          const SizedBox(height: 10),
+                          AnimatedPadding(
+                            duration: const Duration(milliseconds: 150),
+                            padding: EdgeInsets.only(bottom: _bottomPadding),
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    _isExpanded
+                                        ? CupertinoIcons.chevron_up
+                                        : CupertinoIcons.chevron_down,
+                                    color: const Color(0xFFFEFCEE),
                                   ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 10),
+                                  onPressed: _expandBottomPadding,
+                                ),
+                                if (_isExpanded)
+                                  FutureBuilder<List<Tarea>>(
+                                    future: getListaTareas(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Center(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(top: 20),
+                                            child: CustomLoader(),
+                                          ),
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return Text(
+                                          "Error: ${snapshot.error}",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            color: Colors.red,
+                                          ),
+                                        );
+                                      } else if (snapshot.hasData &&
+                                          snapshot.data!.isNotEmpty) {
+                                        snapshot.data!.sort((a, b) =>
+                                            b.priority.compareTo(a.priority));
 
-                            // Utiliza AnimatedPadding para animar el cambio de padding inferior
-                            AnimatedPadding(
-                              duration: const Duration(milliseconds: 150),
-                              padding: EdgeInsets.only(bottom: _bottomPadding),
-                              child: Column(
-                                children: [
-                                  IconButton(
-                                    icon: Icon(
-                                      _isExpanded
-                                          ? CupertinoIcons.chevron_up
-                                          : CupertinoIcons.chevron_down,
-                                      color: const Color(0xFFFEFCEE),
-                                    ),
-                                    onPressed: _expandBottomPadding,
-                                  ),
-                                  if (_isExpanded)
-                                    FutureBuilder<List<Tarea>>(
-                                      future: getListaTareas(),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const Center(
-                                            child: Padding(
-                                              padding: EdgeInsets.only(top: 20),
-                                              child:
-                                                  CustomLoader(), // Usa el nuevo loader aquí
-                                            ),
-                                          );
-                                        } else if (snapshot.hasError) {
-                                          return Text(
-                                            "Error: ${snapshot.error}",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 16,
-                                              color: Colors.red,
-                                            ),
-                                          );
-                                        } else if (snapshot.hasData &&
-                                            snapshot.data!.isNotEmpty) {
-                                          snapshot.data!.sort((a, b) =>
-                                              b.priority.compareTo(a.priority));
+                                        // ...existing code...
 
-                                          return Column(
-                                            children: List.generate(
-                                              snapshot.data!.length,
-                                              (index) => Row(
+                                        return Column(
+                                          children: List.generate(
+                                            snapshot.data!.length,
+                                            (index) {
+                                              Tarea tarea =
+                                                  snapshot.data![index];
+                                              return Row(
                                                 children: [
-                                                  IconButton(
-                                                    icon: Icon(
-                                                      snapshot.data![index]
-                                                              .isDone()
-                                                          ? CupertinoIcons
-                                                              .check_mark_circled_solid
-                                                          : CupertinoIcons
-                                                              .circle,
-                                                      color: const Color(
-                                                          0xFFFEFCEE),
-                                                    ),
-                                                    onPressed: () async {
-                                                      try {
-                                                        Tarea tarea = snapshot
-                                                            .data![index];
-                                                        if (!tarea.isDone()) {
-                                                          tarea
-                                                              .makeDone(); // Marca como completada
-                                                        } else {
-                                                          tarea
-                                                              .makeUndone(); // Desmarca la tarea
-                                                        }
+                                                  AnimatedOpacity(
+                                                    duration: const Duration(
+                                                        milliseconds: 300),
+                                                    opacity: tarea.timesDone ==
+                                                            tarea.needDone
+                                                        ? 0.5
+                                                        : 1.0, // Cambiar opacidad solo si timesDone == needDone
+                                                    child: Row(
+                                                      children: [
+                                                        IconButton(
+                                                          icon: Icon(
+                                                            tarea.isDone()
+                                                                ? CupertinoIcons
+                                                                    .check_mark_circled_solid
+                                                                : CupertinoIcons
+                                                                    .circle,
+                                                            color: const Color(
+                                                                0xFFFEFCEE),
+                                                          ),
+                                                          onPressed: () async {
+                                                            try {
+                                                              setState(() {
+                                                                if (!tarea
+                                                                    .isDone()) {
+                                                                  tarea
+                                                                      .makeDone();
+                                                                } else {
+                                                                  tarea
+                                                                      .makeUndone();
+                                                                }
+                                                              });
 
-                                                        // Notifica al widget padre que las tareas han cambiado
-                                                        widget.onTaskUpdated();
-
-                                                        // Recarga la lista de tareas
-                                                        setState(() {
-                                                          getListaTareas();
-                                                        });
-                                                      } catch (e) {
-                                                        log("Error al completar la tarea: $e");
-                                                      }
-                                                    },
-                                                  ),
-                                                  GestureDetector(
-                                                    onLongPress: () {
-                                                      showAlertBottomEditarTarea(
-                                                          context,
-                                                          snapshot.data![index]
-                                                              .dbRef,
-                                                          snapshot.data![index]
-                                                              .name,
-                                                          editingController,
-                                                          widget.onTaskUpdated);
-                                                    },
-                                                    child: Text(
-                                                      // Texto simplificado al formato x/y
-                                                      "${splitTextBySpaces(snapshot.data![index].name, 20)}"
-                                                      "${snapshot.data![index].needDone > 1 ? " (${snapshot.data![index].timesDone}/${snapshot.data![index].needDone})" : ""}",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        fontSize: 16,
-                                                        color: const Color(
-                                                            0xFFFEFCEE),
-                                                      ),
+                                                              // Notificar que la tarea ha sido actualizada
+                                                              widget
+                                                                  .onTaskUpdated();
+                                                            } catch (e) {
+                                                              log("Error al completar la tarea: $e");
+                                                            }
+                                                          },
+                                                        ),
+                                                        GestureDetector(
+                                                          onLongPress: () {
+                                                            showAlertBottomEditarTarea(
+                                                              context,
+                                                              tarea.dbRef,
+                                                              tarea.name,
+                                                              editingController,
+                                                              widget
+                                                                  .onTaskUpdated,
+                                                            );
+                                                          },
+                                                          child: Text(
+                                                            "${splitTextBySpaces(tarea.name, 20)}"
+                                                            "${tarea.needDone > 1 ? " (${tarea.timesDone}/${tarea.needDone})" : ""}",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              fontSize: 16,
+                                                              color: const Color(
+                                                                  0xFFFEFCEE),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                  if (snapshot.data![index]
-                                                              .needDone >
-                                                          1 &&
-                                                      snapshot.data![index]
-                                                              .timesDone >
-                                                          0) // Mostrar solo si needDone > 1 y timesDone > 0
+                                                  if (tarea.needDone > 1 &&
+                                                      tarea.timesDone > 0 &&
+                                                      tarea.needDone !=
+                                                          tarea.timesDone)
                                                     IconButton(
                                                       icon: const Icon(
                                                         CupertinoIcons
@@ -335,16 +319,11 @@ class _TareasContainerState extends State<TareasContainer> {
                                                       ),
                                                       onPressed: () async {
                                                         try {
-                                                          Tarea tarea = snapshot
-                                                              .data![index];
-                                                          tarea
-                                                              .makeUndone(); // Reduce en uno timesDone
+                                                          tarea.makeUndone();
 
-                                                          // Notifica al widget padre que las tareas han cambiado
                                                           widget
                                                               .onTaskUpdated();
 
-                                                          // Recarga la lista de tareas
                                                           setState(() {
                                                             getListaTareas();
                                                           });
@@ -354,25 +333,25 @@ class _TareasContainerState extends State<TareasContainer> {
                                                       },
                                                     ),
                                                 ],
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          return Text(
-                                            "No hay tareas disponibles.",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 16,
-                                              color: const Color(0xFFFEFCEE),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    ),
-                                ],
-                              ),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      } else {
+                                        return Text(
+                                          "No hay tareas disponibles.",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            color: const Color(0xFFFEFCEE),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -380,8 +359,8 @@ class _TareasContainerState extends State<TareasContainer> {
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareatres_view.dart';
+import 'package:visionary/views/homepage/creartareas_views/creartareauno_view.dart';
 
 class CreaTareaDosView extends StatefulWidget {
   final String objectiveRef;
@@ -170,17 +171,42 @@ class _CreaTareaDosViewState extends State<CreaTareaDosView>
                 ),
               ),
               const SizedBox(height: 20),
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(buildFadeRoute(
-                      CreaTareaTresView(
-                          nombreTarea: widget.nombreTarea,
-                          prioridad: _selectedPriority,
-                          objectiveRef: widget.objectiveRef)));
-                },
-                icon: const Icon(CupertinoIcons.arrow_right_circle_fill),
-                color: const Color(0xFFFEFCEE),
-              )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_upward,
+                        color: Color(0xFFFEFCEE),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(buildFadeRoute(
+                            CreaTareaUnoView(
+                                objectiveRef: widget.objectiveRef)));
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 20), // Espaciado entre botones
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_downward,
+                        color: Color(0xFFFEFCEE),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(buildFadeRoute(
+                            CreaTareaTresView(
+                                nombreTarea: widget.nombreTarea,
+                                prioridad: _selectedPriority,
+                                objectiveRef: widget.objectiveRef)));
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

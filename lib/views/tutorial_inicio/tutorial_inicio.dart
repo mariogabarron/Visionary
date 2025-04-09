@@ -140,31 +140,45 @@ class _TutorialInicioState extends State<TutorialInicio> {
                     ),
                   ),
                 ),
+                // ...existing code...
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RotatedBox(
-                      quarterTurns: 3,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.arrow_upward_sharp,
-                          color: Color(0xFFFEFCEE),
-                        ),
-                        onPressed: previousPage,
-                      ),
-                    ),
-                    const SizedBox(width: 20), // Espaciado entre botones
-                    RotatedBox(
-                      quarterTurns: 3,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.arrow_downward_sharp,
-                          color: Color(0xFFFEFCEE),
-                        ),
-                        onPressed: nextPage,
-                      ),
-                    ),
-                  ],
+                  children: currentPage == 0
+                      ? [
+                          RotatedBox(
+                            quarterTurns: 3,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.arrow_downward_sharp,
+                                color: Color(0xFFFEFCEE),
+                              ),
+                              onPressed: nextPage,
+                            ),
+                          ),
+                        ]
+                      : [
+                          RotatedBox(
+                            quarterTurns: 3,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.arrow_upward_sharp,
+                                color: Color(0xFFFEFCEE),
+                              ),
+                              onPressed: previousPage,
+                            ),
+                          ),
+                          const SizedBox(width: 20), // Espaciado entre botones
+                          RotatedBox(
+                            quarterTurns: 3,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.arrow_downward_sharp,
+                                color: Color(0xFFFEFCEE),
+                              ),
+                              onPressed: nextPage,
+                            ),
+                          ),
+                        ],
                 ),
               ],
             ),
