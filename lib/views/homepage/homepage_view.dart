@@ -18,6 +18,7 @@ import 'package:visionary/views/homepage/homepage_widgets/porque_container.dart'
 import 'package:visionary/views/homepage/homepage_widgets/progreso_container.dart';
 import 'package:visionary/views/homepage/homepage_widgets/tareas_container.dart';
 import 'package:visionary/views/tutorial_menu/tutorialoverlay_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomepageView extends StatefulWidget {
   const HomepageView({super.key});
@@ -129,17 +130,24 @@ class _HomepageViewState extends State<HomepageView>
   }
 
   Future<bool> _checkObjectives() async {
-    final objectives = (await VisionaryUser.fromLogin()).objectives;
+    final prefs = await SharedPreferences.getInstance();
+    final storedIndex = prefs.getInt('selectedObjetivoIndex');
+    final user = await VisionaryUser.fromLogin();
+    final objectives = user.objectives;
+
     if (objectives.isNotEmpty) {
-      // Mantén el objetivo seleccionado o selecciona el primero si no hay uno
-      if (selectedObjectiveName == null || selectedObjectiveIndex == null) {
-        selectedObjectiveName = objectives[0].$2.ref.path;
-        selectedObjectiveIndex = 0;
+      // Si hay un índice almacenado, úsalo; de lo contrario, selecciona el primero
+      if (storedIndex != null && storedIndex < objectives.length) {
+        selectedObjectiveIndex = storedIndex;
+        selectedObjectiveName = objectives[storedIndex].$2.ref.path;
+      } else {
+        selectedObjectiveIndex ??= 0; // Solo asigna si es null
+        selectedObjectiveName ??= objectives[0].$2.ref.path;
       }
       return true; // Hay objetivos
     } else {
-      selectedObjectiveName = null;
       selectedObjectiveIndex = null;
+      selectedObjectiveName = null;
       return false; // No hay objetivos
     }
   }

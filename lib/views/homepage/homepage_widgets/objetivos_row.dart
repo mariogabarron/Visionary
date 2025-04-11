@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/objects/objetivo_class.dart';
 import 'package:visionary/services/objects/visionary_user_class.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ObjetivosRow extends StatefulWidget {
   final Function(String, int)
@@ -31,6 +32,8 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
     super.initState();
     controller = TextEditingController();
     selectedObjetivoIndex = widget.selectedObjectiveIndex;
+
+    _futureUser = VisionaryUser.fromLogin();
     reloadData();
   }
 
@@ -51,18 +54,20 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
     controller.dispose();
   }
 
-  void reloadData() {
+  void reloadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedIndex = prefs.getInt('selectedObjetivoIndex');
+
     setState(() {
       _futureUser = VisionaryUser.fromLogin().then((user) {
         if (user.objectives.isNotEmpty) {
-          // Solo asignar un valor por defecto si selectedObjetivoIndex es null
-          if (selectedObjetivoIndex == null ||
-              selectedObjetivoIndex! >= user.objectives.length) {
-            selectedObjetivoIndex = 0;
-            selectedObjetivoRef = user.objectives[0].$2.key;
+          // Si hay un índice almacenado, úsalo; de lo contrario, usa el índice por defecto
+          if (storedIndex != null && storedIndex < user.objectives.length) {
+            selectedObjetivoIndex = storedIndex;
+            selectedObjetivoRef = user.objectives[storedIndex].$2.key;
           } else {
-            selectedObjetivoRef =
-                user.objectives[selectedObjetivoIndex!].$2.key;
+            selectedObjetivoIndex ??= 0;
+            selectedObjetivoRef ??= user.objectives[0].$2.key;
           }
         } else {
           widget.onObjectiveDeleted();
@@ -119,14 +124,17 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
                                   setState(() {
                                     selectedObjetivoIndex = i;
                                     selectedObjetivoRef = objectives[i].$2;
                                   });
+                                  await prefs.setInt('selectedObjetivoIndex',
+                                      i); // Guarda el índice seleccionado
                                   widget.onObjectiveSelected(
-                                      objectives[i].$2.ref.path,
-                                      i); // Pasa el índice
+                                      objectives[i].$2.ref.path, i);
                                 },
                                 onLongPress: () async {
                                   Objetivo obj =
@@ -282,6 +290,9 @@ void showAlertBottomEditarObjetivo(
                     }
                     objetivo.edit(nuevoNombre, objetivo.motive);
                     u.updateObjectives();
+
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.remove('selectedObjetivoIndex');
                     if (context.mounted) {
                       Navigator.of(context).pop(); // Cerrar el modal
                     }
