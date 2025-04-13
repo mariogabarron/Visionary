@@ -294,9 +294,12 @@ class _HomepageViewState extends State<HomepageView>
                               PorqueLoHagoContainer(
                                 objetivo: selectedObjectiveName ?? "A",
                                 onTaskUpdated: actualizarProgreso,
+                                // Pasa el notificador
                               ),
                               const SizedBox(height: 30),
-                              ProgresoContainer(tareasFuture: getListaTareas()),
+                              ProgresoContainer(
+                                tareasFuture: getListaTareas(),
+                              ),
                               const SizedBox(height: 30),
                               const FraseContainer(),
                               const SizedBox(height: 30),

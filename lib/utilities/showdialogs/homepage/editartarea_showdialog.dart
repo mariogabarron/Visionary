@@ -53,7 +53,7 @@ void showAlertBottomEditarTarea(
                   label: "",
                   inputType: TextInputType.name,
                   hintText: nombre,
-                  maxWords: 20,
+                  maxWords: 16,
                   t: editingController,
                 ),
                 const SizedBox(height: 30),

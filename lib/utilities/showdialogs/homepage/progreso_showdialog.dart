@@ -69,7 +69,9 @@ void showAlertProgreso(BuildContext context, double porcentaje) {
                       ])),
               const SizedBox(height: 20),
               Text(
-                'Sigue cumpliendo el resto de tus tareas para cumplir tu objetivo.',
+                porcentaje != 1
+                    ? 'Sigue cumpliendo el resto de tus tareas para cumplir tu objetivo.'
+                    : '¡Felicidades! Has cumplido tu objetivo. ¡Vamos a por el siguiente!',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.normal,

@@ -38,17 +38,6 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
   }
 
   @override
-  void didUpdateWidget(covariant ObjetivosRow oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.selectedObjectiveIndex != oldWidget.selectedObjectiveIndex ||
-        widget.selectedObjectiveIndex != selectedObjetivoIndex) {
-      setState(() {
-        selectedObjetivoIndex = widget.selectedObjectiveIndex;
-      });
-    }
-  }
-
-  @override
   void dispose() {
     super.dispose();
     controller.dispose();
@@ -61,16 +50,29 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
     setState(() {
       _futureUser = VisionaryUser.fromLogin().then((user) {
         if (user.objectives.isNotEmpty) {
-          // Si hay un índice almacenado, úsalo; de lo contrario, usa el índice por defecto
+          // Si hay un índice almacenado y es válido, úsalo
           if (storedIndex != null && storedIndex < user.objectives.length) {
             selectedObjetivoIndex = storedIndex;
             selectedObjetivoRef = user.objectives[storedIndex].$2.key;
           } else {
-            selectedObjetivoIndex ??= 0;
-            selectedObjetivoRef ??= user.objectives[0].$2.key;
+            // Si no es válido, selecciona el primer objetivo
+            selectedObjetivoIndex = 0;
+            selectedObjetivoRef = user.objectives[0].$2.key;
+            prefs.setInt(
+                'selectedObjetivoIndex', 0); // Actualiza el índice almacenado
           }
+          widget.onObjectiveSelected(
+              user.objectives[selectedObjetivoIndex!].$2.ref.path,
+              selectedObjetivoIndex!);
         } else {
+          // Si no hay objetivos, limpia el índice almacenado y llama al callback
+          selectedObjetivoIndex = 0;
+          selectedObjetivoRef = null;
+          prefs.remove('selectedObjetivoIndex');
           widget.onObjectiveDeleted();
+        }
+        if (selectedObjetivoRef == null) {
+          selectedObjetivoIndex = 0;
         }
         return user;
       });
@@ -258,7 +260,7 @@ void showAlertBottomEditarObjetivo(
                     label: "",
                     inputType: TextInputType.name,
                     hintText: "Escribe el nuevo nombre",
-                    maxWords: 20,
+                    maxWords: 16,
                     controller: controller),
                 const SizedBox(height: 30),
                 ElevatedButton(
@@ -291,12 +293,10 @@ void showAlertBottomEditarObjetivo(
                     objetivo.edit(nuevoNombre, objetivo.motive);
                     u.updateObjectives();
 
-                    final prefs = await SharedPreferences.getInstance();
-                    await prefs.remove('selectedObjetivoIndex');
                     if (context.mounted) {
                       Navigator.of(context).pop(); // Cerrar el modal
                     }
-                    onObjectiveDeleted;
+                    onObjectiveDeleted();
                   },
                   child: Text(
                     'Guardar',
@@ -355,9 +355,16 @@ void showAlertBottomEditarObjetivo(
                         objetivo.deleteObjective();
                         VisionaryUser u = await VisionaryUser.fromLogin();
                         u.updateObjectives();
+
+                        reloadData();
+
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.remove('selectedObjetivoIndex');
                         if (context.mounted) {
                           Navigator.of(context).pop(); // Cerrar el modal
                         }
+
+                        onObjectiveDeleted();
                       },
                       child: Text(
                         'Borrar',

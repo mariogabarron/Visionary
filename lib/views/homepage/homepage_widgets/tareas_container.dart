@@ -191,7 +191,6 @@ class _TareasContainerState extends State<TareasContainer> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 10),
                           AnimatedPadding(
                             duration: const Duration(milliseconds: 150),
                             padding: EdgeInsets.only(bottom: _bottomPadding),
