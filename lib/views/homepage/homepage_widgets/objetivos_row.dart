@@ -22,7 +22,6 @@ class ObjetivosRow extends StatefulWidget {
 }
 
 class _ObjetivosRowState extends State<ObjetivosRow> {
-  late TextEditingController controller;
   late Future<VisionaryUser> _futureUser;
   var selectedObjetivoRef;
   int? selectedObjetivoIndex;
@@ -30,7 +29,6 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController();
     selectedObjetivoIndex = widget.selectedObjectiveIndex;
 
     _futureUser = VisionaryUser.fromLogin();
@@ -40,7 +38,6 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
   @override
   void dispose() {
     super.dispose();
-    controller.dispose();
   }
 
   void reloadData() async {
@@ -141,11 +138,14 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                 onLongPress: () async {
                                   Objetivo obj =
                                       await Objetivo.fromRef(objectives[i].$2);
+                                  final localController =
+                                      TextEditingController(text: obj.name);
+
                                   if (context.mounted) {
                                     showAlertBottomEditarObjetivo(
                                         context,
                                         obj,
-                                        controller,
+                                        localController,
                                         reloadData,
                                         widget.onObjectiveDeleted);
                                     reloadData();
