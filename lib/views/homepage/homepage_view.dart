@@ -192,18 +192,20 @@ class _HomepageViewState extends State<HomepageView>
         title: Stack(
           children: [
             Positioned(
-              left: 12,
-              top: 0,
-              bottom: 0,
-              child: IconButton(
-                icon: const Icon(CupertinoIcons.gear_solid),
-                color: const Color(0xFFFEFCEE),
-                onPressed: () {
-                  _showTutorial = false;
-                  Navigator.of(context).pushReplacementNamed(ajustesCuenta);
-                },
-              ),
-            ),
+                left: 12,
+                top: 0,
+                bottom: 0,
+                child: Opacity(
+                  opacity: 0.8,
+                  child: IconButton(
+                    icon: const Icon(CupertinoIcons.gear_solid),
+                    color: Color(0xFFFEFCEE),
+                    onPressed: () {
+                      _showTutorial = false;
+                      Navigator.of(context).pushReplacementNamed(ajustesCuenta);
+                    },
+                  ),
+                )),
             Align(
               alignment: Alignment.center,
               child: Text(
@@ -221,10 +223,13 @@ class _HomepageViewState extends State<HomepageView>
               right: 12,
               top: 0,
               bottom: 0,
-              child: IconButton(
-                icon: const Icon(CupertinoIcons.question_circle_fill),
-                color: const Color(0xFFFEFCEE),
-                onPressed: _tutorialMenuUno,
+              child: Opacity(
+                opacity: 0.8,
+                child: IconButton(
+                  icon: const Icon(CupertinoIcons.question_circle_fill),
+                  color: const Color(0xFFFEFCEE),
+                  onPressed: _tutorialMenuUno,
+                ),
               ),
             ),
           ],
@@ -239,9 +244,9 @@ class _HomepageViewState extends State<HomepageView>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: const [
-                      Color(0xFF6D97AC),
-                      Color.fromARGB(255, 212, 176, 146),
-                      //Colors.black, Colors.black
+                      //Color(0xFF6D97AC),
+                      //Color.fromARGB(255, 212, 176, 146),
+                      Colors.black, Colors.black
                     ],
                     transform: GradientRotation(_animation.value),
                   ),
@@ -277,11 +282,11 @@ class _HomepageViewState extends State<HomepageView>
                           selectedObjectiveIndex: selectedObjectiveIndex,
                         ),
                         const SizedBox(height: 10),
-                        const Padding(
+                        /*const Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 30.0, vertical: 0.0),
                           child: Divider(color: Color(0xFFFEFCEE)),
-                        ),
+                        ),*/
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Column(

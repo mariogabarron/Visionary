@@ -85,7 +85,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                   filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(20.0),
                       border: Border.all(
                         width: 2.0,
@@ -104,7 +104,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                 Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    boxShadow: [
+                                    /*boxShadow: [
                                       BoxShadow(
                                         color: const Color(0xFFFEFCEE)
                                             .withOpacity(0.15),
@@ -112,11 +112,12 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                         blurRadius: 20,
                                         offset: const Offset(0, 0),
                                       ),
-                                    ],
+                                    ],*/
                                   ),
                                   child: IconButton(
                                     icon: const Icon(
-                                        CupertinoIcons.pencil_circle_fill),
+                                        CupertinoIcons.pencil_circle_fill,
+                                        size: 22),
                                     color: const Color(0xFFFEFCEE),
                                     onPressed: () {
                                       showAlertPorque(context, widget.objetivo,
@@ -132,7 +133,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                   "Propósito",
                                   style: GoogleFonts.poppins(
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 23,
+                                    fontSize: 21,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xFFFEFCEE),
                                   ),

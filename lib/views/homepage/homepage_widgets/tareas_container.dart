@@ -106,7 +106,7 @@ class _TareasContainerState extends State<TareasContainer> {
                 filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20.0),
                     border: Border.all(
                       width: 2.0,
@@ -125,7 +125,7 @@ class _TareasContainerState extends State<TareasContainer> {
                               Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  boxShadow: [
+                                  /*boxShadow: [
                                     BoxShadow(
                                       color: const Color(0xFFFEFCEE)
                                           .withOpacity(0.15),
@@ -133,11 +133,12 @@ class _TareasContainerState extends State<TareasContainer> {
                                       blurRadius: 20,
                                       offset: const Offset(0, 0),
                                     ),
-                                  ],
+                                  ],*/
                                 ),
                                 child: IconButton(
                                   icon: const Icon(
-                                      CupertinoIcons.add_circled_solid),
+                                      CupertinoIcons.add_circled_solid,
+                                      size: 22),
                                   color: const Color(0xFFFEFCEE),
                                   onPressed: () async {
                                     if (_isDialogOpen) {
@@ -166,7 +167,7 @@ class _TareasContainerState extends State<TareasContainer> {
                                 "Tareas",
                                 style: GoogleFonts.poppins(
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 23,
+                                  fontSize: 21,
                                   fontWeight: FontWeight.bold,
                                   color: const Color(0xFFFEFCEE),
                                 ),
@@ -337,11 +338,13 @@ class _TareasContainerState extends State<TareasContainer> {
                                           ),
                                         );
                                       } else {
-                                        return Text(
-                                          "No hay tareas disponibles.",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 16,
-                                            color: const Color(0xFFFEFCEE),
+                                        return Center(
+                                          child: Text(
+                                            "Crea tu primera tarea.",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              color: const Color(0xFFFEFCEE),
+                                            ),
                                           ),
                                         );
                                       }

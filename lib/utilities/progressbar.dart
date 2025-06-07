@@ -10,35 +10,37 @@ class ProgressBar extends StatelessWidget {
       width: 320,
       height: 30,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15), // Bordes redondeados
+        color: const Color.fromARGB(255, 23, 23, 23), // Fondo gris oscuro
+        borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          color: const Color(0xFFFEFCEE),
+          color: Colors.transparent,
           width: 2,
         ),
-        // Fondo dinámico con gradiente
-        gradient: LinearGradient(
-          colors: [
-            Colors.blueGrey, // Color del progreso
-            Colors.blueGrey, // Color del progreso
-            Colors.grey[300]!, // Color del fondo restante
-            Colors.grey[300]!, // Color del fondo restante
-          ],
-          stops: [
-            0.0,
-            porcentaje, // Hasta el porcentaje del progreso
-            porcentaje, // Desde el porcentaje restante
-            1.0,
-          ],
-        ),
       ),
-      child: Center(
-        child: Text(
-          '${(porcentaje * 100).toStringAsFixed(1)}%', // Mostrar un decimal
-          style: const TextStyle(
-            color: Color.fromARGB(255, 38, 39, 44),
-            fontWeight: FontWeight.bold,
+      child: Stack(
+        children: [
+          // Barra de progreso (relleno)
+          FractionallySizedBox(
+            alignment: Alignment.centerLeft,
+            widthFactor: porcentaje.clamp(0.0, 1.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFFEFCEE), // Color del progreso
+                borderRadius: BorderRadius.circular(13),
+              ),
+            ),
           ),
-        ),
+          // Texto centrado
+          Center(
+            child: Text(
+              '${(porcentaje * 100).toStringAsFixed(1)}%',
+              style: const TextStyle(
+                color: Color.fromARGB(255, 118, 118, 118),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

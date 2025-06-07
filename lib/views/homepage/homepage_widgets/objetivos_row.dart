@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
@@ -108,7 +109,7 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                       Colors.white,
                       Colors.transparent,
                     ],
-                    stops: [0.0, 0.1, 0.9, 1.0],
+                    stops: [0.0, 0.03, 0.97, 1.0], // Más pegado a los bordes
                   ).createShader(bounds);
                 },
                 blendMode: BlendMode.dstIn,
@@ -118,7 +119,7 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                     children: [
                       for (var i = 0; i < objectives.length; i++)
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -151,20 +152,27 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                     reloadData();
                                   }
                                 },
-                                child: Opacity(
-                                  opacity:
-                                      selectedObjetivoIndex == i ? 1.0 : 0.4,
-                                  child: Text(
-                                    objectives[i].$1,
-                                    style: TextStyle(
-                                      color: objectives[i].$2 ==
-                                              selectedObjetivoRef
-                                          ? const Color.fromARGB(
-                                              201, 254, 252, 238)
-                                          : const Color.fromARGB(
-                                              201, 254, 252, 238),
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: selectedObjetivoIndex == i
+                                        ? const Color(0xFFFEFCEE)
+                                            .withOpacity(0.2)
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: Opacity(
+                                    opacity:
+                                        selectedObjetivoIndex == i ? 1.0 : 0.5,
+                                    child: Text(
+                                      objectives[i].$1,
+                                      style: TextStyle(
+                                        color: const Color.fromARGB(
+                                            255, 254, 252, 238),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -172,26 +180,34 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                             ],
                           ),
                         ),
-                      const SizedBox(width: 10),
-                      TextButton(
-                        onPressed: () async {
+                      const SizedBox(width: 16),
+                      GestureDetector(
+                        onTap: () async {
                           if (context.mounted) {
                             Navigator.of(context)
                                 .pushReplacementNamed(crearObjetivoUno);
                           }
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color(0xFFFEFCEE).withOpacity(0.2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        child: Text('Añadir objetivo',
-                            style: GoogleFonts.poppins(
+                        child: Row(
+                          children: [
+                            Text(
+                              'Añadir',
+                              style: GoogleFonts.poppins(
                                 color: const Color(0xFFFEFCEE),
                                 fontSize: 15,
-                                fontWeight: FontWeight.bold)),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                                width:
+                                    4), // Ajusta este valor según lo que busques
+                            const Icon(
+                              CupertinoIcons.plus_circle_fill,
+                              color: Color(0xFFFEFCEE),
+                              size: 15,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

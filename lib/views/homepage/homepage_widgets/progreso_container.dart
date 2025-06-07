@@ -90,40 +90,7 @@ class _ProgresoContainerState extends State<ProgresoContainer>
                 borderRadius: BorderRadius.circular(20.0),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(
-                        width: 2.0,
-                        color: Colors.transparent,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 15.0, right: 15.0, bottom: 25, top: 17),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Text(
-                              "Progreso",
-                              style: GoogleFonts.poppins(
-                                fontStyle: FontStyle.normal,
-                                fontSize: 23,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFFFEFCEE),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          ProgressBar(porcentaje: _currentProgress),
-                        ],
-                      ),
-                    ),
-                  ),
+                  child: ProgressBar(porcentaje: _currentProgress),
                 ),
               ),
             ),
