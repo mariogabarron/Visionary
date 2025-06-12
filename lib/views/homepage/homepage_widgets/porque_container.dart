@@ -82,14 +82,17 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  filter:
+                      ImageFilter.blur(sigmaX: 18.0, sigmaY: 18.0), // Más blur
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.1),
+                      color: Colors.white.withOpacity(
+                          0.15), // Más opaco para resaltar el efecto
                       borderRadius: BorderRadius.circular(20.0),
                       border: Border.all(
                         width: 2.0,
-                        color: Colors.transparent,
+                        color: Colors.white.withOpacity(
+                            0.18), // Borde sutil blanco translúcido
                       ),
                     ),
                     child: Center(

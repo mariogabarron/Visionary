@@ -69,8 +69,9 @@ class _ProgresoContainerState extends State<ProgresoContainer>
     return GestureDetector(
       onTap: () async {
         // Retraso de 2 segundos antes de mostrar el diálogo
-        await Future.delayed(const Duration(seconds: 1));
-        if (context.mounted) showAlertProgreso(context, _currentProgress);
+
+        /*await Future.delayed(const Duration(seconds: 1));
+        if (context.mounted) showAlertProgreso(context, _currentProgress);*/ // para la beta no
       },
       child: Stack(
         children: [

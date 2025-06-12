@@ -5,10 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/auth/auth_user.dart';
 import 'package:visionary/utilities/showdialogs/borrarcuenta_showdialog.dart';
+import 'package:visionary/views/homepage/homepage_view.dart'; // Importa para reutilizar el fondo
 
 class AjustesCuenta extends StatefulWidget {
   const AjustesCuenta({super.key});
-
   @override
   State<AjustesCuenta> createState() => _AjustesCuentaState();
 }
@@ -65,176 +65,248 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
           ],
         ),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Color(0xFF6D97AC), Color.fromARGB(255, 207, 175, 148)],
-              transform: GradientRotation(88 * pi / 180)),
-        ),
-        child: SizedBox.expand(
-          child: Column(
+      body: Stack(
+        children: [
+          Container(
+            color: const Color.fromARGB(255, 0, 0, 0), // Fondo oscuro
+          ),
+          _AnimatedBackground(
+            circles: [
+              _CircleData(
+                color: const Color(0xFF6D97AC).withOpacity(0.32),
+                radius: 220,
+                dx: -0.5,
+                dy: -0.6,
+                vx: 0.008,
+                vy: 0.006,
+              ),
+              _CircleData(
+                color:
+                    const Color.fromARGB(255, 212, 176, 146).withOpacity(0.22),
+                radius: 180,
+                dx: 0.6,
+                dy: -0.4,
+                vx: -0.006,
+                vy: 0.007,
+              ),
+            ],
+          ),
+          SizedBox.expand(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 /*Text(
-                  "Configuración",
-                  style: GoogleFonts.poppins(
-                    color: const Color(0xFFFEFCEE),
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 24,
+                    "Configuración",
+                    style: GoogleFonts.poppins(
+                      color: const Color(0xFFFEFCEE),
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 24,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 40),*/
-                GestureDetector(
+                  const SizedBox(height: 40),*/
+                _AjustesButton(
+                  text: 'Ayuda',
                   onTap: ayudaConfiguracion,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(66, 254, 252, 238),
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 10.0),
-                    child: Text(
-                      'Ayuda',
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFFFEFCEE),
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 19,
-                      ),
-                    ),
-                  ),
                 ),
                 const SizedBox(height: 40),
-                GestureDetector(
+                _AjustesButton(
+                  text: 'Política de privacidad',
                   onTap: _politicaPrivacidad,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(66, 254, 252, 238),
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 10.0),
-                    child: Text(
-                      'Política de privacidad',
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFFFEFCEE),
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 19,
-                      ),
-                    ),
-                  ),
                 ),
                 const SizedBox(height: 40),
-                GestureDetector(
+                _AjustesButton(
+                  text: 'Valorar aplicación',
                   onTap: _valorarApp,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(66, 254, 252, 238),
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 10.0),
-                    child: Text(
-                      'Valorar aplicación',
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFFFEFCEE),
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 19,
-                      ),
-                    ),
-                  ),
                 ),
                 const SizedBox(height: 40),
-                GestureDetector(
+                _AjustesButton(
+                  text: 'Términos y condiciones',
                   onTap: _terminosYCondiciones,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(66, 254, 252, 238),
-                      borderRadius: BorderRadius.circular(30.0),
-                      /*boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromARGB(255, 218, 185, 159),
-                          blurRadius: 10.0,
-                          offset: Offset(0, 5),
-                        ),
-                      ],*/
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 10.0),
-                    child: Text(
-                      'Términos y condiciones',
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFFFEFCEE),
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 19,
-                      ),
-                    ),
-                  ),
                 ),
                 const SizedBox(height: 40),
-                GestureDetector(
+                _AjustesButton(
+                  text: 'Cerrar sesión',
                   onTap: _cerrarSesion,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(66, 254, 252, 238),
-                      borderRadius: BorderRadius.circular(30.0),
-                      /*boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromARGB(255, 218, 185, 159),
-                          blurRadius: 10.0,
-                          offset: Offset(0, 5),
-                        ),
-                      ],*/
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 10.0),
-                    child: Text(
-                      'Cerrar sesión',
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFFFEFCEE),
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 19,
-                      ),
-                    ),
-                  ),
                 ),
                 const SizedBox(height: 40),
-                GestureDetector(
+                _AjustesButton(
+                  text: 'Borrar cuenta',
                   onTap: _borrarCuenta,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(66, 254, 252, 238),
-                      borderRadius: BorderRadius.circular(30.0),
-                      /*boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromARGB(255, 218, 185, 159),
-                          blurRadius: 10.0,
-                          offset: Offset(0, 5),
-                        ),
-                      ],*/
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 10.0),
-                    child: Text(
-                      'Borrar cuenta',
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFFFEFCEE),
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 19,
-                      ),
-                    ),
-                  ),
                 ),
-              ]),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Botón con estilo "liquid" y borde, igual que los containers de la homepage
+class _AjustesButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onTap;
+  const _AjustesButton({required this.text, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(66, 254, 252, 238),
+          borderRadius: BorderRadius.circular(30.0),
+          border: Border.all(
+            color: const Color(0xFFFEFCEE).withOpacity(0.18),
+            width: 2.0,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF6D97AC).withOpacity(0.08),
+              blurRadius: 18,
+              spreadRadius: 2,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        child: Text(
+          text,
+          style: GoogleFonts.poppins(
+            color: const Color(0xFFFEFCEE),
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.normal,
+            fontSize: 19,
+          ),
         ),
       ),
     );
   }
+}
+
+// Añade esto si _AnimatedBackground y _CircleData no están exportados desde homepage_view.dart
+class _AnimatedBackground extends StatefulWidget {
+  final List<_CircleData> circles;
+  const _AnimatedBackground({Key? key, required this.circles})
+      : super(key: key);
+
+  @override
+  State<_AnimatedBackground> createState() => _AnimatedBackgroundState();
+}
+
+class _AnimatedBackgroundState extends State<_AnimatedBackground>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late List<_CircleData> _circles;
+
+  @override
+  void initState() {
+    super.initState();
+    _circles = widget.circles.map((c) => _CircleData.clone(c)).toList();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 60),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onPanUpdate(DragUpdateDetails details, int index, Size size) {
+    setState(() {
+      final dx = (details.localPosition.dx / size.width) * 2 - 1;
+      final dy = (details.localPosition.dy / size.height) * 2 - 1;
+      _circles[index].dx = dx.clamp(-1.0, 1.0);
+      _circles[index].dy = dy.clamp(-1.0, 1.0);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final size = Size(constraints.maxWidth, constraints.maxHeight);
+        return AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            for (final c in _circles) {
+              c.dx += c.vx * 0.8;
+              c.dy += c.vy * 0.8;
+              if (c.dx > 1.0 || c.dx < -1.0) c.vx = -c.vx;
+              if (c.dy > 1.0 || c.dy < -1.0) c.vy = -c.vy;
+              c.dx = c.dx.clamp(-1.0, 1.0);
+              c.dy = c.dy.clamp(-1.0, 1.0);
+            }
+            return Stack(
+              children: [
+                for (int i = 0; i < _circles.length; i++)
+                  Positioned.fill(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onPanUpdate: (details) => _onPanUpdate(details, i, size),
+                      child: CustomPaint(
+                        painter: _CirclePainter(_circles[i], size),
+                        isComplex: false,
+                        willChange: true,
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _CircleData {
+  Color color;
+  double radius;
+  double dx, dy;
+  double vx, vy;
+  _CircleData({
+    required this.color,
+    required this.radius,
+    required this.dx,
+    required this.dy,
+    required this.vx,
+    required this.vy,
+  });
+
+  static _CircleData clone(_CircleData c) => _CircleData(
+        color: c.color,
+        radius: c.radius,
+        dx: c.dx,
+        dy: c.dy,
+        vx: c.vx,
+        vy: c.vy,
+      );
+}
+
+class _CirclePainter extends CustomPainter {
+  final _CircleData circle;
+  final Size size;
+  _CirclePainter(this.circle, this.size);
+
+  @override
+  void paint(Canvas canvas, Size _) {
+    final center = Offset(
+      size.width / 2 + circle.dx * size.width / 2,
+      size.height / 2 + circle.dy * size.height / 2,
+    );
+    final paint = Paint()
+      ..color = circle.color
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 60);
+    canvas.drawCircle(center, circle.radius, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _CirclePainter oldDelegate) =>
+      oldDelegate.circle != circle || oldDelegate.size != size;
 }

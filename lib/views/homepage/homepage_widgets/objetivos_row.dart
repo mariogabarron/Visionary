@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -97,122 +99,159 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35.0),
-            child: ClipRect(
-              child: ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return const LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: <Color>[
-                      Colors.transparent,
-                      Colors.white,
-                      Colors.white,
-                      Colors.transparent,
-                    ],
-                    stops: [0.0, 0.03, 0.97, 1.0], // Más pegado a los bordes
-                  ).createShader(bounds);
-                },
-                blendMode: BlendMode.dstIn,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      for (var i = 0; i < objectives.length; i++)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () async {
-                                  final prefs =
-                                      await SharedPreferences.getInstance();
-                                  setState(() {
-                                    selectedObjetivoIndex = i;
-                                    selectedObjetivoRef = objectives[i].$2;
-                                  });
-                                  await prefs.setInt('selectedObjetivoIndex',
-                                      i); // Guarda el índice seleccionado
-                                  widget.onObjectiveSelected(
-                                      objectives[i].$2.ref.path, i);
-                                },
-                                onLongPress: () async {
-                                  Objetivo obj =
-                                      await Objetivo.fromRef(objectives[i].$2);
-                                  final localController =
-                                      TextEditingController(text: obj.name);
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ClipRect(
+                  child: ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return const LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: <Color>[
+                          Colors.transparent,
+                          Colors.white,
+                          Colors.white,
+                          Colors.transparent,
+                        ],
+                        stops: [
+                          0.0,
+                          0.03,
+                          0.97,
+                          1.0
+                        ], // Más pegado a los bordes
+                      ).createShader(bounds);
+                    },
+                    blendMode: BlendMode.dstIn,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          for (var i = 0; i < objectives.length; i++)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      setState(() {
+                                        selectedObjetivoIndex = i;
+                                        selectedObjetivoRef = objectives[i].$2;
+                                      });
+                                      await prefs.setInt(
+                                          'selectedObjetivoIndex',
+                                          i); // Guarda el índice seleccionado
+                                      widget.onObjectiveSelected(
+                                          objectives[i].$2.ref.path, i);
+                                    },
+                                    onLongPress: () async {
+                                      Objetivo obj = await Objetivo.fromRef(
+                                          objectives[i].$2);
+                                      final localController =
+                                          TextEditingController(text: obj.name);
 
-                                  if (context.mounted) {
-                                    showAlertBottomEditarObjetivo(
-                                        context,
-                                        obj,
-                                        localController,
-                                        reloadData,
-                                        widget.onObjectiveDeleted);
-                                    reloadData();
-                                  }
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: selectedObjetivoIndex == i
-                                        ? const Color(0xFFFEFCEE)
-                                            .withOpacity(0.2)
-                                        : Colors.transparent,
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Opacity(
-                                    opacity:
-                                        selectedObjetivoIndex == i ? 1.0 : 0.5,
-                                    child: Text(
-                                      objectives[i].$1,
-                                      style: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 254, 252, 238),
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
+                                      if (context.mounted) {
+                                        showAlertBottomEditarObjetivo(
+                                            context,
+                                            obj,
+                                            localController,
+                                            reloadData,
+                                            widget.onObjectiveDeleted);
+                                        reloadData();
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      decoration: BoxDecoration(
+                                        color: selectedObjetivoIndex == i
+                                            ? Colors.white.withOpacity(0.28)
+                                            : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(30),
+                                        border: selectedObjetivoIndex == i
+                                            ? Border.all(
+                                                color: Colors.white
+                                                    .withOpacity(0.18),
+                                                width: 2.0,
+                                              )
+                                            : null,
+                                        // Solo el seleccionado tiene borde y fondo translúcido
+                                      ),
+                                      child: Opacity(
+                                        opacity: selectedObjetivoIndex == i
+                                            ? 1.0
+                                            : 0.5,
+                                        child: Text(
+                                          objectives[i].$1,
+                                          style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                255, 254, 252, 238),
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
+                                ],
+                              ),
+                            ),
+                          const SizedBox(width: 16),
+                          GestureDetector(
+                            onTap: () async {
+                              if (context.mounted) {
+                                Navigator.of(context)
+                                    .pushReplacementNamed(crearObjetivoUno);
+                              }
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Añadir',
+                                  style: GoogleFonts.poppins(
+                                    color: const Color(0xFFFEFCEE),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(
+                                    width:
+                                        4), // Ajusta este valor según lo que busques
+                                const Icon(
+                                  CupertinoIcons.plus_circle_fill,
+                                  color: Color(0xFFFEFCEE),
+                                  size: 15,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      const SizedBox(width: 16),
-                      GestureDetector(
-                        onTap: () async {
-                          if (context.mounted) {
-                            Navigator.of(context)
-                                .pushReplacementNamed(crearObjetivoUno);
-                          }
-                        },
-                        child: Row(
-                          children: [
-                            Text(
-                              'Añadir',
-                              style: GoogleFonts.poppins(
-                                color: const Color(0xFFFEFCEE),
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                                width:
-                                    4), // Ajusta este valor según lo que busques
-                            const Icon(
-                              CupertinoIcons.plus_circle_fill,
-                              color: Color(0xFFFEFCEE),
-                              size: 15,
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(CupertinoIcons.arrow_left_right,
+                        color: const Color(0xFFFEFCEE), size: 16),
+                    const SizedBox(width: 6),
+                    Text(
+                      "Desliza para ver tus objetivos actuales",
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFFFEFCEE).withOpacity(0.7),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           );
         } else {

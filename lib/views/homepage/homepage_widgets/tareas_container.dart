@@ -25,8 +25,9 @@ class TareasContainer extends StatefulWidget {
 
 class _TareasContainerState extends State<TareasContainer> {
   late TextEditingController editingController;
-  double _bottomPadding = 8;
-  bool _isExpanded = false;
+  double _bottomPadding =
+      35; // Cambiado a 35 para estar desplegado inicialmente
+  bool _isExpanded = true; // Cambiado a true para estar desplegado inicialmente
   bool _isDialogOpen = false;
 
   // Mapa para rastrear las tareas completadas y su animación
@@ -103,14 +104,17 @@ class _TareasContainerState extends State<TareasContainer> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                filter:
+                    ImageFilter.blur(sigmaX: 18.0, sigmaY: 18.0), // Más blur
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white
+                        .withOpacity(0.15), // Más opaco para resaltar el efecto
                     borderRadius: BorderRadius.circular(20.0),
                     border: Border.all(
                       width: 2.0,
-                      color: Colors.transparent,
+                      color: Colors.white
+                          .withOpacity(0.18), // Borde sutil blanco translúcido
                     ),
                   ),
                   child: Center(
@@ -231,26 +235,209 @@ class _TareasContainerState extends State<TareasContainer> {
                                         snapshot.data!.sort((a, b) =>
                                             b.priority.compareTo(a.priority));
 
-                                        // ...existing code...
-
                                         return Column(
                                           children: List.generate(
                                             snapshot.data!.length,
                                             (index) {
                                               Tarea tarea =
                                                   snapshot.data![index];
-                                              return Row(
-                                                children: [
-                                                  AnimatedOpacity(
-                                                    duration: const Duration(
-                                                        milliseconds: 300),
-                                                    opacity: tarea.timesDone ==
-                                                            tarea.needDone
-                                                        ? 0.5
-                                                        : 1.0, // Cambiar opacidad solo si timesDone == needDone
-                                                    child: Row(
-                                                      children: [
-                                                        IconButton(
+                                              if (tarea.needDone > 1) {
+                                                return Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical:
+                                                          2.0), // Espacio entre tareas
+                                                  child: Row(
+                                                    children: [
+                                                      IconButton(
+                                                        icon: Icon(
+                                                          tarea.isDone()
+                                                              ? CupertinoIcons
+                                                                  .check_mark_circled_solid
+                                                              : CupertinoIcons
+                                                                  .circle,
+                                                          color: const Color(
+                                                              0xFFFEFCEE),
+                                                        ),
+                                                        onPressed: () async {
+                                                          try {
+                                                            setState(() {
+                                                              if (!tarea
+                                                                  .isDone()) {
+                                                                // Completar la tarea completamente
+                                                                while (!tarea
+                                                                    .isDone()) {
+                                                                  tarea
+                                                                      .makeDone();
+                                                                }
+                                                              } else {
+                                                                // Si ya está completada, poner timesDone a 0
+                                                                while (tarea
+                                                                        .timesDone >
+                                                                    0) {
+                                                                  tarea
+                                                                      .makeUndone();
+                                                                }
+                                                              }
+                                                            });
+                                                            widget
+                                                                .onTaskUpdated();
+                                                          } catch (e) {
+                                                            log("Error al completar/reiniciar la tarea: $e");
+                                                          }
+                                                        },
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets
+                                                              .only(
+                                                              left: 4.0,
+                                                              right:
+                                                                  8.0), // Padding entre texto y borde
+                                                          child:
+                                                              GestureDetector(
+                                                            onLongPress: () {
+                                                              showAlertBottomEditarTarea(
+                                                                context,
+                                                                tarea.dbRef,
+                                                                tarea.name,
+                                                                editingController,
+                                                                widget
+                                                                    .onTaskUpdated,
+                                                              );
+                                                            },
+                                                            child: Text(
+                                                              "${splitTextBySpaces(tarea.name, 20)}"
+                                                              " ",
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                fontSize: 16,
+                                                                color: const Color(
+                                                                    0xFFFEFCEE),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Color.fromARGB(
+                                                              42,
+                                                              254,
+                                                              252,
+                                                              238), // Fondo más clarito
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(17),
+                                                        ),
+                                                        padding: const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 1,
+                                                            vertical:
+                                                                2), // Más pequeño
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            GestureDetector(
+                                                              onTap: () async {
+                                                                try {
+                                                                  tarea
+                                                                      .makeUndone();
+                                                                  widget
+                                                                      .onTaskUpdated();
+                                                                  setState(() {
+                                                                    getListaTareas();
+                                                                  });
+                                                                } catch (e) {
+                                                                  log("Error al reducir la tarea: $e");
+                                                                }
+                                                              },
+                                                              child:
+                                                                  const Padding(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            4.0),
+                                                                child: Icon(
+                                                                    Icons
+                                                                        .remove,
+                                                                    color: Color(
+                                                                        0xFFFEFCEE),
+                                                                    size: 20),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          3.0),
+                                                              child: Text(
+                                                                "${tarea.timesDone}",
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .poppins(
+                                                                  fontSize: 16,
+                                                                  color: Color(
+                                                                      0xFFFEFCEE),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () async {
+                                                                try {
+                                                                  tarea
+                                                                      .makeDone();
+                                                                  widget
+                                                                      .onTaskUpdated();
+                                                                  setState(() {
+                                                                    getListaTareas();
+                                                                  });
+                                                                } catch (e) {
+                                                                  log("Error al aumentar la tarea: $e");
+                                                                }
+                                                              },
+                                                              child:
+                                                                  const Padding(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            6.0),
+                                                                child: Icon(
+                                                                    Icons.add,
+                                                                    color: Color(
+                                                                        0xFFFEFCEE),
+                                                                    size: 20),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                          width:
+                                                              40), // Mucho más espacio a la derecha
+                                                    ],
+                                                  ),
+                                                );
+                                              } else {
+                                                // Tareas normales (no múltiples)
+                                                return Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical:
+                                                          2.0), // Espacio entre tareas
+                                                  child: Row(
+                                                    children: [
+                                                      Tooltip(
+                                                        message: tarea.isDone()
+                                                            ? "Tarea completada"
+                                                            : "Completar tarea",
+                                                        child: IconButton(
                                                           icon: Icon(
                                                             tarea.isDone()
                                                                 ? CupertinoIcons
@@ -272,8 +459,6 @@ class _TareasContainerState extends State<TareasContainer> {
                                                                       .makeUndone();
                                                                 }
                                                               });
-
-                                                              // Notificar que la tarea ha sido actualizada
                                                               widget
                                                                   .onTaskUpdated();
                                                             } catch (e) {
@@ -281,59 +466,44 @@ class _TareasContainerState extends State<TareasContainer> {
                                                             }
                                                           },
                                                         ),
-                                                        GestureDetector(
-                                                          onLongPress: () {
-                                                            showAlertBottomEditarTarea(
-                                                              context,
-                                                              tarea.dbRef,
-                                                              tarea.name,
-                                                              editingController,
-                                                              widget
-                                                                  .onTaskUpdated,
-                                                            );
-                                                          },
-                                                          child: Text(
-                                                            "${splitTextBySpaces(tarea.name, 20)}"
-                                                            "${tarea.needDone > 1 ? " (${tarea.timesDone}/${tarea.needDone})" : ""}",
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                              fontSize: 16,
-                                                              color: const Color(
-                                                                  0xFFFEFCEE),
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets
+                                                              .only(
+                                                              left: 4.0,
+                                                              right:
+                                                                  8.0), // Padding entre texto y borde
+                                                          child:
+                                                              GestureDetector(
+                                                            onLongPress: () {
+                                                              showAlertBottomEditarTarea(
+                                                                context,
+                                                                tarea.dbRef,
+                                                                tarea.name,
+                                                                editingController,
+                                                                widget
+                                                                    .onTaskUpdated,
+                                                              );
+                                                            },
+                                                            child: Text(
+                                                              splitTextBySpaces(
+                                                                  tarea.name,
+                                                                  20),
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                fontSize: 16,
+                                                                color: const Color(
+                                                                    0xFFFEFCEE),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  if (tarea.needDone > 1 &&
-                                                      tarea.timesDone > 0 &&
-                                                      tarea.needDone !=
-                                                          tarea.timesDone)
-                                                    IconButton(
-                                                      icon: const Icon(
-                                                        CupertinoIcons
-                                                            .minus_circle,
-                                                        color:
-                                                            Color(0xFFFEFCEE),
                                                       ),
-                                                      onPressed: () async {
-                                                        try {
-                                                          tarea.makeUndone();
-
-                                                          widget
-                                                              .onTaskUpdated();
-
-                                                          setState(() {
-                                                            getListaTareas();
-                                                          });
-                                                        } catch (e) {
-                                                          log("Error al reducir la tarea: $e");
-                                                        }
-                                                      },
-                                                    ),
-                                                ],
-                                              );
+                                                    ],
+                                                  ),
+                                                );
+                                              }
                                             },
                                           ),
                                         );

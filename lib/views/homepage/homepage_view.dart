@@ -237,23 +237,11 @@ class _HomepageViewState extends State<HomepageView>
       ),
       body: Stack(
         children: [
-          AnimatedBuilder(
-            animation: _animationController,
-            builder: (context, child) {
-              return Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: const [
-                      //Color(0xFF6D97AC),
-                      //Color.fromARGB(255, 212, 176, 146),
-                      Colors.black, Colors.black
-                    ],
-                    transform: GradientRotation(_animation.value),
-                  ),
-                ),
-              );
-            },
+          // Fondo base oscuro para que los círculos no se vean sobre blanco
+          Container(
+            color: const Color.fromARGB(255, 0, 0, 0), // Fondo oscuro
           ),
+          _AnimatedBackground(),
           SafeArea(
             bottom: false,
             child: FutureBuilder<bool>(
@@ -390,4 +378,160 @@ class _HomepageViewState extends State<HomepageView>
       ),
     );
   }
+}
+
+class _AnimatedBackground extends StatefulWidget {
+  @override
+  State<_AnimatedBackground> createState() => _AnimatedBackgroundState();
+}
+
+class _AnimatedBackgroundState extends State<_AnimatedBackground>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late List<_CircleData> _circles;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 60),
+    )..repeat();
+
+    // Usa los colores originales del gradiente de la app
+    _circles = [
+      _CircleData(
+        color: const Color(0xFF6D97AC).withOpacity(0.32),
+        radius: 220,
+        dx: -0.5,
+        dy: -0.6,
+        vx: 0.008,
+        vy: 0.006,
+      ),
+      _CircleData(
+        color: const Color.fromARGB(255, 212, 176, 146).withOpacity(0.22),
+        radius: 180,
+        dx: 0.6,
+        dy: -0.4,
+        vx: -0.006,
+        vy: 0.007,
+      ),
+      _CircleData(
+        color: const Color(0xFF6D97AC).withOpacity(0.18),
+        radius: 150,
+        dx: 0.8,
+        dy: 0.7,
+        vx: -0.004,
+        vy: -0.006,
+      ),
+      _CircleData(
+        color: const Color.fromARGB(255, 212, 176, 146).withOpacity(0.13),
+        radius: 120,
+        dx: -0.9,
+        dy: 0.3,
+        vx: 0.005,
+        vy: 0.004,
+      ),
+      _CircleData(
+        color: const Color(0xFF6D97AC).withOpacity(0.13),
+        radius: 140,
+        dx: 0.0,
+        dy: 0.95,
+        vx: 0.004,
+        vy: -0.004,
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onPanUpdate(DragUpdateDetails details, int index, Size size) {
+    setState(() {
+      final dx = (details.localPosition.dx / size.width) * 2 - 1;
+      final dy = (details.localPosition.dy / size.height) * 2 - 1;
+      _circles[index].dx = dx.clamp(-1.0, 1.0);
+      _circles[index].dy = dy.clamp(-1.0, 1.0);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final size = Size(constraints.maxWidth, constraints.maxHeight);
+        return AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            // Animación automática de los círculos
+            for (final c in _circles) {
+              c.dx += c.vx * 0.8;
+              c.dy += c.vy * 0.8;
+              // Rebote en los bordes
+              if (c.dx > 1.0 || c.dx < -1.0) c.vx = -c.vx;
+              if (c.dy > 1.0 || c.dy < -1.0) c.vy = -c.vy;
+              c.dx = c.dx.clamp(-1.0, 1.0);
+              c.dy = c.dy.clamp(-1.0, 1.0);
+            }
+            return Stack(
+              children: [
+                for (int i = 0; i < _circles.length; i++)
+                  Positioned.fill(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onPanUpdate: (details) => _onPanUpdate(details, i, size),
+                      child: CustomPaint(
+                        painter: _CirclePainter(_circles[i], size),
+                        isComplex: false,
+                        willChange: true,
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _CircleData {
+  Color color;
+  double radius;
+  double dx, dy;
+  double vx, vy;
+  _CircleData({
+    required this.color,
+    required this.radius,
+    required this.dx,
+    required this.dy,
+    required this.vx,
+    required this.vy,
+  });
+}
+
+class _CirclePainter extends CustomPainter {
+  final _CircleData circle;
+  final Size size;
+  _CirclePainter(this.circle, this.size);
+
+  @override
+  void paint(Canvas canvas, Size _) {
+    final center = Offset(
+      size.width / 2 + circle.dx * size.width / 2,
+      size.height / 2 + circle.dy * size.height / 2,
+    );
+    final paint = Paint()
+      ..color = circle.color
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 60);
+    canvas.drawCircle(center, circle.radius, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _CirclePainter oldDelegate) =>
+      oldDelegate.circle != circle || oldDelegate.size != size;
 }

@@ -79,7 +79,7 @@ class _FraseContainerState extends State<FraseContainer>
             style: GoogleFonts.poppins(
               color: const Color(0xFFFEFCEE),
               fontWeight: FontWeight.bold,
-              fontSize: 15,
+              fontSize: 17.2,
             )),
       ),
     );
