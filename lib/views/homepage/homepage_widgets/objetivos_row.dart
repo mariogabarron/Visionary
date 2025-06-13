@@ -26,6 +26,7 @@ class ObjetivosRow extends StatefulWidget {
 
 class _ObjetivosRowState extends State<ObjetivosRow> {
   late Future<VisionaryUser> _futureUser;
+  // ignore: prefer_typing_uninitialized_variables
   var selectedObjetivoRef;
   int? selectedObjetivoIndex;
 
@@ -333,6 +334,7 @@ void showAlertBottomEditarObjetivo(
 
                     // Verificar si el nuevo nombre no está vacío
                     if (nuevoNombre.isEmpty) {
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(

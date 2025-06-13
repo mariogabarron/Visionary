@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
-import 'package:visionary/views/homepage/homepage_view.dart'; // Importa para reutilizar el fondo
 
 class TareaCreadaView extends StatefulWidget {
   const TareaCreadaView({super.key});
@@ -92,8 +91,7 @@ class _TareaCreadaViewState extends State<TareaCreadaView> {
 // --- Fondo animado igual que el resto ---
 class _AnimatedBackground extends StatefulWidget {
   final List<_CircleData> circles;
-  const _AnimatedBackground({Key? key, required this.circles})
-      : super(key: key);
+  const _AnimatedBackground({required this.circles});
 
   @override
   State<_AnimatedBackground> createState() => _AnimatedBackgroundState();

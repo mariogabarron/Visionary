@@ -15,6 +15,7 @@ void showAlertPorque(
   }
 
   showDialog(
+    // ignore: use_build_context_synchronously
     context: context,
     builder: (BuildContext context) {
       var mediaQuery = MediaQuery.of(context);

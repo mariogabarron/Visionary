@@ -1,16 +1,12 @@
-import 'dart:math';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/objects/objetivo_class.dart';
-import 'package:visionary/services/objects/tarea_class.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 import 'package:visionary/utilities/showdialogs/objetivovacio_showdialog.dart';
 import 'package:visionary/utilities/showdialogs/repetido_showdialog.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareados_view.dart';
-import 'package:visionary/views/homepage/homepage_view.dart'; // Importa para reutilizar el fondo
 
 class CreaTareaUnoView extends StatefulWidget {
   final String objectiveRef;
@@ -166,8 +162,10 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
                                 await _isNombreTareaDuplicado(nombreTarea);
                             if (isDuplicado) {
                               // Mostrar un diálogo indicando que el nombre ya existe
+                              // ignore: use_build_context_synchronously
                               showAlertRepetido(context, 2);
                             } else {
+                              // ignore: use_build_context_synchronously
                               Navigator.of(context).pushReplacement(
                                   buildFadeRoute(CreaTareaDosView(
                                 nombreTarea: nombreTarea,
@@ -194,7 +192,7 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
 class _AnimatedBackground extends StatefulWidget {
   final List<_CircleData> circles;
 
-  const _AnimatedBackground({super.key, required this.circles});
+  const _AnimatedBackground({required this.circles});
 
   @override
   State<_AnimatedBackground> createState() => _AnimatedBackgroundState();

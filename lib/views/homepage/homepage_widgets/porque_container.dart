@@ -43,6 +43,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
     List<String> words = text.split(' ');
     if (words.length <= limit) return text;
 
+    // ignore: prefer_interpolation_to_compose_strings
     return words.take(limit).join(' ') + '...';
   }
 

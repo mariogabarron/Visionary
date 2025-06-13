@@ -1,9 +1,7 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:visionary/views/homepage/homepage_view.dart'; // Para el fondo animado
 
 class TutorialInicio extends StatefulWidget {
   const TutorialInicio({super.key});

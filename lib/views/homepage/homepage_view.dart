@@ -60,6 +60,10 @@ class _HomepageViewState extends State<HomepageView>
       ),
     );
 
+    // Añade esta línea para evitar el warning:
+    // ignore: unused_field
+    _animation;
+
     // Luego, inicializar el Future de objetivos
     _objectivesFuture = _checkObjectives();
 

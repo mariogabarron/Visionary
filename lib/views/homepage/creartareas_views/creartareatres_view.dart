@@ -1,12 +1,9 @@
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/objects/recordatorio.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareados_view.dart';
-import 'package:visionary/views/homepage/creartareas_views/creartareascuatro_view.dart';
-import 'package:visionary/views/homepage/homepage_view.dart'; // Importa para reutilizar el fondo
 
 import '../../../services/objects/tarea_class.dart';
 
@@ -251,7 +248,6 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView> {
                           color: Color(0xFFFEFCEE),
                         ),
                         onPressed: () {
-                          // TODO: Implementar la lógica para crear el recordatorio
                           Tarea t = Tarea(widget.objectiveRef,
                               name: widget.nombreTarea,
                               priority: widget.prioridad,
@@ -280,7 +276,7 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView> {
 class _AnimatedBackground extends StatefulWidget {
   final List<_CircleData> circles;
 
-  const _AnimatedBackground({super.key, required this.circles});
+  const _AnimatedBackground({required this.circles});
 
   @override
   State<_AnimatedBackground> createState() => _AnimatedBackgroundState();

@@ -1,11 +1,8 @@
-import 'dart:math';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareatres_view.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareauno_view.dart';
-import 'package:visionary/views/homepage/homepage_view.dart'; // Importa para reutilizar el fondo
 
 class CreaTareaDosView extends StatefulWidget {
   final String objectiveRef;
@@ -32,6 +29,8 @@ class _CreaTareaDosViewState extends State<CreaTareaDosView>
       vsync: this,
     )..repeat();
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+    // ignore: unused_field
+    _animation;
   }
 
   @override
@@ -223,7 +222,7 @@ class _CreaTareaDosViewState extends State<CreaTareaDosView>
 class _AnimatedBackground extends StatefulWidget {
   final List<_CircleData> circles;
 
-  const _AnimatedBackground({super.key, required this.circles});
+  const _AnimatedBackground({required this.circles});
 
   @override
   State<_AnimatedBackground> createState() => _AnimatedBackgroundState();

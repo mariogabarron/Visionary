@@ -1,9 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
-import 'package:visionary/utilities/showdialogs/homepage/progreso_showdialog.dart';
 import 'package:visionary/utilities/progressbar.dart';
 
 class ProgresoContainer extends StatefulWidget {

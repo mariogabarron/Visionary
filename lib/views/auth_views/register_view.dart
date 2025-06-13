@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
 import 'package:visionary/services/auth/auth_user.dart';
-import 'package:visionary/views/homepage/homepage_view.dart'; // Para el fondo animado
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});

@@ -1,11 +1,9 @@
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/objects/recordatorio.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
-import 'package:visionary/views/homepage/homepage_view.dart'; // Importa para reutilizar el fondo
 
 class CreaTareaCuatroView extends StatefulWidget {
   final String objectiveRef;

@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/auth/auth_user.dart';
+import 'package:visionary/services/notifications/notification_handler.dart';
 import 'package:visionary/utilities/buildinputfield.dart';
-import 'package:visionary/views/homepage/homepage_view.dart'; // Para el fondo animado
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -49,6 +49,13 @@ class _LoginViewState extends State<LoginView> {
       if (mounted) {
         Navigator.of(context).pushReplacementNamed(homepageView);
       }
+      final displayName = user.$1?.user?.displayName ?? '';
+      await NotificationHandler().scheduleNotification(
+        id: 1,
+        title: 'Visionary.',
+        body: '¡Bienvenido a Visionary, $displayName!',
+        scheduledDate: DateTime.now().add(const Duration(seconds: 1)),
+      );
     }
   }
 

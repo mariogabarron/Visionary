@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
@@ -8,7 +6,6 @@ import 'package:visionary/utilities/buildinputfield.dart';
 import 'package:visionary/utilities/showdialogs/objetivovacio_showdialog.dart';
 import 'package:visionary/utilities/showdialogs/repetido_showdialog.dart';
 import 'package:visionary/views/homepage/crearobjetivos_views/crearobjetivodos_view.dart';
-import 'package:visionary/views/homepage/homepage_view.dart'; // Importa para reutilizar el fondo
 
 class CrearObjetivoUnoView extends StatefulWidget {
   const CrearObjetivoUnoView({super.key});
@@ -149,15 +146,21 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                         onPressed: () async {
                           String nuevoNombre =
                               _nombreObjetivoEditingController.text.trim();
-                          nuevoNombre = nuevoNombre.replaceAll(RegExp(r'\s+'),
-                              ' '); // Reemplazar múltiples espacios por uno solo
+                          nuevoNombre =
+                              nuevoNombre.replaceAll(RegExp(r'\s+'), ' ');
+                          // Capitaliza la primera letra
+                          if (nuevoNombre.isNotEmpty) {
+                            nuevoNombre = nuevoNombre[0].toUpperCase() +
+                                nuevoNombre.substring(1);
+                          }
 
                           if (nuevoNombre.isNotEmpty) {
                             bool isDuplicado =
                                 await _isNombreObjetivoDuplicado(nuevoNombre);
                             if (isDuplicado) {
-                              if (context.mounted)
+                              if (context.mounted) {
                                 showAlertRepetido(context, 1);
+                              }
                             } else {
                               // ignore: use_build_context_synchronously
                               Navigator.of(context).pushReplacement(
