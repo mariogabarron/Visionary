@@ -76,7 +76,7 @@ class _FraseContainerState extends State<FraseContainer>
         padding: const EdgeInsets.symmetric(horizontal: 50.0),
         child: Text(_listaFrases[_numeroAleatorio],
             textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.kantumruyPro(
               color: const Color(0xFFFEFCEE),
               fontWeight: FontWeight.bold,
               fontSize: 17.2,

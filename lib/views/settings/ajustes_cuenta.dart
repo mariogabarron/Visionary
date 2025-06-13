@@ -49,14 +49,18 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
             ),
             Align(
               alignment: Alignment.center,
-              child: Text(
-                'Visionary.',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  color: const Color(0xFFFEFCEE),
-                  fontSize: 30,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.bold,
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(top: 4.0), // Baja un poco el título
+                child: Text(
+                  'Visionary.',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.kantumruyPro(
+                    color: const Color(0xFFFEFCEE),
+                    fontSize: 27,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -172,7 +176,7 @@ class _AjustesButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Text(
           text,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.kantumruyPro(
             color: const Color(0xFFFEFCEE),
             fontWeight: FontWeight.bold,
             fontStyle: FontStyle.normal,

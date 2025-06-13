@@ -71,13 +71,17 @@ class _LoginViewState extends State<LoginView> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         title: Center(
-          child: Text(
-            'Visionary.',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
-              color: const Color(0xFFFEFCEE),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 4.0), // Baja un poco el título
+            child: Text(
+              'Visionary.',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.kantumruyPro(
+                color: const Color(0xFFFEFCEE),
+                fontSize: 27,
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),

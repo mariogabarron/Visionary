@@ -41,7 +41,7 @@ void showAlertPorque(
                     Text(
                       'Propósito',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.kantumruyPro(
                         fontWeight: FontWeight.bold,
                         fontSize: 22,
                         color: const Color(0xFF26272C),
@@ -51,7 +51,7 @@ void showAlertPorque(
                     Text(
                       "Escribe aquí el por qué quieres lograrlo",
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.kantumruyPro(
                         fontWeight: FontWeight.normal,
                         fontSize: 14,
                         color: const Color.fromARGB(183, 40, 40, 40),
@@ -68,13 +68,13 @@ void showAlertPorque(
                           ? TextFormField(
                               controller: textController,
                               autofocus: true,
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.kantumruyPro(
                                 color: const Color(0xFF26272C),
                                 fontWeight: FontWeight.bold,
                               ),
                               decoration: InputDecoration(
                                 hintText: "Escribe por qué quieres lograrlo...",
-                                hintStyle: GoogleFonts.poppins(
+                                hintStyle: GoogleFonts.kantumruyPro(
                                   color: const Color.fromARGB(183, 40, 40, 40),
                                   fontSize: 14,
                                   fontWeight: FontWeight.normal,
@@ -104,9 +104,9 @@ void showAlertPorque(
                                 textController.text.isEmpty
                                     ? "Escribe aquí..."
                                     : textController.text,
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.kantumruyPro(
                                   color: const Color(0xFF26272C),
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.normal,
                                   fontSize: 16,
                                 ),
                                 textAlign: TextAlign.left,
@@ -139,7 +139,7 @@ void showAlertPorque(
                               SnackBar(
                                 content: Text(
                                   'Error al guardar el propósito: $error',
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.kantumruyPro(
                                     color: Colors.white,
                                   ),
                                 ),
@@ -152,7 +152,7 @@ void showAlertPorque(
                       },
                       child: Text(
                         'Guardar',
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.kantumruyPro(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),

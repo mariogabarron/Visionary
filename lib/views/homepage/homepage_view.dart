@@ -212,14 +212,18 @@ class _HomepageViewState extends State<HomepageView>
                 )),
             Align(
               alignment: Alignment.center,
-              child: Text(
-                'Visionary.',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  color: const Color(0xFFFEFCEE),
-                  fontSize: 30,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.bold,
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(top: 4.0), // Baja un poco el título
+                child: Text(
+                  'Visionary.',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.kantumruyPro(
+                    color: const Color(0xFFFEFCEE),
+                    fontSize: 27,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -325,7 +329,7 @@ class _HomepageViewState extends State<HomepageView>
                               child: Text(
                                 'Añade tu primer objetivo para empezar a cumplirlo.',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.kantumruyPro(
                                   color: const Color(0xFFFEFCEE),
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -351,7 +355,7 @@ class _HomepageViewState extends State<HomepageView>
                               ),
                               child: Text(
                                 'Añadir objetivo',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.kantumruyPro(
                                   color: const Color(0xFFFEFCEE),
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -472,8 +476,8 @@ class _AnimatedBackgroundState extends State<_AnimatedBackground>
           builder: (context, child) {
             // Animación automática de los círculos
             for (final c in _circles) {
-              c.dx += c.vx * 0.8;
-              c.dy += c.vy * 0.8;
+              c.dx += c.vx * 0.6;
+              c.dy += c.vy * 0.6;
               // Rebote en los bordes
               if (c.dx > 1.0 || c.dx < -1.0) c.vx = -c.vx;
               if (c.dy > 1.0 || c.dy < -1.0) c.vy = -c.vy;

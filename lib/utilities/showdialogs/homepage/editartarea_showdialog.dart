@@ -4,11 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/services/objects/tarea_class.dart';
 
 void showAlertBottomEditarTarea(
-    BuildContext context,
-    String tareaRef,
-    String nombre,
-    TextEditingController editingController,
-    VoidCallback onTaskUpdated) {
+  BuildContext context,
+  String tareaRef,
+  String nombre,
+  TextEditingController editingController,
+  VoidCallback onTaskUpdated,
+) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,

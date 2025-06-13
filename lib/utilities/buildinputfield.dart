@@ -23,7 +23,7 @@ Widget buildInputField(
       children: [
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.kantumruyPro(
             color: const Color(0xFFFEFCEE),
             fontWeight: FontWeight.normal,
             fontStyle: FontStyle.normal,
@@ -47,7 +47,7 @@ Widget buildInputField(
             },
             controller: controller,
             keyboardType: keyboardType,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.kantumruyPro(
               color: const Color(0xFFFEFCEE),
               fontWeight: FontWeight.bold,
             ),
@@ -57,7 +57,7 @@ Widget buildInputField(
               filled: true,
               fillColor: Colors.transparent,
               hintText: hintText,
-              hintStyle: GoogleFonts.poppins(
+              hintStyle: GoogleFonts.kantumruyPro(
                 color: const Color(0xFFFEFCEE),
                 fontSize: 14,
                 fontWeight: FontWeight.bold,

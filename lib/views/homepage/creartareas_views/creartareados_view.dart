@@ -49,14 +49,17 @@ class _CreaTareaDosViewState extends State<CreaTareaDosView>
         iconTheme: const IconThemeData(
           color: Color(0xFFFEFCEE),
         ),
-        title: Text(
-          'Visionary.',
-          textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
-            color: const Color(0xFFFEFCEE),
-            fontSize: 30,
-            fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.bold,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 4.0), // Baja un poco el título
+          child: Text(
+            'Visionary.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.kantumruyPro(
+              color: const Color(0xFFFEFCEE),
+              fontSize: 27,
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

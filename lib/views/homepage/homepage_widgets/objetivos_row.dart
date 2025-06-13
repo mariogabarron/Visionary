@@ -24,11 +24,23 @@ class ObjetivosRow extends StatefulWidget {
   State<ObjetivosRow> createState() => _ObjetivosRowState();
 }
 
-class _ObjetivosRowState extends State<ObjetivosRow> {
+class _ObjetivosRowState extends State<ObjetivosRow>
+    with TickerProviderStateMixin {
   late Future<VisionaryUser> _futureUser;
   // ignore: prefer_typing_uninitialized_variables
   var selectedObjetivoRef;
   int? selectedObjetivoIndex;
+
+  int _textoIndex = 0;
+  Timer? _textoTimer;
+  final List<String> _mensajes = [
+    "Desliza para ver tus objetivos actuales",
+    "Presiona sobre la tarea/objetivo para editarla"
+  ];
+  final List<IconData> _iconos = [
+    CupertinoIcons.arrow_left_right,
+    CupertinoIcons.hand_point_left_fill,
+  ];
 
   @override
   void initState() {
@@ -37,10 +49,20 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
 
     _futureUser = VisionaryUser.fromLogin();
     reloadData();
+
+    // Cambia el texto cada 5 segundos usando Timer.periodic
+    _textoTimer = Timer.periodic(const Duration(seconds: 7), (timer) {
+      if (mounted) {
+        setState(() {
+          _textoIndex = (_textoIndex + 1) % _mensajes.length;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
+    _textoTimer?.cancel();
     super.dispose();
   }
 
@@ -170,7 +192,7 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                           horizontal: 10, vertical: 10),
                                       decoration: BoxDecoration(
                                         color: selectedObjetivoIndex == i
-                                            ? Colors.white.withOpacity(0.28)
+                                            ? Colors.white.withOpacity(0.15)
                                             : Colors.transparent,
                                         borderRadius: BorderRadius.circular(30),
                                         border: selectedObjetivoIndex == i
@@ -185,7 +207,7 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                       child: Opacity(
                                         opacity: selectedObjetivoIndex == i
                                             ? 1.0
-                                            : 0.5,
+                                            : 0.7,
                                         child: Text(
                                           objectives[i].$1,
                                           style: TextStyle(
@@ -201,7 +223,8 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                                 ],
                               ),
                             ),
-                          const SizedBox(width: 16),
+                          const SizedBox(
+                              width: 8), // Menos espacio antes de "Añadir"
                           GestureDetector(
                             onTap: () async {
                               if (context.mounted) {
@@ -213,15 +236,13 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                               children: [
                                 Text(
                                   'Añadir',
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.kantumruyPro(
                                     color: const Color(0xFFFEFCEE),
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(
-                                    width:
-                                        4), // Ajusta este valor según lo que busques
+                                const SizedBox(width: 4),
                                 const Icon(
                                   CupertinoIcons.plus_circle_fill,
                                   color: Color(0xFFFEFCEE),
@@ -239,12 +260,12 @@ class _ObjetivosRowState extends State<ObjetivosRow> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(CupertinoIcons.arrow_left_right,
+                    Icon(_iconos[_textoIndex],
                         color: const Color(0xFFFEFCEE), size: 16),
                     const SizedBox(width: 6),
                     Text(
-                      "Desliza para ver tus objetivos actuales",
-                      style: GoogleFonts.poppins(
+                      _mensajes[_textoIndex],
+                      style: GoogleFonts.kantumruyPro(
                         color: const Color(0xFFFEFCEE).withOpacity(0.7),
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -295,7 +316,7 @@ void showAlertBottomEditarObjetivo(
                 Text(
                   'Editar objetivo "$nombreObjetivo"',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.kantumruyPro(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                     color: const Color(0xFF26272C),
@@ -305,7 +326,7 @@ void showAlertBottomEditarObjetivo(
                 Text(
                   'Cambiar nombre al objetivo $nombreObjetivo',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.kantumruyPro(
                     fontWeight: FontWeight.normal,
                     fontSize: 14,
                     color: const Color.fromARGB(183, 40, 40, 40),
@@ -339,7 +360,8 @@ void showAlertBottomEditarObjetivo(
                         SnackBar(
                           content: Text(
                             'El nombre de la tarea no puede estar vacío.',
-                            style: GoogleFonts.poppins(color: Colors.white),
+                            style:
+                                GoogleFonts.kantumruyPro(color: Colors.white),
                           ),
                           backgroundColor:
                               const Color.fromARGB(255, 106, 106, 106),
@@ -357,7 +379,7 @@ void showAlertBottomEditarObjetivo(
                   },
                   child: Text(
                     'Guardar',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.kantumruyPro(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
@@ -373,7 +395,7 @@ void showAlertBottomEditarObjetivo(
                 Text(
                   'Eliminar objetivo $nombreObjetivo',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.kantumruyPro(
                     fontWeight: FontWeight.normal,
                     fontSize: 14,
                     color: const Color.fromARGB(183, 40, 40, 40),
@@ -395,7 +417,7 @@ void showAlertBottomEditarObjetivo(
                       },
                       child: Text(
                         'Cancelar',
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.kantumruyPro(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
@@ -425,7 +447,7 @@ void showAlertBottomEditarObjetivo(
                       },
                       child: Text(
                         'Borrar',
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.kantumruyPro(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
@@ -467,7 +489,7 @@ Widget _buildInputField(
       children: [
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.kantumruyPro(
             color: const Color(0xFFFEFCEE),
             fontWeight: FontWeight.normal,
             fontStyle: FontStyle.normal,
@@ -482,7 +504,7 @@ Widget _buildInputField(
           ),
           child: TextField(
             keyboardType: keyboardType,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.kantumruyPro(
               color: const Color(0xFFFEFCEE),
               fontWeight: FontWeight.bold,
             ),
@@ -493,7 +515,7 @@ Widget _buildInputField(
               filled: true,
               fillColor: const Color.fromARGB(66, 76, 76, 76),
               hintText: hintText,
-              hintStyle: GoogleFonts.poppins(
+              hintStyle: GoogleFonts.kantumruyPro(
                 color: const Color(0xFFFEFCEE),
                 fontSize: 14,
                 fontWeight: FontWeight.bold,

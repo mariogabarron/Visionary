@@ -40,7 +40,7 @@ class ProgressBar extends StatelessWidget {
                 child: Text(
                   '${(porcentaje * 100).toStringAsFixed(1)}%',
                   style: const TextStyle(
-                    color: Color.fromARGB(255, 118, 118, 118),
+                    color: Color.fromARGB(255, 163, 163, 163),
                     fontWeight: FontWeight.bold,
                   ),
                 ),

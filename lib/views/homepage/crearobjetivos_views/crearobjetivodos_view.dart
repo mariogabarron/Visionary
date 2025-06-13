@@ -67,19 +67,25 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          iconTheme: const IconThemeData(
-            color: Color(0xFFFEFCEE),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(
+          color: Color(0xFFFEFCEE),
+        ),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 4.0), // Baja un poco el título
+          child: Text(
+            'Visionary.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.kantumruyPro(
+              color: const Color(0xFFFEFCEE),
+              fontSize: 27,
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          title: Text('Visionary.',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                color: const Color(0xFFFEFCEE),
-                fontSize: 30,
-                fontStyle: FontStyle.normal,
-                fontWeight: FontWeight.bold,
-              ))),
+        ),
+      ),
       body: Stack(
         children: [
           Container(
@@ -115,7 +121,7 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
                   padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   child: Text('¿Por qué quieres cumplir este objetivo?',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.kantumruyPro(
                         color: const Color(0xFFFEFCEE),
                         fontSize: 20,
                         fontStyle: FontStyle.normal,
@@ -133,7 +139,7 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
                     padding: const EdgeInsets.symmetric(horizontal: 40.0),
                     child: Text(_listaTextoBelowTextField[_numeroAleatorio],
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.kantumruyPro(
                           color: const Color.fromARGB(255, 233, 232, 220),
                           fontSize: 14,
                           fontStyle: FontStyle.normal,

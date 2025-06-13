@@ -50,22 +50,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (_isDialogOpen) return;
-
-        setState(() {
-          _isDialogOpen = true;
-        });
-
-        showAlertPorque(context, widget.objetivo, () {
-          setState(() {});
-          widget.onTaskUpdated();
-        });
-
-        setState(() {
-          _isDialogOpen = false;
-        });
-      },
+      // Elimina el onTap general para que solo el botón abra el diálogo
       child: Stack(
         children: [
           Container(
@@ -124,21 +109,28 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                         size: 22),
                                     color: const Color(0xFFFEFCEE),
                                     onPressed: () {
+                                      if (_isDialogOpen) return;
+                                      setState(() {
+                                        _isDialogOpen = true;
+                                      });
                                       showAlertPorque(context, widget.objetivo,
                                           () {
                                         setState(() {});
                                         widget.onTaskUpdated();
                                       });
+                                      setState(() {
+                                        _isDialogOpen = false;
+                                      });
                                     },
                                   ),
                                 ),
-                                const SizedBox(width: 5),
+                                const SizedBox(width: 1),
                                 Text(
                                   "Propósito",
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.kantumruyPro(
                                     fontStyle: FontStyle.normal,
                                     fontSize: 21,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w500,
                                     color: const Color(0xFFFEFCEE),
                                   ),
                                 ),
@@ -169,7 +161,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                             const SizedBox(width: 10),
                                             Text(
                                               "Cargando propósito...",
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.kantumruyPro(
                                                 fontStyle: FontStyle.italic,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.normal,
@@ -182,7 +174,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                       } else if (snapshot.hasError) {
                                         return Text(
                                           "Error al cargar el propósito.",
-                                          style: GoogleFonts.poppins(
+                                          style: GoogleFonts.kantumruyPro(
                                             fontSize: 16,
                                             fontWeight: FontWeight.normal,
                                             color: const Color.fromARGB(
@@ -198,26 +190,23 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                             : "Introduce aquí el propósito de tu objetivo.";
                                         String displayedText = _isExpanded
                                             ? fullText
-                                            : splitTextByWords(fullText, 20);
+                                            : splitTextByWords(fullText, 80);
 
                                         return Column(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start, // Alinear texto a la izquierda
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               displayedText,
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.kantumruyPro(
                                                 fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                                color: const Color.fromARGB(
-                                                    179, 254, 252, 238),
+                                                fontWeight: FontWeight.w500,
+                                                color: const Color(0xFFFEFCEE),
                                               ),
-                                              textAlign: TextAlign
-                                                  .left, // Alinear texto a la izquierda
+                                              textAlign: TextAlign.left,
                                             ),
-                                            if (fullText.split(' ').length > 20)
+                                            if (fullText.split(' ').length > 80)
                                               Center(
-                                                // Centrar el botón
                                                 child: IconButton(
                                                   icon: Icon(
                                                     _isExpanded
@@ -231,7 +220,11 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                                   onPressed:
                                                       _expandBottomPadding,
                                                 ),
-                                              ),
+                                              )
+                                            else
+                                              const SizedBox(
+                                                  height:
+                                                      10), // Margen si no hay botón de expandir
                                           ],
                                         );
                                       }
@@ -243,7 +236,8 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                             const SizedBox(height: 10),
                             AnimatedPadding(
                               duration: const Duration(milliseconds: 150),
-                              padding: EdgeInsets.only(bottom: _bottomPadding),
+                              padding: EdgeInsets.only(
+                                  bottom: _isExpanded ? 0 : _bottomPadding),
                             ),
                           ],
                         ),
