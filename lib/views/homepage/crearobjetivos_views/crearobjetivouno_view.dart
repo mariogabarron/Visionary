@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
@@ -42,21 +43,38 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        iconTheme: const IconThemeData(
-          color: Color(0xFFFEFCEE),
-        ),
-        title: Padding(
-          padding: const EdgeInsets.only(top: 4.0), // Baja un poco el título
-          child: Text(
-            'Visionary.',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.kantumruyPro(
-              color: const Color(0xFFFEFCEE),
-              fontSize: 27,
-              fontStyle: FontStyle.normal,
-              fontWeight: FontWeight.bold,
+        title: Stack(
+          children: [
+            Positioned(
+              left: 12,
+              top: 0,
+              bottom: 0,
+              child: IconButton(
+                icon: const Icon(CupertinoIcons.arrow_left_circle_fill),
+                color: const Color(0xFFFEFCEE),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(homepageView);
+                },
+              ),
             ),
-          ),
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(top: 4.0), // Baja un poco el título
+                child: Text(
+                  'Visionary.',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.kantumruyPro(
+                    color: const Color(0xFFFEFCEE),
+                    fontSize: 27,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: Stack(
