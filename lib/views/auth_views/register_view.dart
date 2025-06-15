@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
-import 'package:visionary/utilities/buildinputfield.dart';
 import 'package:visionary/services/auth/auth_user.dart';
 
 class RegisterView extends StatefulWidget {
@@ -33,6 +32,7 @@ class _RegisterViewState extends State<RegisterView> {
     super.dispose();
   }
 
+  // ignore: unused_element
   Future<void> _register() async {
     await registerWithEmail(_nameEditingController.text,
         _emailEditingController.text, _passwordEditingController.text, context);
@@ -48,6 +48,7 @@ class _RegisterViewState extends State<RegisterView> {
     }
   }
 
+  // ignore: unused_element
   void _alreadyGotAccount() {
     Navigator.of(context).pushReplacementNamed(loginView);
   }
@@ -110,120 +111,91 @@ class _RegisterViewState extends State<RegisterView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 40),
-                    Text(
-                      "Crea tu cuenta",
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFFFEFCEE),
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 23,
+                    const SizedBox(height: 80), // Más espacio arriba
+                    Center(
+                      child: Text(
+                        "Crea tu cuenta o\ninicia sesión",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: const Color(0xFFFEFCEE),
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 23,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    buildInputField(
-                        label: "¿Cómo te llamas?",
-                        hintText: null, //"Escribe tu nombre",
-                        obscureText: false,
-                        inputType: TextInputType.text,
-                        controller: _nameEditingController),
-                    const SizedBox(height: 20),
-                    buildInputField(
-                        label: "Correo electrónico",
-                        hintText: null, //"Escribe tu correo",
-                        obscureText: false,
-                        inputType: TextInputType.emailAddress,
-                        controller: _emailEditingController),
-                    const SizedBox(height: 20),
-                    buildInputField(
-                        label: "Contraseña",
-                        hintText: null, //"Escribe tu contraseña",
-                        obscureText: true,
-                        inputType: TextInputType.visiblePassword,
-                        controller: _passwordEditingController),
-                    const SizedBox(height: 40),
-                    GestureDetector(
-                      onTap: _register,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(66, 254, 252, 238),
-                          borderRadius: BorderRadius.circular(30.0),
-                          // boxShadow eliminado
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10.0),
-                        child: Text(
-                          'Registrarse',
-                          style: GoogleFonts.poppins(
-                            color: const Color(0xFFFEFCEE),
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16,
+                    const SizedBox(
+                        height: 60), // Más espacio entre título y botones
+                    Center(
+                      child: GestureDetector(
+                        onTap: _googleLogin,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(66, 254, 252, 238),
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 40.0, vertical: 0.0),
-                      child: Divider(color: Color(0xFFFEFCEE)),
-                    ),
-                    const SizedBox(height: 30),
-                    GestureDetector(
-                      onTap: _googleLogin,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(66, 254, 252, 238),
-                          borderRadius: BorderRadius.circular(30.0),
-                          // boxShadow eliminado
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.network(
-                              'https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg',
-                              height: 24.0,
-                              width: 24.0,
-                            ),
-                            const SizedBox(width: 10.0),
-                            Text(
-                              'Registrarse con Google',
-                              style: GoogleFonts.poppins(
-                                color: const Color(0xFFFEFCEE),
-                                fontWeight: FontWeight.normal,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.network(
+                                'https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg',
+                                height: 24.0,
+                                width: 24.0,
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    GestureDetector(
-                      onTap: _alreadyGotAccount,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(66, 254, 252, 238),
-                          borderRadius: BorderRadius.circular(30.0),
-                          // boxShadow eliminado
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10.0),
-                        child: Text(
-                          '¿Ya tienes una cuenta?',
-                          style: GoogleFonts.poppins(
-                            color: const Color(0xFFFEFCEE),
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16,
+                              const SizedBox(width: 10.0),
+                              Text(
+                                'Registrarse con Google',
+                                style: GoogleFonts.poppins(
+                                  color: const Color(0xFFFEFCEE),
+                                  fontWeight: FontWeight.normal,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 30), // Más espacio entre botones
+                    Center(
+                      child: GestureDetector(
+                        onTap: _googleLogin,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(66, 254, 252, 238),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.network(
+                                'https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg',
+                                height: 24.0,
+                                width: 24.0,
+                              ),
+                              const SizedBox(width: 10.0),
+                              Text(
+                                'Iniciar sesión con Google',
+                                style: GoogleFonts.poppins(
+                                  color: const Color(0xFFFEFCEE),
+                                  fontWeight: FontWeight.normal,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 80), // Más espacio abajo
                   ],
                 ),
               ),

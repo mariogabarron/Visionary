@@ -253,54 +253,67 @@ class _TareasContainerState extends State<TareasContainer> {
                                                   Tarea tarea = tareas[index];
                                                   final bool done =
                                                       tarea.isDone();
-                                                  Widget taskTitle =
+                                                  Widget taskTitleWithDelete =
+                                                      Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
                                                       GestureDetector(
-                                                    onLongPress: () {
-                                                      showAlertBottomEditarTarea(
-                                                        context,
-                                                        tarea.dbRef,
-                                                        tarea.name,
-                                                        editingController,
-                                                        widget.onTaskUpdated,
-                                                      );
-                                                    },
-                                                    child: Text(
-                                                      "${splitTextBySpaces(tarea.name, 20)} ",
-                                                      style: GoogleFonts
-                                                          .kantumruyPro(
-                                                        fontSize: 15,
-                                                        color: const Color(
-                                                            0xFFFEFCEE),
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        onLongPress: () {
+                                                          showAlertBottomEditarTarea(
+                                                            context,
+                                                            tarea.dbRef,
+                                                            tarea.name,
+                                                            editingController,
+                                                            widget
+                                                                .onTaskUpdated,
+                                                          );
+                                                        },
+                                                        child: Text(
+                                                          "${splitTextBySpaces(tarea.name, 20)} ",
+                                                          style: GoogleFonts
+                                                              .kantumruyPro(
+                                                            fontSize: 15,
+                                                            color: const Color(
+                                                                0xFFFEFCEE),
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  );
-                                                  Widget deleteIcon =
-                                                      GestureDetector(
-                                                    onTap: () async {
-                                                      try {
-                                                        await tarea
-                                                            .deleteTask();
-                                                        widget.onTaskUpdated();
-                                                        setState(() {
-                                                          getListaTareas();
-                                                        });
-                                                      } catch (e) {
-                                                        log("Error al eliminar la tarea: $e");
-                                                      }
-                                                    },
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 8.0),
-                                                      child: Icon(
-                                                        CupertinoIcons.trash,
-                                                        color:
-                                                            Color(0xFFFEFCEE),
-                                                        size: 17,
-                                                      ),
-                                                    ),
+                                                      if (done)
+                                                        GestureDetector(
+                                                          onTap: () async {
+                                                            try {
+                                                              await tarea
+                                                                  .deleteTask();
+                                                              widget
+                                                                  .onTaskUpdated();
+                                                              setState(() {
+                                                                getListaTareas();
+                                                              });
+                                                            } catch (e) {
+                                                              log("Error al eliminar la tarea: $e");
+                                                            }
+                                                          },
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    left: 4.0),
+                                                            child: Icon(
+                                                              CupertinoIcons
+                                                                  .trash,
+                                                              color: Color(
+                                                                  0xFFFEFCEE),
+                                                              size: 17,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                    ],
                                                   );
                                                   if (tarea.needDone > 1) {
                                                     // Controlador tipo stepper para tareas múltiples
@@ -429,17 +442,11 @@ class _TareasContainerState extends State<TareasContainer> {
                                                           const SizedBox(
                                                               width: 8),
                                                           Expanded(
-                                                            child: Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Expanded(
-                                                                    child:
-                                                                        taskTitle),
-                                                                if (done)
-                                                                  deleteIcon,
-                                                              ],
+                                                            child: Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child:
+                                                                  taskTitleWithDelete,
                                                             ),
                                                           ),
                                                           const SizedBox(
@@ -448,7 +455,7 @@ class _TareasContainerState extends State<TareasContainer> {
                                                       ),
                                                     );
                                                   } else {
-                                                    // Tareas normales (solo se hacen una vez): controlador con tick, misma forma y ancho que el stepper
+                                                    // Tareas normales (solo se hacen una vez): papelera justo a la derecha del título
                                                     return Padding(
                                                       padding: const EdgeInsets
                                                           .symmetric(
@@ -527,17 +534,11 @@ class _TareasContainerState extends State<TareasContainer> {
                                                           const SizedBox(
                                                               width: 8),
                                                           Expanded(
-                                                            child: Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Expanded(
-                                                                    child:
-                                                                        taskTitle),
-                                                                if (done)
-                                                                  deleteIcon,
-                                                              ],
+                                                            child: Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child:
+                                                                  taskTitleWithDelete,
                                                             ),
                                                           ),
                                                         ],

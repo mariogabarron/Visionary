@@ -14,11 +14,11 @@ class _TutorialInicioState extends State<TutorialInicio> {
     {
       'image': 'assets/images/tutorialuno.png',
       'title': 'Visionary',
-      'text': 'es la herramienta que te ayuda a entender tu vida',
+      'text': 'es la herramienta que te ayudará a cumplir tus objetivos',
     },
     {
       'image': 'assets/images/tutorialdos.png',
-      'title': 'Organizar por objetivos',
+      'title': 'Organizar tu vida por objetivos',
       'text': 'te ayudará a mejorar cada día',
     },
     {
@@ -29,7 +29,7 @@ class _TutorialInicioState extends State<TutorialInicio> {
     {
       'image': 'assets/images/tutorialcuatro.png',
       'title': 'Lleva el control',
-      'text': 'de tus objetivos.',
+      'text': 'de tus objetivos con la barra de progreso.',
     },
   ];
 

@@ -27,12 +27,14 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
       case 0:
         return _buildStep(
           context: context,
-          text: "Crea nuevos objetivos en la barra superior.",
+          text:
+              "Crea nuevos objetivos en la barra superior. Edítalos manteniendo sobre ellos pulsando.",
         );
       case 1:
         return _buildStep(
           context: context,
-          text: "Crea tareas para lograr tu objetivo en la sección \"Tareas\"",
+          text:
+              "Crea tareas para lograr tu objetivo en la sección \"Tareas\" y edítalas manteniendo sobre ellas pulsando.",
         );
       case 2:
         return _buildStep(
@@ -44,7 +46,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
         return _buildStep(
           context: context,
           text:
-              "Observa cómo progresas al cumplir tareas dándole a la sección \"Progreso\"",
+              "Observa cómo progresas con tu objetivo en la barra de progreso",
         );
       default:
         return const SizedBox.shrink();
@@ -61,7 +63,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
         children: [
           Text(
             text,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.kantumruyPro(
               color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.bold,
