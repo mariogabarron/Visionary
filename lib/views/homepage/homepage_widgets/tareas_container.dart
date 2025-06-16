@@ -179,25 +179,33 @@ class _TareasContainerState extends State<TareasContainer> {
                             ],
                           ),
                           const SizedBox(height: 0.05), // Menos espacio aquí
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 2.0, right: 30.0), // Más a la izquierda
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Crea, edita y completa aquí tus tareas",
-                                  style: GoogleFonts.kantumruyPro(
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    color: const Color.fromARGB(
-                                        151, 254, 252, 238),
-                                  ),
-                                  textAlign: TextAlign.left,
+                          LayoutBuilder(
+                            builder: (context, constraints) {
+                              // Calcula el padding izquierdo proporcional al ancho de la pantalla
+                              double leftPadding = constraints.maxWidth * 0.03;
+                              // Mínimo 8, máximo 20 para que no se desplace demasiado en pantallas grandes/pequeñas
+                              leftPadding = leftPadding.clamp(8.0, 20.0);
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    left: leftPadding, right: 30.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Crea, edita y completa aquí tus tareas",
+                                      style: GoogleFonts.kantumruyPro(
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        color: const Color.fromARGB(
+                                            151, 254, 252, 238),
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
                           AnimatedPadding(
                             duration: const Duration(milliseconds: 150),

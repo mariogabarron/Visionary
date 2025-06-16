@@ -24,7 +24,8 @@ void main() async {
     debugShowCheckedModeBanner: false,
     title: 'Visionary',
     theme: ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      colorScheme:
+          ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 48, 48, 48)),
       useMaterial3: true,
     ),
     home: const TutorialInicio(),
