@@ -22,7 +22,9 @@ void main() async {
 
   await NotificationHandler.initializaNotificationPlugin();
 
-  // Espera a que FirebaseAuth determine el estado de autenticación antes de quitar el splash
+  // Espera un poco para asegurar que todo está inicializado (especialmente en iOS)
+  await Future.delayed(const Duration(milliseconds: 500));
+
   User? user = FirebaseAuth.instance.currentUser;
   FlutterNativeSplash.remove();
 

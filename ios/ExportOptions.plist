@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Puedes usar "development", "ad-hoc", "app-store" o "enterprise" -->
+  <key>method</key>
+  <string>development</string>
+  <!-- No incluyas bitcode si tu perfil de firma no lo soporta -->
+  <key>compileBitcode</key>
+  <false/>
+  <!-- Si quieres símbolos para crashlytics, añade: -->
+  <!--
+  <key>uploadSymbols</key>
+  <true/>
+  -->
+</dict>
+</plist>
