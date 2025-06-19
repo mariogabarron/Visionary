@@ -14,19 +14,28 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseDatabase.instance.setPersistenceEnabled(true);
-  await MobileAds.instance.initialize();
 
+  // Configura el dispositivo como test para AdMob (solo para pruebas)
+  MobileAds.instance.updateRequestConfiguration(
+    RequestConfiguration(
+      testDeviceIds: ['bfea609d000cd46dc379f55c65a11c3d'],
+    ),
+  );
+
+  await MobileAds.instance.initialize();
   await NotificationHandler.initializaNotificationPlugin();
 
-  // Espera un poco para asegurar que todo está inicializado (especialmente en iOS)
-  await Future.delayed(const Duration(milliseconds: 500));
+  // Espera un poco para asegurar que el splash se muestre (opcional, pero ayuda en dispositivos rápidos)
+  await Future.delayed(const Duration(milliseconds: 600));
+
+  FlutterNativeSplash.remove();
 
   User? user = FirebaseAuth.instance.currentUser;
-  FlutterNativeSplash.remove();
 
   runApp(MyApp(isLoggedIn: user != null));
 }
