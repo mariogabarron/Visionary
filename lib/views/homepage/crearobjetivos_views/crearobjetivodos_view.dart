@@ -157,8 +157,7 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
                           color: Color(0xFFFEFCEE),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushReplacementNamed(
-                              crearObjetivoUno); // Regresa a la pantalla anterior
+                          Navigator.of(context).pop(); // Regresa a la pantalla anterior
                         },
                       ),
                     ),
@@ -186,7 +185,7 @@ class _CrearObjetivoDosViewState extends State<CrearObjetivoDosView>
                           v.updateObjectives();
                           if (context.mounted) {
                             Navigator.of(context)
-                                .pushReplacementNamed(homepageView);
+                                .pushNamedAndRemoveUntil(homepageView, (Route<dynamic> route) => false);
                           }
                         },
                       ),

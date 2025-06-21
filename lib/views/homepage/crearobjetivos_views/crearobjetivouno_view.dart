@@ -53,7 +53,7 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                 icon: const Icon(CupertinoIcons.arrow_left_circle_fill),
                 color: const Color(0xFFFEFCEE),
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(homepageView);
+                  Navigator.of(context).pop();
                 },
               ),
             ),
@@ -149,7 +149,7 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                         ),
                         onPressed: () {
                           Navigator.of(context)
-                              .pushReplacementNamed(homepageView);
+                              .pop();
                         },
                       ),
                     ),
@@ -187,7 +187,7 @@ class _CrearObjetivoUnoViewState extends State<CrearObjetivoUnoView> {
                               }
                             } else {
                               // ignore: use_build_context_synchronously
-                              Navigator.of(context).pushReplacement(
+                              Navigator.of(context).push(
                                   buildFadeRoute(CrearObjetivoDosView(
                                       nombreTarea: nuevoNombre)));
                             }

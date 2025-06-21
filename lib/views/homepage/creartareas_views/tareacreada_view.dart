@@ -19,7 +19,7 @@ class _TareaCreadaViewState extends State<TareaCreadaView> {
   void _navigateToTutorialUno() async {
     await Future.delayed(const Duration(seconds: 2, milliseconds: 500), () {});
     if (mounted) {
-      Navigator.of(context).pushReplacementNamed(homepageView);
+      Navigator.of(context).pushNamedAndRemoveUntil(homepageView, (Route<dynamic> route) => false);
     }
   }
 

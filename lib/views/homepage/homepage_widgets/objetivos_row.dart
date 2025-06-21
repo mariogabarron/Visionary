@@ -229,7 +229,7 @@ class _ObjetivosRowState extends State<ObjetivosRow>
                             onTap: () async {
                               if (context.mounted) {
                                 Navigator.of(context)
-                                    .pushReplacementNamed(crearObjetivoUno);
+                                    .pushNamed(crearObjetivoUno);
                               }
                             },
                             child: Row(

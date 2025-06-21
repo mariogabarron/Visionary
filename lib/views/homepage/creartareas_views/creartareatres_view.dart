@@ -235,10 +235,7 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView> {
                           color: Color(0xFFFEFCEE),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(buildFadeRoute(
-                              CreaTareaDosView(
-                                  nombreTarea: widget.nombreTarea,
-                                  objectiveRef: widget.objectiveRef)));
+                          Navigator.of(context).pop();
                         },
                       ),
                     ),
@@ -261,7 +258,7 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView> {
                                   codigo: "LMXJV"));
                           t.update();
                           Navigator.of(context)
-                              .pushReplacementNamed(tareaCreadaView);
+                          .pushNamedAndRemoveUntil(tareaCreadaView, (Route<dynamic> route) => false);
                         },
                       ),
                     ),

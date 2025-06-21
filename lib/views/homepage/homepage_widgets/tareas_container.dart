@@ -156,7 +156,7 @@ class _TareasContainerState extends State<TareasContainer> {
                                     await getListaTareas();
 
                                     if (context.mounted) {
-                                      Navigator.of(context).pushReplacement(
+                                      Navigator.of(context).push(
                                           buildFadeRoute(CreaTareaUnoView(
                                               objectiveRef: widget.objetivo)));
                                     }

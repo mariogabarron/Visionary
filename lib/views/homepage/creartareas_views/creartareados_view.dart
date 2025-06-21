@@ -188,9 +188,7 @@ class _CreaTareaDosViewState extends State<CreaTareaDosView>
                           color: Color(0xFFFEFCEE),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(buildFadeRoute(
-                              CreaTareaUnoView(
-                                  objectiveRef: widget.objectiveRef)));
+                          Navigator.of(context).pop();
                         },
                       ),
                     ),
@@ -203,7 +201,7 @@ class _CreaTareaDosViewState extends State<CreaTareaDosView>
                           color: Color(0xFFFEFCEE),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(buildFadeRoute(
+                          Navigator.of(context).push(buildFadeRoute(
                               CreaTareaTresView(
                                   nombreTarea: widget.nombreTarea,
                                   prioridad: _selectedPriority,

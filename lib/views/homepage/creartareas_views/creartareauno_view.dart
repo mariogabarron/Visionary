@@ -62,7 +62,7 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
                 icon: const Icon(CupertinoIcons.arrow_left_circle_fill),
                 color: const Color(0xFFFEFCEE),
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(homepageView);
+                  Navigator.of(context).pop();
                 },
               ),
             ),
@@ -157,8 +157,7 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
                           color: Color(0xFFFEFCEE),
                         ),
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(homepageView);
+                          Navigator.of(context).pop();
                         },
                       ),
                     ),
@@ -190,7 +189,7 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
                               showAlertRepetido(context, 2);
                             } else {
                               // ignore: use_build_context_synchronously
-                              Navigator.of(context).pushReplacement(
+                              Navigator.of(context).push(
                                   buildFadeRoute(CreaTareaDosView(
                                 nombreTarea: nombreTarea,
                                 objectiveRef: widget.objectiveRef,
