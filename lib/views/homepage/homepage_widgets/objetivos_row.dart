@@ -235,7 +235,7 @@ class _ObjetivosRowState extends State<ObjetivosRow>
                             child: Row(
                               children: [
                                 Text(
-                                  'Añadir',
+                                  'Añadir objetivo',
                                   style: GoogleFonts.kantumruyPro(
                                     color: const Color(0xFFFEFCEE),
                                     fontSize: 15,
