@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/auth/auth_user.dart';
 import 'package:visionary/utilities/showdialogs/borrarcuenta_showdialog.dart';
@@ -17,14 +18,58 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
     Navigator.of(context).pushReplacementNamed(registerView);
   }
 
-  void _politicaPrivacidad() {}
-  void _terminosYCondiciones() {}
+  void _politicaPrivacidad() async {
+    final Uri url = Uri.parse(
+        'https://visionarytheapp.wixsite.com/visionary/copy-of-new-page');
+    try {
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url, mode: LaunchMode.externalApplication);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text('No se pudo abrir la política de privacidad.')),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al abrir la política de privacidad.')),
+        );
+      }
+    }
+  }
+
+  void _terminosYCondiciones() async {
+    final Uri url = Uri.parse(
+        'https://visionarytheapp.wixsite.com/visionary/terms-conditions');
+    try {
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url, mode: LaunchMode.externalApplication);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text('No se pudo abrir la política de privacidad.')),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al abrir la política de privacidad.')),
+        );
+      }
+    }
+  }
+
   void _valorarApp() {}
   void _borrarCuenta() {
     showAlertBorrarCuenta(context);
   }
 
-  void ayudaConfiguracion() {}
+  //void ayudaConfiguracion() {}
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +153,10 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
                     ),
                   ),
                   const SizedBox(height: 40),*/
-                _AjustesButton(
+                /*_AjustesButton(
                   text: 'Ayuda',
                   onTap: ayudaConfiguracion,
-                ),
+                ),*/
                 const SizedBox(height: 40),
                 _AjustesButton(
                   text: 'Política de privacidad',
