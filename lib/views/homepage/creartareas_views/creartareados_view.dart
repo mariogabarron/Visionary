@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/views/homepage/creartareas_views/creartareatres_view.dart';
-import 'package:visionary/views/homepage/creartareas_views/creartareauno_view.dart';
 
 class CreaTareaDosView extends StatefulWidget {
   final String objectiveRef;

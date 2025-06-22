@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionary/routes/routes.dart';
 import 'package:visionary/services/objects/recordatorio.dart';
-import 'package:visionary/views/homepage/creartareas_views/creartareados_view.dart';
 
 import '../../../services/objects/tarea_class.dart';
 
@@ -257,8 +256,8 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView> {
                                   hora: (0, 0),
                                   codigo: "LMXJV"));
                           t.update();
-                          Navigator.of(context)
-                          .pushNamedAndRemoveUntil(tareaCreadaView, (Route<dynamic> route) => false);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              tareaCreadaView, (Route<dynamic> route) => false);
                         },
                       ),
                     ),
