@@ -132,7 +132,7 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
                     label: "",
                     inputType: TextInputType.name,
                     hintText: "Escribe el título de tu tarea",
-                    maxWords: 16,
+                    maxWords: 40, // Cambiado de 16 a 40 caracteres
                     controller: _nombreTareaEditingController),
                 const SizedBox(height: 20),
                 Padding(

@@ -77,6 +77,7 @@ class _TareasContainerState extends State<TareasContainer> {
     String line = '';
 
     for (String word in words) {
+      // Si añadir la palabra supera el límite, añade un salto de línea
       if ((line + word).length > limit) {
         buffer.write('${line.trim()}\n');
         line = '';
@@ -273,29 +274,47 @@ class _TareasContainerState extends State<TareasContainer> {
                                                         CrossAxisAlignment
                                                             .center,
                                                     children: [
-                                                      GestureDetector(
-                                                        onTap: () async {
-                                                          showAlertBottomEditarTarea(
-                                                            context,
-                                                            tarea.dbRef,
-                                                            tarea.name,
-                                                            editingController,
-                                                            () {
-                                                              _refreshTareas();
-                                                              widget
-                                                                  .onTaskUpdated();
-                                                            },
-                                                          );
-                                                        },
-                                                        child: Text(
-                                                          "${splitTextBySpaces(tarea.name, 20)} ",
-                                                          style: GoogleFonts
-                                                              .kantumruyPro(
-                                                            fontSize: 15,
-                                                            color: const Color(
-                                                                0xFFFEFCEE),
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                      Flexible(
+                                                        child: GestureDetector(
+                                                          onTap: () async {
+                                                            showAlertBottomEditarTarea(
+                                                              context,
+                                                              tarea.dbRef,
+                                                              tarea.name,
+                                                              editingController,
+                                                              () {
+                                                                _refreshTareas();
+                                                                widget
+                                                                    .onTaskUpdated();
+                                                              },
+                                                            );
+                                                          },
+                                                          child: Container(
+                                                            // El ancho máximo se adapta al espacio disponible
+                                                            constraints:
+                                                                const BoxConstraints(
+                                                              minWidth: 0,
+                                                              maxWidth:
+                                                                  180, // Ajusta según tu diseño
+                                                            ),
+                                                            child: Text(
+                                                              splitTextBySpaces(
+                                                                  tarea.name,
+                                                                  40),
+                                                              style: GoogleFonts
+                                                                  .kantumruyPro(
+                                                                fontSize: 15,
+                                                                color: const Color(
+                                                                    0xFFFEFCEE),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                              softWrap: true,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -316,7 +335,7 @@ class _TareasContainerState extends State<TareasContainer> {
                                                             padding:
                                                                 const EdgeInsets
                                                                     .only(
-                                                                    left: 4.0),
+                                                                    left: 6.0),
                                                             child: Icon(
                                                               CupertinoIcons
                                                                   .trash,
@@ -592,7 +611,7 @@ class _TareasContainerState extends State<TareasContainer> {
   }
 
   @override
-  void didUpdateWidget(covariant TareasContainer oldWidget) {
+  void didUpdateWidget(TareasContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.objetivo != widget.objetivo) {
       _refreshTareas();
