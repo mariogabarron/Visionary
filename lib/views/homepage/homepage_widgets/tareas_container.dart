@@ -159,7 +159,8 @@ class _TareasContainerState extends State<TareasContainer> {
                                       _isDialogOpen = true;
                                     });
 
-                                    await getListaTareas();
+                                    // Elimina este await, no es necesario para navegar
+                                    // await getListaTareas();
 
                                     if (context.mounted) {
                                       Navigator.of(context).push(buildFadeRoute(
@@ -273,7 +274,7 @@ class _TareasContainerState extends State<TareasContainer> {
                                                             .center,
                                                     children: [
                                                       GestureDetector(
-                                                        onLongPress: () async {
+                                                        onTap: () async {
                                                           showAlertBottomEditarTarea(
                                                             context,
                                                             tarea.dbRef,
@@ -376,12 +377,10 @@ class _TareasContainerState extends State<TareasContainer> {
                                                                     try {
                                                                       tarea
                                                                           .makeUndone();
+                                                                      setState(
+                                                                          () {}); // Solo refresca UI local
                                                                       widget
                                                                           .onTaskUpdated();
-                                                                      setState(
-                                                                          () {
-                                                                        getListaTareas();
-                                                                      });
                                                                     } catch (e) {
                                                                       log("Error al reducir la tarea: $e");
                                                                     }
@@ -425,12 +424,10 @@ class _TareasContainerState extends State<TareasContainer> {
                                                                     try {
                                                                       tarea
                                                                           .makeDone();
+                                                                      setState(
+                                                                          () {}); // Solo refresca UI local
                                                                       widget
                                                                           .onTaskUpdated();
-                                                                      setState(
-                                                                          () {
-                                                                        getListaTareas();
-                                                                      });
                                                                     } catch (e) {
                                                                       log("Error al aumentar la tarea: $e");
                                                                     }
@@ -601,5 +598,4 @@ class _TareasContainerState extends State<TareasContainer> {
       _refreshTareas();
     }
   }
-  // Cambia las llamadas a getListaTareas() por _refreshTareas() en los callbacks de añadir/editar/eliminar tarea
 }

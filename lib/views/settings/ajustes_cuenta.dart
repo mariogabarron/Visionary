@@ -75,6 +75,7 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      // Cambia pushReplacementNamed por pushNamed para que funcione como pila
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -88,7 +89,7 @@ class _AjustesCuentaState extends State<AjustesCuenta> {
                 icon: const Icon(CupertinoIcons.arrow_left_circle_fill),
                 color: const Color(0xFFFEFCEE),
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(homepageView);
+                  Navigator.of(context).pop();
                 },
               ),
             ),

@@ -179,12 +179,14 @@ class _ObjetivosRowState extends State<ObjetivosRow>
 
                                       if (context.mounted) {
                                         showAlertBottomEditarObjetivo(
-                                            context,
-                                            obj,
-                                            localController,
-                                            reloadData,
-                                            widget.onObjectiveDeleted);
-                                        reloadData();
+                                            context, obj, localController, () {
+                                          // Recargar solo tras guardar/cambiar/borrar
+                                          reloadData();
+                                        }, () {
+                                          // Recargar solo tras borrar
+                                          reloadData();
+                                          widget.onObjectiveDeleted();
+                                        });
                                       }
                                     },
                                     child: Container(
@@ -288,7 +290,7 @@ void showAlertBottomEditarObjetivo(
     BuildContext context,
     Objetivo objetivo,
     TextEditingController controller,
-    Function reloadData,
+    VoidCallback onSaved,
     VoidCallback onObjectiveDeleted) {
   String nombreObjetivo = objetivo.name;
   controller.text = objetivo.name;
@@ -375,7 +377,7 @@ void showAlertBottomEditarObjetivo(
                     if (context.mounted) {
                       Navigator.of(context).pop(); // Cerrar el modal
                     }
-                    onObjectiveDeleted();
+                    onSaved(); // Recargar solo tras guardar
                   },
                   child: Text(
                     'Guardar',
@@ -435,15 +437,13 @@ void showAlertBottomEditarObjetivo(
                         VisionaryUser u = await VisionaryUser.fromLogin();
                         u.updateObjectives();
 
-                        reloadData();
+                        onObjectiveDeleted(); // Recargar tras borrar
 
                         final prefs = await SharedPreferences.getInstance();
                         prefs.remove('selectedObjetivoIndex');
                         if (context.mounted) {
                           Navigator.of(context).pop(); // Cerrar el modal
                         }
-
-                        onObjectiveDeleted();
                       },
                       child: Text(
                         'Borrar',
@@ -463,7 +463,7 @@ void showAlertBottomEditarObjetivo(
       );
     },
   ).then((_) {
-    reloadData();
+    // Ya no recargamos aquí, solo en los callbacks de guardar/borrar
   });
 }
 

@@ -206,7 +206,8 @@ class _HomepageViewState extends State<HomepageView>
                     color: Color(0xFFFEFCEE),
                     onPressed: () {
                       _showTutorial = false;
-                      Navigator.of(context).pushReplacementNamed(ajustesCuenta);
+                      // CAMBIA pushReplacementNamed POR pushNamed PARA QUE FUNCIONE COMO PILA
+                      Navigator.of(context).pushNamed(ajustesCuenta);
                     },
                   ),
                 )),
