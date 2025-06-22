@@ -189,8 +189,8 @@ class _CreaTareaUnoViewState extends State<CreaTareaUnoView> {
                               showAlertRepetido(context, 2);
                             } else {
                               // ignore: use_build_context_synchronously
-                              Navigator.of(context).push(
-                                  buildFadeRoute(CreaTareaDosView(
+                              Navigator.of(context)
+                                  .push(buildFadeRoute(CreaTareaDosView(
                                 nombreTarea: nombreTarea,
                                 objectiveRef: widget.objectiveRef,
                               )));

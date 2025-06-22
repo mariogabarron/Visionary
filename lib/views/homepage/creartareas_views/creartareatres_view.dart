@@ -32,21 +32,25 @@ class _CreaTareaTresViewState extends State<CreaTareaTresView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        iconTheme: const IconThemeData(
-          color: Color(0xFFFEFCEE),
-        ),
-        title: Padding(
-          padding: const EdgeInsets.only(top: 4.0), // Baja un poco el título
-          child: Text(
-            'Visionary.',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.kantumruyPro(
-              color: const Color(0xFFFEFCEE),
-              fontSize: 27,
-              fontStyle: FontStyle.normal,
-              fontWeight: FontWeight.bold,
+        title: Stack(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Text(
+                  'Visionary.',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.kantumruyPro(
+                    color: const Color(0xFFFEFCEE),
+                    fontSize: 27,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
       body: Stack(

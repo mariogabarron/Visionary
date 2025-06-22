@@ -25,24 +25,30 @@ class TareasContainer extends StatefulWidget {
 
 class _TareasContainerState extends State<TareasContainer> {
   late TextEditingController editingController;
-  double _bottomPadding =
-      35; // Cambiado a 35 para estar desplegado inicialmente
-  bool _isExpanded = true; // Cambiado a true para estar desplegado inicialmente
+  double _bottomPadding = 35;
+  bool _isExpanded = true;
   bool _isDialogOpen = false;
-
-  // Mapa para rastrear las tareas completadas y su animación
   Map<String, bool> completedTasks = {};
+
+  Future<List<Tarea>>? _tareasFuture;
 
   @override
   void initState() {
     super.initState();
     editingController = TextEditingController();
+    _tareasFuture = getListaTareas();
   }
 
   @override
   void dispose() {
-    super.dispose();
     editingController.dispose();
+    super.dispose();
+  }
+
+  void _refreshTareas() {
+    setState(() {
+      _tareasFuture = getListaTareas();
+    });
   }
 
   void _expandBottomPadding() {
@@ -156,8 +162,8 @@ class _TareasContainerState extends State<TareasContainer> {
                                     await getListaTareas();
 
                                     if (context.mounted) {
-                                      Navigator.of(context).push(
-                                          buildFadeRoute(CreaTareaUnoView(
+                                      Navigator.of(context).push(buildFadeRoute(
+                                          CreaTareaUnoView(
                                               objectiveRef: widget.objetivo)));
                                     }
 
@@ -211,7 +217,7 @@ class _TareasContainerState extends State<TareasContainer> {
                             duration: const Duration(milliseconds: 150),
                             padding: EdgeInsets.only(bottom: _bottomPadding),
                             child: FutureBuilder<List<Tarea>>(
-                              future: getListaTareas(),
+                              future: _tareasFuture,
                               builder: (context, snapshot) {
                                 final tareas = snapshot.data ?? [];
                                 final showExpand = tareas.length >= 4;
@@ -227,10 +233,7 @@ class _TareasContainerState extends State<TareasContainer> {
                                         ),
                                         onPressed: _expandBottomPadding,
                                       ),
-                                    if (!showExpand)
-                                      const SizedBox(
-                                          height:
-                                              15), // Espacio extra si hay menos de 6 tareas
+                                    if (!showExpand) const SizedBox(height: 15),
                                     if (_isExpanded || !showExpand)
                                       Builder(
                                         builder: (context) {
@@ -270,14 +273,17 @@ class _TareasContainerState extends State<TareasContainer> {
                                                             .center,
                                                     children: [
                                                       GestureDetector(
-                                                        onLongPress: () {
+                                                        onLongPress: () async {
                                                           showAlertBottomEditarTarea(
                                                             context,
                                                             tarea.dbRef,
                                                             tarea.name,
                                                             editingController,
-                                                            widget
-                                                                .onTaskUpdated,
+                                                            () {
+                                                              _refreshTareas();
+                                                              widget
+                                                                  .onTaskUpdated();
+                                                            },
                                                           );
                                                         },
                                                         child: Text(
@@ -298,11 +304,9 @@ class _TareasContainerState extends State<TareasContainer> {
                                                             try {
                                                               await tarea
                                                                   .deleteTask();
+                                                              _refreshTareas();
                                                               widget
                                                                   .onTaskUpdated();
-                                                              setState(() {
-                                                                getListaTareas();
-                                                              });
                                                             } catch (e) {
                                                               log("Error al eliminar la tarea: $e");
                                                             }
@@ -582,9 +586,20 @@ class _TareasContainerState extends State<TareasContainer> {
                 ),
               ),
             ),
+            // ...existing code...
           ),
         ),
+        // ...existing code...
       ],
     );
   }
+
+  @override
+  void didUpdateWidget(covariant TareasContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.objetivo != widget.objetivo) {
+      _refreshTareas();
+    }
+  }
+  // Cambia las llamadas a getListaTareas() por _refreshTareas() en los callbacks de añadir/editar/eliminar tarea
 }

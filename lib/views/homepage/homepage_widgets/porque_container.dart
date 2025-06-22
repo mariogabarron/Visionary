@@ -19,8 +19,32 @@ class PorqueLoHagoContainer extends StatefulWidget {
 
 class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
   bool _isDialogOpen = false;
-  bool _isExpanded = false; // Controla si el texto está expandido o contraído
+  bool _isExpanded = false;
   double _bottomPadding = 8;
+
+  Future<String?>? _propositoFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _propositoFuture = _loadProposito();
+  }
+
+  @override
+  void didUpdateWidget(covariant PorqueLoHagoContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.objetivo != widget.objetivo) {
+      setState(() {
+        _propositoFuture = _loadProposito();
+      });
+    }
+  }
+
+  void _refreshProposito() {
+    setState(() {
+      _propositoFuture = _loadProposito();
+    });
+  }
 
   Future<String?> _loadProposito() async {
     try {
@@ -115,7 +139,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                                       });
                                       showAlertPorque(context, widget.objetivo,
                                           () {
-                                        setState(() {});
+                                        _refreshProposito();
                                         widget.onTaskUpdated();
                                       });
                                       setState(() {
@@ -143,7 +167,7 @@ class _PorqueLoHagoContainerState extends State<PorqueLoHagoContainer> {
                               child: Column(
                                 children: [
                                   FutureBuilder<String?>(
-                                    future: _loadProposito(),
+                                    future: _propositoFuture,
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
