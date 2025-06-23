@@ -116,7 +116,7 @@ Future<void> _scheduleDailyNotification() async {
   await flutterLocalNotificationsPlugin.zonedSchedule(
     0,
     'Visionary hour! :)',
-    'No olvides revisar tus tareas de hoy en Visionary.',
+    'No olvides revisar las tareas de tus objetivos.',
     tz.TZDateTime.from(firstNotification, tz.local),
     platformChannelSpecifics,
     uiLocalNotificationDateInterpretation:
