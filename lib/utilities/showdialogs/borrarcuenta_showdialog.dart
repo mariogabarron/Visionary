@@ -69,7 +69,8 @@ void showAlertBorrarCuenta(BuildContext context) {
                     ),
                     onPressed: () {
                       deleteAccount();
-                      Navigator.of(context).pushReplacementNamed(registerView);
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          registerView, (route) => false);
                     },
                     child: Text(
                       'Borrar',

@@ -18,18 +18,13 @@ class _TutorialInicioState extends State<TutorialInicio> {
     },
     {
       'image': 'assets/images/tutorialdos.png',
-      'title': 'Organizar tu vida por objetivos',
+      'title': 'Organizar tus objetivos creando tareas',
       'text': 'te ayudará a mejorar cada día',
     },
     {
-      'image': 'assets/images/tutorialtres.png',
-      'title': 'Crea tareas',
-      'text': 'que te ayuden a cumplir tus objetivos',
-    },
-    {
       'image': 'assets/images/tutorialcuatro.png',
-      'title': 'Lleva el control',
-      'text': 'de tus objetivos con la barra de progreso.',
+      'title': 'Lleva el control de tus objetivos',
+      'text': 'con la barra de progreso.',
     },
   ];
 

@@ -9,6 +9,12 @@ import 'package:visionary/views/tutorial_inicio/tutorial_inicio.dart';
 import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:visionary/services/notifications/notification_handler.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +26,7 @@ void main() async {
   );
   FirebaseDatabase.instance.setPersistenceEnabled(true);
 
-  // Configura el dispositivo como test para AdMob (solo para pruebas)
+  // TODO: (solo para pruebas)
   MobileAds.instance.updateRequestConfiguration(
     RequestConfiguration(
       testDeviceIds: ['bfea609d000cd46dc379f55c65a11c3d'],
@@ -29,6 +35,22 @@ void main() async {
 
   await MobileAds.instance.initialize();
   await NotificationHandler.initializaNotificationPlugin();
+
+  // Inicializa el plugin de notificaciones locales
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings();
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // Configura la zona horaria para notificaciones programadas
+  tz.initializeTimeZones();
+
+  await _scheduleDailyNotification();
 
   // Espera un poco para asegurar que el splash se muestre (opcional, pero ayuda en dispositivos rápidos)
   await Future.delayed(const Duration(milliseconds: 600));
@@ -71,4 +93,35 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: generateRoute,
     );
   }
+}
+
+Future<void> _scheduleDailyNotification() async {
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+    'daily_channel_id',
+    'Recordatorio diario',
+    channelDescription: 'Notificación diaria a las 12:00',
+    importance: Importance.max,
+    priority: Priority.high,
+    showWhen: false,
+  );
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+
+  final now = DateTime.now();
+  final nextNoon = DateTime(now.year, now.month, now.day, 12, 0, 0);
+  final firstNotification =
+      now.isAfter(nextNoon) ? nextNoon.add(const Duration(days: 1)) : nextNoon;
+
+  await flutterLocalNotificationsPlugin.zonedSchedule(
+    0,
+    'Visionary hour! :)',
+    'No olvides revisar tus tareas de hoy en Visionary.',
+    tz.TZDateTime.from(firstNotification, tz.local),
+    platformChannelSpecifics,
+    uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+    matchDateTimeComponents: DateTimeComponents.time,
+    androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+  );
 }
