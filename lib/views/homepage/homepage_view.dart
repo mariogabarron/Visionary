@@ -344,8 +344,9 @@ class _HomepageViewState extends State<HomepageView>
                                 const EdgeInsets.symmetric(horizontal: 30.0),
                             child: TextButton(
                               onPressed: () {
+                                // Usa pushNamed en vez de pushReplacementNamed para que funcione bien el back
                                 Navigator.of(context)
-                                    .pushReplacementNamed(crearObjetivoUno);
+                                    .pushNamed(crearObjetivoUno);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:

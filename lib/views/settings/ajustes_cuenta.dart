@@ -13,9 +13,12 @@ class AjustesCuenta extends StatefulWidget {
 }
 
 class _AjustesCuentaState extends State<AjustesCuenta> {
-  void _cerrarSesion() {
-    logOut();
-    Navigator.of(context).pushReplacementNamed(registerView);
+  void _cerrarSesion() async {
+    await logOut();
+    if (mounted) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(registerView, (route) => false);
+    }
   }
 
   void _politicaPrivacidad() async {
