@@ -2,6 +2,8 @@
 A goal-tracking app to help users set clear objectives, stay consistent, and measure progress over time.
 Built with Flutter and Firebase, focused on clean architecture, scalability, and a smooth mobile experience.
 
+![Descripción de la imagen](assets/images/VISIONARY.png)
+
 ---
 
 ## Why Visionary ✨
@@ -39,16 +41,6 @@ Visionary is structured to be maintainable and team-friendly:
 - **Separation of concerns** between presentation, domain, and data
 - **Reusable UI components** to keep the design consistent
 - **Testability** in mind (domain logic isolated from UI)
-
----
-
-## Screenshots 📱
-Add some screenshots/gifs to make it feel like a product:
-- /assets/screenshots/login.png
-- /assets/screenshots/home.png
-- /assets/screenshots/goal_detail.png
-
-Tip: a simple 3-image grid looks great on GitHub.
 
 ---
 
@@ -113,10 +105,8 @@ Product → Archive
 
 ## Roadmap 🛣️
 - [ ] Reminders and habit loops (notifications)
-- [ ] Streaks and weekly review
 - [ ] Better analytics dashboard (personal insights)
 - [ ] Offline-first improvements
-- [ ] Sharing / accountability (friends / groups)
 
 ---
 
@@ -128,10 +118,4 @@ Contributions are welcome:
 4) Push: git push origin feature/my-feature
 5) Open a Pull Request
 
----
-
-## License 📄
-Choose one and add a LICENSE file:
-- MIT
-- Apache-2.0
-- GPL-3.0
+![Descripción de la imagen](assets/images/VISIONARY2.png)
