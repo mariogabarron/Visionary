@@ -6,13 +6,13 @@ Built with Flutter and Firebase, focused on clean architecture, scalability, and
 
 ---
 
-## Why Visionary ✨
+## Why Visionary 
 Most goal apps are either too simple (just checklists) or too complex (too many features, no clarity).
 Visionary focuses on a clean flow: define a goal → break it into actionable steps → track progress → reflect and iterate.
 
 ---
 
-## Key Features ✅
+## Key Features 
 - Goal creation with description, priority and target dates
 - Milestones / tasks to break goals into smaller steps
 - Progress tracking (completion %, history, and basic insights)
@@ -24,7 +24,7 @@ Visionary focuses on a clean flow: define a goal → break it into actionable st
 
 ---
 
-## Tech Stack 🧰
+## Tech Stack 
 - **Flutter (Dart)** — cross-platform mobile development
 - **Firebase**
   - Authentication
@@ -35,7 +35,7 @@ Visionary focuses on a clean flow: define a goal → break it into actionable st
 
 ---
 
-## Architecture & Design 🏗️
+## Architecture & Design 
 Visionary is structured to be maintainable and team-friendly:
 - **Feature-based folders** (each feature owns its UI, logic, and data layer)
 - **Separation of concerns** between presentation, domain, and data
@@ -44,7 +44,7 @@ Visionary is structured to be maintainable and team-friendly:
 
 ---
 
-## Getting Started 🏁
+## Getting Started 
 
 ### Prerequisites
 - Flutter SDK installed
@@ -63,7 +63,7 @@ flutter run -d <device_id>
 
 ---
 
-## Firebase Setup 🔥
+## Firebase Setup 
 
 ### 1) Create a Firebase project
 Enable:
@@ -81,7 +81,7 @@ cd ..
 
 ---
 
-## Configuration 🔐
+## Configuration 
 If you use environment variables, create:
 .env
 
@@ -92,7 +92,7 @@ Never commit secrets. Add .env to .gitignore.
 
 ---
 
-## Build & Release 🏗️
+## Build & Release 
 
 ### Android release
 flutter build apk --release
@@ -103,7 +103,7 @@ Product → Archive
 
 ---
 
-## Roadmap 🛣️
+## Roadmap 
 - [ ] Reminders and habit loops (notifications)
 - [ ] Better analytics dashboard (personal insights)
 - [ ] Offline-first improvements
