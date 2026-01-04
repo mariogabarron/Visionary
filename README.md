@@ -2,7 +2,7 @@
 A goal-tracking app to help users set clear objectives, stay consistent, and measure progress over time.
 Built with Flutter and Firebase, focused on clean architecture, scalability, and a smooth mobile experience.
 > [!NOTE]
-> This app is a personal project and is **not intended for public release** or distribution.
+> Visionary is a **personal project built for experimentation**, focusing on clean architecture and scalable mobile development practices.
 
 ![Descripción de la imagen](assets/images/VISIONARY.png)
 
