@@ -58,5 +58,3 @@ Contributions are welcome:
 3) Commit: git commit -m "Add my feature"
 4) Push: git push origin feature/my-feature
 5) Open a Pull Request
-
-![Descripción de la imagen](assets/images/VISIONARY2.png)
