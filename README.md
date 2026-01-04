@@ -21,8 +21,6 @@ Visionary focuses on a clean flow: define a goal → break it into actionable st
 - Firebase Authentication (secure sign-in)
 - Cloud data sync (same account across devices)
 
-> Update this section to match exactly what your current build includes.
-
 ---
 
 ## Tech Stack 
