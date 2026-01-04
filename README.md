@@ -40,23 +40,6 @@ Visionary is structured to be maintainable and team-friendly:
 - **Reusable UI components** to keep the design consistent
 - **Testability** in mind (domain logic isolated from UI)
 
-Example structure:
-Visionary/
-├─ lib/
-│  ├─ main.dart
-│  ├─ app/                 # app-level config (routing, theme, etc.)
-│  ├─ core/                # shared utils, constants, helpers
-│  ├─ features/            # feature modules (goals, auth, profile...)
-│  │  ├─ auth/
-│  │  ├─ goals/
-│  │  └─ ...
-│  ├─ data/                # repositories, remote sources
-│  ├─ domain/              # entities, use cases
-│  └─ ui/                  # shared widgets, design system
-├─ android/
-├─ ios/
-└─ pubspec.yaml
-
 ---
 
 ## Screenshots 📱
