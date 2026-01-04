@@ -1,4 +1,4 @@
-# Visionary 🚀
+# Visionary 
 A goal-tracking app to help users set clear objectives, stay consistent, and measure progress over time.
 Built with Flutter and Firebase, focused on clean architecture, scalability, and a smooth mobile experience.
 
