@@ -16,7 +16,7 @@ Limpieza local, sin commits ni pushes. Se conserva el cambio previo del usuario 
 ## Archivos modificados
 
 - `.gitignore`: builds anidados, exportaciones de aplicaciones, cobertura, capturas de Flutter y copias numeradas de metadatos.
-- `analysis_options.yaml`: excluye exclusivamente `my_backup_lib/**`, conservando el respaldo y evitando diagnósticos duplicados.
+- `analysis_options.yaml`: excluye exclusivamente `backups/**`, conservando el respaldo y evitando diagnósticos duplicados.
 - `lib/main.dart`: elimina una inicialización redundante del binding.
 - `lib/services/objects/objetivo_class.dart` y `tarea_class.dart`: `Future.wait` tipado devuelve directamente las listas; conserva las mismas lecturas, concurrencia, orden y propagación de errores.
 - `lib/views/homepage/homepage_view.dart`: elimina un ticker infinito sin consumidores visuales y su import; libera el `ValueNotifier` y protege callbacks de conexión/anuncios después de desmontar la pantalla.
@@ -28,9 +28,9 @@ Limpieza local, sin commits ni pushes. Se conserva el cambio previo del usuario 
 
 ## Hallazgos conservados para revisión posterior
 
-- `my_backup_lib/`: 27 archivos idénticos a `lib/` y 15 diferentes antes de los cambios. No es una copia íntegramente redundante. También se conserva `pubspec_backup.yaml`.
+- `backups/my_backup_lib/`: 27 archivos idénticos a `lib/` y 15 diferentes antes de los cambios. No es una copia íntegramente redundante. También se conserva `backups/pubspec_backup.yaml`.
 - Archivos Dart sin referencias desde `main.dart`: `services/db/db_info_provider.dart`, `views/auth_views/emailverify_view.dart` (vacío), `views/homepage/creartareas_views/creartareascuatro_view.dart`, `utilities/showdialogs/homepage/progreso_showdialog.dart`. Esta comprobación es de alcance estático, no una autorización para retirar funcionalidades.
-- `Archive` está vacío; se conserva por no estar incluido en la eliminación autorizada.
+- `backups/Archive` está vacío; se conserva por no estar incluido en la eliminación autorizada.
 - Imágenes de marca y `tutorialtres.png`: algunas no aparecen en el flujo actual, pero pueden servir de originales de diseño. Se conservan; `LOGOTIPOCONFONDO.png` se utiliza para generar el splash.
 - No se retiran dependencias. `firebase_analytics` no tiene llamadas Dart directas, pero su plugin nativo puede recopilar eventos automáticamente. El resto tiene referencias en código o recursos.
 - `Objetivo.fromRef`, `Tarea.getList` y `VisionaryUser.updateObjectives` realizan lecturas adicionales de hijos ya presentes en snapshots. Reutilizar snapshots podría reducir consultas, pero alteraría el momento de observación ante escrituras concurrentes; requiere pruebas específicas.

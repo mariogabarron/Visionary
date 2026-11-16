@@ -46,3 +46,37 @@ Visionary is structured to be maintainable and team-friendly:
 - [ ] Reminders and habit loops (notifications)
 - [ ] Better analytics dashboard (personal insights)
 - [ ] Offline-first improvements
+
+
+## Organización del repositorio
+
+- `lib/`: aplicación Flutter (vistas, servicios, rutas y utilidades).
+- `assets/`: imágenes y recursos.
+- `test/`: pruebas automatizadas.
+- `docs/`: revisión técnica y documentación de arquitectura.
+- `config/`: configuración auxiliar del splash.
+- `backups/`: respaldos históricos conservados, excluidos del análisis Dart.
+- `android/`, `ios/`, `macos/`, `linux/`, `windows/`, `web/`: proyectos de plataforma.
+
+Los manifiestos de Flutter, la configuración de Firebase y `GoogleService-Info.plist`
+permanecen en la raíz; este último está referenciado por el proyecto Xcode de iOS.
+`build/` y `.dart_tool/` son directorios generados e ignorados por Git.
+
+Para regenerar el splash, ejecutar desde la raíz:
+
+```sh
+dart run flutter_native_splash:create --path=config/native_splash.yaml
+```
+
+Documentación: [revisión técnica](docs/limpieza-tecnica.md),
+[especificación](docs/arquitectura/Especificacion.md) y
+[usuario](docs/arquitectura/Usuario.md).
+
+
+### Vista del explorador en VS Code
+
+La configuración local de `.vscode/settings.json` oculta los manifiestos de la raíz
+(`pubspec.yaml`, `pubspec.lock`, configuraciones YAML, `firebase.json` y el plist)
+y las carpetas generadas `build/` y `.dart_tool/`. Siguen en disco y no se cambia
+su seguimiento en Git. Para volver a mostrarlos, quitar las entradas de
+`files.exclude` en ese archivo. También pueden abrirse desde **Archivo > Abrir archivo**.
