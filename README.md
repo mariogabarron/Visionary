@@ -58,8 +58,11 @@ Visionary is structured to be maintainable and team-friendly:
 - `backups/`: respaldos históricos conservados, excluidos del análisis Dart.
 - `android/`, `ios/`, `macos/`, `linux/`, `windows/`, `web/`: proyectos de plataforma.
 
-Los manifiestos de Flutter, la configuración de Firebase y `GoogleService-Info.plist`
-permanecen en la raíz; este último está referenciado por el proyecto Xcode de iOS.
+`pubspec.yaml`, `pubspec.lock`, `analysis_options.yaml` y `firebase.json`
+permanecen en la raíz para su descubrimiento automático por las herramientas.
+La configuración Firebase de iOS está en `ios/Runner/GoogleService-Info.plist`,
+con la referencia de Xcode actualizada. El archivo de DevTools sin ajustes activos
+se conserva en `backups/devtools_options.yaml`.
 `build/` y `.dart_tool/` son directorios generados e ignorados por Git.
 
 Para regenerar el splash, ejecutar desde la raíz:
@@ -75,8 +78,5 @@ Documentación: [revisión técnica](docs/limpieza-tecnica.md),
 
 ### Vista del explorador en VS Code
 
-La configuración local de `.vscode/settings.json` oculta los manifiestos de la raíz
-(`pubspec.yaml`, `pubspec.lock`, configuraciones YAML, `firebase.json` y el plist)
-y las carpetas generadas `build/` y `.dart_tool/`. Siguen en disco y no se cambia
-su seguimiento en Git. Para volver a mostrarlos, quitar las entradas de
-`files.exclude` en ese archivo. También pueden abrirse desde **Archivo > Abrir archivo**.
+Los manifiestos necesarios se muestran en el explorador. Solo se ocultan carpetas
+generadas y metadatos de Flutter mediante `files.exclude` en `.vscode/settings.json`.

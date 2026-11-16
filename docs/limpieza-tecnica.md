@@ -50,3 +50,11 @@ Limpieza local, sin commits ni pushes. Se conserva el cambio previo del usuario 
 - `pubspec.yaml`, `pubspec.lock`, `firebase.json` y `lib/firebase_options.dart`: sin cambios.
 
 Estas comprobaciones no sustituyen una prueba visual en dispositivo ni una prueba integral de Firebase. No se afirma que el APK compile ni que todos los flujos estén verificados.
+
+
+## Reorganización posterior de la raíz
+
+- `GoogleService-Info.plist` trasladado sin cambiar su contenido a `ios/Runner/GoogleService-Info.plist`; referencia del proyecto Xcode actualizada. Coincide con el destino ya declarado en `firebase.json`.
+- `devtools_options.yaml` sin ajustes activos trasladado a `backups/`.
+- Los manifiestos necesarios (`pubspec.yaml`, `pubspec.lock`, `analysis_options.yaml`, `firebase.json`) permanecen visibles en la raíz para mantener los comandos habituales.
+- Se deshace la ocultación de esos manifiestos en VS Code. Se mantienen ocultos únicamente metadatos y carpetas generadas.
