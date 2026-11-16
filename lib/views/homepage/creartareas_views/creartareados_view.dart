@@ -14,29 +14,8 @@ class CreaTareaDosView extends StatefulWidget {
   State<CreaTareaDosView> createState() => _CreaTareaDosViewState();
 }
 
-class _CreaTareaDosViewState extends State<CreaTareaDosView>
-    with SingleTickerProviderStateMixin {
+class _CreaTareaDosViewState extends State<CreaTareaDosView> {
   int _selectedPriority = 1;
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 5),
-      vsync: this,
-    )..repeat();
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
-    // ignore: unused_field
-    _animation;
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

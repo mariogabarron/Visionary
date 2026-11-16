@@ -98,17 +98,11 @@ class Tarea {
   /// Obtiene la lista de tareas de un objeto dada su referencia en base de datos. Devuelve una excepción si no era un objetivo.
   static Future<List<Tarea>> getList(DatabaseReference objRef) async {
     List<Future<Tarea>> futures = [];
-    List<Tarea> result = [];
     var ref = await objRef.get();
     for (var entry in ref.children) {
       futures.add(fromRef(entry.ref));
     }
-    await Future.wait(futures as Iterable<Future>);
-
-    for (var f in futures) {
-      result.add(await f);
-    }
-    return result;
+    return Future.wait(futures);
   }
 
   String get name => _name;

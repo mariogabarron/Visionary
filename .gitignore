@@ -43,3 +43,15 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Generated platform builds and exported applications
+**/build/
+/Payload/
+*.ipa
+*.apk
+*.aab
+*.xcarchive/
+/coverage/
+/flutter_*.png
+/.flutter-plugins [0-9]*
+/.flutter-plugins-dependencies [0-9]*

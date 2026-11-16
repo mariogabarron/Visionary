@@ -69,23 +69,26 @@ class _ObjetivosRowState extends State<ObjetivosRow>
   void reloadData() async {
     final prefs = await SharedPreferences.getInstance();
     final storedIndex = prefs.getInt('selectedObjetivoIndex');
+    if (!mounted) return;
 
     setState(() {
       _futureUser = VisionaryUser.fromLogin().then((user) {
-        if (user.objectives.isNotEmpty) {
+        if (!mounted) return user;
+        final objectives = user.objectives;
+        if (objectives.isNotEmpty) {
           // Si hay un índice almacenado y es válido, úsalo
-          if (storedIndex != null && storedIndex < user.objectives.length) {
+          if (storedIndex != null && storedIndex < objectives.length) {
             selectedObjetivoIndex = storedIndex;
-            selectedObjetivoRef = user.objectives[storedIndex].$2.key;
+            selectedObjetivoRef = objectives[storedIndex].$2.key;
           } else {
             // Si no es válido, selecciona el primer objetivo
             selectedObjetivoIndex = 0;
-            selectedObjetivoRef = user.objectives[0].$2.key;
+            selectedObjetivoRef = objectives[0].$2.key;
             prefs.setInt(
                 'selectedObjetivoIndex', 0); // Actualiza el índice almacenado
           }
           widget.onObjectiveSelected(
-              user.objectives[selectedObjetivoIndex!].$2.ref.path,
+              objectives[selectedObjetivoIndex!].$2.ref.path,
               selectedObjetivoIndex!);
         } else {
           // Si no hay objetivos, limpia el índice almacenado y llama al callback

@@ -20,6 +20,7 @@ class _ProgresoContainerState extends State<ProgresoContainer>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _progressAnimation;
+  late CurvedAnimation _progressCurve;
   double _currentProgress = 0.0;
 
   @override
@@ -29,11 +30,23 @@ class _ProgresoContainerState extends State<ProgresoContainer>
       vsync: this,
       duration: const Duration(milliseconds: 500), // Duración de la animación
     );
+    _progressCurve = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
+    _animationController.addListener(_updateProgress);
     _loadProgreso();
+  }
+
+  void _updateProgress() {
+    setState(() {
+      _currentProgress = _progressAnimation.value;
+    });
   }
 
   Future<void> _loadProgreso() async {
     final tareas = await widget.tareasFuture;
+    if (!mounted) return;
     final totalTimesDone =
         tareas.fold(0, (sum, tarea) => sum + tarea.timesDone);
     final totalNeedDone = tareas.fold(0, (sum, tarea) => sum + tarea.needDone);
@@ -44,17 +57,7 @@ class _ProgresoContainerState extends State<ProgresoContainer>
     _progressAnimation = Tween<double>(
       begin: _currentProgress,
       end: newProgress,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ))
-      ..addListener(() {
-        if (mounted) {
-          setState(() {
-            _currentProgress = _progressAnimation.value;
-          });
-        }
-      });
+    ).animate(_progressCurve);
 
     // Verifica si el widget sigue montado antes de iniciar la animación
     if (mounted) {
@@ -109,6 +112,8 @@ class _ProgresoContainerState extends State<ProgresoContainer>
 
   @override
   void dispose() {
+    _animationController.removeListener(_updateProgress);
+    _progressCurve.dispose();
     _animationController.dispose();
     super.dispose();
   }

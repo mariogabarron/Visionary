@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer' as d;
 import 'dart:io';
-import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,15 +26,11 @@ class HomepageView extends StatefulWidget {
   State<HomepageView> createState() => _HomepageViewState();
 }
 
-class _HomepageViewState extends State<HomepageView>
-    with SingleTickerProviderStateMixin {
+class _HomepageViewState extends State<HomepageView> {
   bool _showTutorial = false;
   BannerAd? _banner;
   bool _isAdLoaded = false;
   Future<bool>? _objectivesFuture; // Almacena el Future de los objetivos
-
-  late AnimationController _animationController;
-  late Animation<double> _animation;
 
   String? selectedObjectiveName;
   int? selectedObjectiveIndex;
@@ -47,24 +42,7 @@ class _HomepageViewState extends State<HomepageView>
   void initState() {
     super.initState();
 
-    // Inicializar AnimationController y Animation primero
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 20),
-    )..repeat();
-
-    _animation = Tween<double>(begin: 0, end: 2 * pi).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.linear,
-      ),
-    );
-
-    // Añade esta línea para evitar el warning:
-    // ignore: unused_field
-    _animation;
-
-    // Luego, inicializar el Future de objetivos
+    // Inicializar el Future de objetivos
     _objectivesFuture = _checkObjectives();
 
     // Inicializar los anuncios
@@ -78,6 +56,7 @@ class _HomepageViewState extends State<HomepageView>
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
+          if (!mounted) return;
           setState(() {
             _isAdLoaded = true;
           });
@@ -94,21 +73,23 @@ class _HomepageViewState extends State<HomepageView>
 
   @override
   void dispose() {
-    _animationController.dispose();
     _banner?.dispose();
     _connectionTimer?.cancel();
+    _isConnectedNotifier.dispose();
     super.dispose();
   }
 
   Future<void> _checkConnection() async {
     try {
       final result = await InternetAddress.lookup('google.com');
+      if (!mounted) return;
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         if (!_isConnectedNotifier.value) {
           _isConnectedNotifier.value = true; // Actualiza solo si cambia
         }
       }
     } on SocketException catch (_) {
+      if (!mounted) return;
       if (_isConnectedNotifier.value) {
         _isConnectedNotifier.value = false; // Actualiza solo si cambia
       }

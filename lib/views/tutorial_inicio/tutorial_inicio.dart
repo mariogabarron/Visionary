@@ -37,6 +37,12 @@ class _TutorialInicioState extends State<TutorialInicio> {
     inicialization();
   }
 
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   void inicialization() async {
     await Future.delayed(const Duration(seconds: 4));
     FlutterNativeSplash.remove();
