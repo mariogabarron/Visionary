@@ -1,82 +1,106 @@
-# Visionary 
-A goal-tracking app to help users set clear objectives, stay consistent, and measure progress over time.
-Built with Flutter and Firebase, focused on clean architecture, scalability, and a smooth mobile experience.
-> [!NOTE]
-> Visionary is a **personal project built for experimentation**, focusing on clean architecture and scalable mobile development practices.
 
-![Descripción de la imagen](assets/images/VISIONARY.png)
+<div align="center">
 
----
+# VISIONARY
 
-## Why Visionary 
-Most goal apps are either too simple (just checklists) or too complex (too many features, no clarity).
-Visionary focuses on a clean flow: define a goal → break it into actionable steps → track progress → reflect and iterate.
+### Make your ambitions measurable.
 
----
+**Set meaningful goals. Build consistent habits. See how far you've come.**
 
-## Key Features 
-- Goal creation with description, priority and target dates
-- Milestones / tasks to break goals into smaller steps
-- Progress tracking (completion %, history, and basic insights)
-- Firebase Authentication (secure sign-in)
-- Cloud data sync (same account across devices)
+A personal goal-tracking application designed to transform ambitions into actionable plans and measurable progress.
+
+Built with Flutter & Firebase.
+
+</div>
 
 ---
 
-## Tech Stack 
-- **Flutter (Dart)** — cross-platform mobile development
-- **Firebase**
-  - Authentication
-  - Firestore or Realtime Database (depending on the project setup)
-  - Analytics (optional)
-- **Architecture**: feature-based structure + separation of concerns
+![Visionary](assets/images/VISIONARY.png)
+
+## Ambition needs direction.
+
+Everyone has goals. Learning a new skill, improving personal habits, completing a project, or working toward something bigger.
+
+The challenge isn't always knowing what you want to achieve. It's staying focused, maintaining consistency, and recognizing the progress you're making along the way.
+
+**Visionary was created to bridge the gap between setting a goal and achieving it.**
+
+A simpler, more structured way to turn long-term ambitions into everyday action.
 
 ---
 
-## Architecture & Design 
-Visionary is structured to be maintainable and team-friendly:
-- **Feature-based folders** (each feature owns its UI, logic, and data layer)
-- **Separation of concerns** between presentation, domain, and data
-- **Reusable UI components** to keep the design consistent
-- **Testability** in mind (domain logic isolated from UI)
+## From intention to achievement.
+
+Visionary brings goal planning, task management, and progress tracking into a single experience.
+
+### 01. Define your goals
+
+Turn personal ambitions into clear objectives, with priorities, descriptions, and target dates that give each goal a sense of direction.
+
+### 02. Break them down
+
+Big goals become manageable when divided into smaller steps. Organize your objectives into milestones and actionable tasks.
+
+### 03. Track your progress
+
+Follow your achievements through visual progress indicators, completion percentages, and activity history.
+
+### 04. Keep moving forward
+
+Maintain a clear view of what you've accomplished, what remains unfinished, and where to focus next.
 
 ---
 
-## Roadmap 
-- [ ] Reminders and habit loops (notifications)
-- [ ] Better analytics dashboard (personal insights)
-- [ ] Offline-first improvements
+## Less complexity. More clarity.
 
+Productivity tools often fall into two extremes: overly simplistic checklists or complex systems that require more effort to manage than the goals themselves.
 
-## Organización del repositorio
+Visionary takes a different approach.
 
-- `lib/`: aplicación Flutter (vistas, servicios, rutas y utilidades).
-- `assets/`: imágenes y recursos.
-- `test/`: pruebas automatizadas.
-- `docs/`: revisión técnica y documentación de arquitectura.
-- `config/`: configuración auxiliar del splash.
-- `backups/`: respaldos históricos conservados, excluidos del análisis Dart.
-- `android/`, `ios/`, `macos/`, `linux/`, `windows/`, `web/`: proyectos de plataforma.
+**A focused experience built around what matters: making progress.**
 
-`pubspec.yaml`, `pubspec.lock`, `analysis_options.yaml` y `firebase.json`
-permanecen en la raíz para su descubrimiento automático por las herramientas.
-La configuración Firebase de iOS está en `ios/Runner/GoogleService-Info.plist`,
-con la referencia de Xcode actualizada. El archivo de DevTools sin ajustes activos
-se conserva en `backups/devtools_options.yaml`.
-`build/` y `.dart_tool/` son directorios generados e ignorados por Git.
+- **Clarity by design.** A straightforward environment for organizing objectives.
+- **Progress made visible.** Understand how individual actions contribute to larger ambitions.
+- **Structure without unnecessary complexity.** Plan goals and milestones in one place.
+- **Your goals, across devices.** Account-based access and cloud synchronization.
+- **Built around the individual.** A personal space for long-term objectives and everyday achievements.
 
-Para regenerar el splash, ejecutar desde la raíz:
+---
 
-```sh
-dart run flutter_native_splash:create --path=config/native_splash.yaml
-```
+## Technology that supports the experience.
 
-Documentación: [revisión técnica](docs/limpieza-tecnica.md),
-[especificación](docs/arquitectura/Especificacion.md) y
-[usuario](docs/arquitectura/Usuario.md).
+Visionary combines cross-platform mobile development with cloud-based infrastructure to deliver a consistent and connected application.
 
+**Flutter · Dart · Firebase**
 
-### Vista del explorador en VS Code
+The project emphasizes modular software architecture, maintainability, and a user-centered interface.
 
-Los manifiestos necesarios se muestran en el explorador. Solo se ocultan carpetas
-generadas y metadatos de Flutter mediante `files.exclude` en `.vscode/settings.json`.
+Technology is the foundation. The experience is the priority.
+
+---
+
+## The vision.
+
+Visionary began with a simple idea:
+
+**Progress should be easier to understand, not harder to manage.**
+
+The project explores how thoughtful software design can help individuals translate intentions into concrete action.
+
+Its long-term direction includes more meaningful progress insights, smarter reminders, and an increasingly seamless experience for managing personal objectives.
+
+Because achieving a goal isn't a single moment.
+
+**It's the accumulation of everything you do to get there.**
+
+---
+
+<div align="center">
+
+### VISIONARY
+
+**Make your ambitions measurable.**
+
+An independent project by [Mario Gabarrón](https://github.com/mariogabarron).
+
+</div>
