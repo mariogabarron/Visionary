@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# VISIONARY
+# Visionary.
 
 ### Make your ambitions measurable.
 
